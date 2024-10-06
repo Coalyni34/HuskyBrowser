@@ -1,4 +1,4 @@
 # HuskyBrowser
 ## English
 ## Русский
-## Experanto
+## Esperanto
