@@ -1,1 +1,4 @@
 # HuskyBrowser
+## English
+## Русский
+## Experanto
