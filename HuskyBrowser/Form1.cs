@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -51,38 +52,39 @@ namespace HuskyBrowser
                     icons.Add(imageList1.Images[i]);
                 }
 
-                PagePattern page_pattern = new PagePattern(icons);
+                PagePattern.SimplePagePattern simplepage_pattern = new PagePattern.SimplePagePattern(icons);
 
                 icons.Clear();
 
-                page_pattern.back_button.Click += OnGoBack_Click;
-                page_pattern.forward_button.Click += OnGoForward_Click;
-                page_pattern.refresh_button.Click += OnRefresh_Click;
-                page_pattern.closetab_button.Click += OnClose_Click;
-                page_pattern.createtab_button.Click += OnCreate_Click;
-                page_pattern.adress_line.KeyDown += OnLoad_Event;
+                simplepage_pattern.simplepagebuttons[0].Click += OnGoForward_Click;
+                simplepage_pattern.simplepagebuttons[1].Click += OnGoBack_Click;
+                simplepage_pattern.simplepagebuttons[2].Click += OnRefresh_Click;
+                simplepage_pattern.simplepagebuttons[3].Click += OnCreateSimplePage_Click;
+                simplepage_pattern.simplepagebuttons[4].Click += OnClose_Click;
+                simplepage_pattern.simplepagebuttons[5].Click += OnCreateSettingsPage_Click;
+                simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
+                                             
+                foreach(var button in simplepage_pattern.simplepagebuttons) 
+                {
+                    simplepage_pattern.panel_2.Controls.Add(button);
+                }                                
 
-                page_pattern.panel_2.Controls.Add(page_pattern.back_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.forward_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.refresh_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.createtab_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.closetab_button);
+                simplepage_pattern.panel_2.Controls.Add(simplepage_pattern.adress_line);
+                simplepage_pattern.panel_1.Controls.Add(simplepage_pattern.cwb);
 
-                page_pattern.panel_2.Controls.Add(page_pattern.adress_line);
-                page_pattern.panel_1.Controls.Add(page_pattern.cwb);
+                simplepage_pattern.new_TapPage.Controls.Add(simplepage_pattern.panel_1);
+                simplepage_pattern.new_TapPage.Controls.Add(simplepage_pattern.panel_2);
 
-                page_pattern.new_TapPage.Controls.Add(page_pattern.panel_1);
-                page_pattern.new_TapPage.Controls.Add(page_pattern.panel_2);
-
-                materialTabControl1.TabPages.Add(page_pattern.new_TapPage);
-                materialTabControl1.SelectTab(page_pattern.new_TapPage);
+                materialTabControl1.TabPages.Add(simplepage_pattern.new_TapPage);
+                materialTabControl1.SelectTab(simplepage_pattern.new_TapPage);
             }
             catch (Exception ex)
             {
                 var file_Manager = new FileManager();
                 file_Manager._WriteFile(ex.Message, file_Manager._GetPathToFile("errors_config.txt"));
             }
-        }
+        }                
+
         private void OnGoForward_Click(object sender, EventArgs e)
         {
             TabPage selectedTab = materialTabControl1.SelectedTab;
@@ -138,7 +140,7 @@ namespace HuskyBrowser
                 Application.Exit();
             }
         }
-        private void OnCreate_Click(object sender, EventArgs e)
+        private void OnCreateSimplePage_Click(object sender, EventArgs e)
         {
             try
             {
@@ -148,31 +150,31 @@ namespace HuskyBrowser
                     icons.Add(imageList1.Images[i]);
                 }
 
-                PagePattern page_pattern = new PagePattern(icons);
+                PagePattern.SimplePagePattern simplePage_Pattern = new PagePattern.SimplePagePattern(icons);
 
                 icons.Clear();
 
-                page_pattern.back_button.Click += OnGoBack_Click;
-                page_pattern.forward_button.Click += OnGoForward_Click;
-                page_pattern.refresh_button.Click += OnRefresh_Click;
-                page_pattern.closetab_button.Click += OnClose_Click;
-                page_pattern.createtab_button.Click += OnCreate_Click;
-                page_pattern.adress_line.KeyDown += OnLoad_Event;
+                simplePage_Pattern.simplepagebuttons[0].Click += OnGoForward_Click;
+                simplePage_Pattern.simplepagebuttons[1].Click += OnGoBack_Click;
+                simplePage_Pattern.simplepagebuttons[2].Click += OnRefresh_Click;
+                simplePage_Pattern.simplepagebuttons[3].Click += OnCreateSimplePage_Click;
+                simplePage_Pattern.simplepagebuttons[4].Click += OnClose_Click;
+                simplePage_Pattern.simplepagebuttons[5].Click += OnCreateSettingsPage_Click;
+                simplePage_Pattern.adress_line.KeyDown += OnLoad_Event;
 
-                page_pattern.panel_2.Controls.Add(page_pattern.back_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.forward_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.refresh_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.createtab_button);
-                page_pattern.panel_2.Controls.Add(page_pattern.closetab_button);
+                foreach (var button in simplePage_Pattern.simplepagebuttons)
+                {
+                    simplePage_Pattern.panel_2.Controls.Add(button);
+                }
 
-                page_pattern.panel_2.Controls.Add(page_pattern.adress_line);
-                page_pattern.panel_1.Controls.Add(page_pattern.cwb);
+                simplePage_Pattern.panel_2.Controls.Add(simplePage_Pattern.adress_line);
+                simplePage_Pattern.panel_1.Controls.Add(simplePage_Pattern.cwb);
 
-                page_pattern.new_TapPage.Controls.Add(page_pattern.panel_1);
-                page_pattern.new_TapPage.Controls.Add(page_pattern.panel_2);
+                simplePage_Pattern.new_TapPage.Controls.Add(simplePage_Pattern.panel_1);
+                simplePage_Pattern.new_TapPage.Controls.Add(simplePage_Pattern.panel_2);
 
-                materialTabControl1.TabPages.Add(page_pattern.new_TapPage);
-                materialTabControl1.SelectTab(page_pattern.new_TapPage);
+                materialTabControl1.TabPages.Add(simplePage_Pattern.new_TapPage);
+                materialTabControl1.SelectTab(simplePage_Pattern.new_TapPage);
             }
             catch (Exception ex)
             {
@@ -180,7 +182,18 @@ namespace HuskyBrowser
                 file_Manager._WriteFile(ex.Message, file_Manager._GetPathToFile("errors_config.txt"));
             }
         }
+        private void OnCreateSettingsPage_Click(object sender, EventArgs e)
+        {
+            PagePattern.SettingsPagePattern settingsPage_Pattern = new PagePattern.SettingsPagePattern(imageList1.Images[6]);
 
+            settingsPage_Pattern.closeSettings_Button.Click += OnClose_Click;            
+
+            var newTab = settingsPage_Pattern.new_TapPage;
+            newTab.Controls.Add(settingsPage_Pattern.closeSettings_Button);
+
+            materialTabControl1.TabPages.Add(newTab);
+            materialTabControl1.SelectTab(newTab);
+        }
         private void OnLoad_Event(object sender, KeyEventArgs e)
         {
             TabPage selectedTab = materialTabControl1.SelectedTab;

@@ -56,6 +56,8 @@
             this.imageList1.Images.SetKeyName(2, "3.png");
             this.imageList1.Images.SetKeyName(3, "8.png");
             this.imageList1.Images.SetKeyName(4, "9.png");
+            this.imageList1.Images.SetKeyName(5, "6 (2).png");
+            this.imageList1.Images.SetKeyName(6, "10.png");
             // 
             // Form1
             // 
@@ -64,8 +66,10 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.materialTabControl1);
             this.DrawerTabControl = this.materialTabControl1;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Husky Browser";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
 
         }
