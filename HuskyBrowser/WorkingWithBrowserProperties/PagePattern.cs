@@ -1,4 +1,5 @@
-﻿using CefSharp.WinForms;
+﻿using CefSharp;
+using CefSharp.WinForms;
 using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class PagePattern
-    {
-        private static string Enabled_Search_System;
+    {        
         public class SettingsPagePattern : PagePattern
         {
             public TabPage new_TapPage = new TabPage() 
@@ -37,9 +38,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         {
             List<Image> images_buttons = new List<Image>();
 
-            public List<MaterialButton> simplepagebuttons = new List<MaterialButton>();
+            public List<MaterialButton> simplePageButtons = new List<MaterialButton>();
 
-            public TabPage new_TapPage = new TabPage();            
+            public TabPage new_TapPage = new TabPage() 
+            {
+                Text = "New Page"
+            };            
 
             public Panel panel_1 = new Panel()
             {
@@ -116,22 +120,22 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 var _fM = new FileManager();
 
-                Enabled_Search_System = _fM._ReadFileText(_fM._GetPathToFile("enabled_search_engine.txt"));
+                Form1.Enabled_Search_Engine = _fM._ReadFileText(_fM._GetPathToFile("enabled_search_engine.txt"));
 
-                cwb.Load(Enabled_Search_System);
+                cwb.Load(Form1.Enabled_Search_Engine);
 
-                simplepagebuttons.Add(forward_button);
-                simplepagebuttons.Add(back_button);
-                simplepagebuttons.Add(refresh_button);
-                simplepagebuttons.Add(createtab_button);
-                simplepagebuttons.Add(closeTab_button);
-                simplepagebuttons.Add(settings_button);
+                simplePageButtons.Add(forward_button);
+                simplePageButtons.Add(back_button);
+                simplePageButtons.Add(refresh_button);
+                simplePageButtons.Add(createtab_button);
+                simplePageButtons.Add(closeTab_button);
+                simplePageButtons.Add(settings_button);
 
-                for (short i = 0; i < simplepagebuttons.Count; i++)
+                for (short i = 0; i < simplePageButtons.Count; i++)
                 {
-                    simplepagebuttons[i].Icon = icons[i];
-                }                
-            }
+                    simplePageButtons[i].Icon = icons[i];
+                }                 
+            }           
         }        
     }
 }

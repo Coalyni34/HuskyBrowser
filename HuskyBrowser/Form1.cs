@@ -56,15 +56,15 @@ namespace HuskyBrowser
 
                 icons.Clear();
 
-                simplepage_pattern.simplepagebuttons[0].Click += OnGoForward_Click;
-                simplepage_pattern.simplepagebuttons[1].Click += OnGoBack_Click;
-                simplepage_pattern.simplepagebuttons[2].Click += OnRefresh_Click;
-                simplepage_pattern.simplepagebuttons[3].Click += OnCreateSimplePage_Click;
-                simplepage_pattern.simplepagebuttons[4].Click += OnClose_Click;
-                simplepage_pattern.simplepagebuttons[5].Click += OnCreateSettingsPage_Click;
+                simplepage_pattern.simplePageButtons[0].Click += OnGoForward_Click;
+                simplepage_pattern.simplePageButtons[1].Click += OnGoBack_Click;
+                simplepage_pattern.simplePageButtons[2].Click += OnRefresh_Click;
+                simplepage_pattern.simplePageButtons[3].Click += OnCreateSimplePage_Click;
+                simplepage_pattern.simplePageButtons[4].Click += OnClose_Click;
+                simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
                 simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
                                              
-                foreach(var button in simplepage_pattern.simplepagebuttons) 
+                foreach(var button in simplepage_pattern.simplePageButtons) 
                 {
                     simplepage_pattern.panel_2.Controls.Add(button);
                 }                                
@@ -154,15 +154,15 @@ namespace HuskyBrowser
 
                 icons.Clear();
 
-                simplePage_Pattern.simplepagebuttons[0].Click += OnGoForward_Click;
-                simplePage_Pattern.simplepagebuttons[1].Click += OnGoBack_Click;
-                simplePage_Pattern.simplepagebuttons[2].Click += OnRefresh_Click;
-                simplePage_Pattern.simplepagebuttons[3].Click += OnCreateSimplePage_Click;
-                simplePage_Pattern.simplepagebuttons[4].Click += OnClose_Click;
-                simplePage_Pattern.simplepagebuttons[5].Click += OnCreateSettingsPage_Click;
-                simplePage_Pattern.adress_line.KeyDown += OnLoad_Event;
+                simplePage_Pattern.simplePageButtons[0].Click += OnGoForward_Click;
+                simplePage_Pattern.simplePageButtons[1].Click += OnGoBack_Click;
+                simplePage_Pattern.simplePageButtons[2].Click += OnRefresh_Click;
+                simplePage_Pattern.simplePageButtons[3].Click += OnCreateSimplePage_Click;
+                simplePage_Pattern.simplePageButtons[4].Click += OnClose_Click;
+                simplePage_Pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
+                simplePage_Pattern.adress_line.KeyDown += OnLoad_Event;                
 
-                foreach (var button in simplePage_Pattern.simplepagebuttons)
+                foreach (var button in simplePage_Pattern.simplePageButtons)
                 {
                     simplePage_Pattern.panel_2.Controls.Add(button);
                 }
@@ -193,19 +193,18 @@ namespace HuskyBrowser
 
             materialTabControl1.TabPages.Add(newTab);
             materialTabControl1.SelectTab(newTab);
-        }
+        }        
         private void OnLoad_Event(object sender, KeyEventArgs e)
         {
             TabPage selectedTab = materialTabControl1.SelectedTab;
 
             var panel_1 = selectedTab.Controls[0] as Panel;
-
             var panel_2 = selectedTab.Controls[1] as Panel;
 
-            var adress_line = panel_2.Controls[5] as MaterialTextBox;
-
-            var cwb = panel_1.Controls[0] as ChromiumWebBrowser;
-
+            var adress_line = panel_2.Controls[6] as MaterialTextBox;
+                        
+            var cwb = panel_1.Controls[0] as ChromiumWebBrowser;         
+            
             string input = adress_line.Text;
 
             if ((e.KeyCode == Keys.Enter))
@@ -214,10 +213,13 @@ namespace HuskyBrowser
                 if (IsValidUrl(input))
                 {
                     cwb.Load(input.StartsWith("http://") || input.StartsWith("https://") ? input : "http://" + input);
+                    adress_line.Text = input;
                 }
                 else
                 {
-                    cwb.Load(Enabled_Search_Engine + input);
+                    string result = Enabled_Search_Engine + input;
+                    cwb.Load(result);
+                    adress_line.Text = result;
                 }
             }
         }
