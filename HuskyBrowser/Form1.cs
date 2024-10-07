@@ -63,6 +63,7 @@ namespace HuskyBrowser
                 simplepage_pattern.simplePageButtons[4].Click += OnClose_Click;
                 simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
                 simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
+                simplepage_pattern.cwb.AddressChanged += OnCwb_AddressChanged;
                                              
                 foreach(var button in simplepage_pattern.simplePageButtons) 
                 {
@@ -91,7 +92,7 @@ namespace HuskyBrowser
 
             var panel_ = selectedTab.Controls[0] as Panel;
 
-            var cwb = panel_.Controls[0] as ChromiumWebBrowser;
+            var cwb = panel_.Controls[0] as ChromiumWebBrowser;            
 
             if (cwb.CanGoForward)
             {
@@ -183,6 +184,25 @@ namespace HuskyBrowser
                     cwb.Load(result);
                     adress_line.Text = result;
                 }
+            }
+        }
+        private void OnCwb_AddressChanged(object sender, AddressChangedEventArgs e) 
+        {           
+            TabPage selectedTab = materialTabControl1.SelectedTab;
+
+            var panel_2 = selectedTab.Controls[1] as Panel;
+
+            var adress_line = panel_2.Controls[6] as MaterialTextBox;                       
+
+            string _address = e.Address;
+
+            if (adress_line.Text != Enabled_Search_Engine) 
+            {
+                adress_line.Text = _address;
+            }
+            else 
+            {
+                adress_line.Text = "";
             }
         }
         private bool IsValidUrl(string url)
