@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -116,26 +117,22 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
             };            
-            public SimplePagePattern(List<Image> icons)
-            {
-                var _fM = new FileManager();
-
-                Form1.Enabled_Search_Engine = _fM._ReadFileText(_fM._GetPathToFile("enabled_search_engine.txt"));
-
-                cwb.Load(Form1.Enabled_Search_Engine);
+            public SimplePagePattern(List<Image> icons, string Enabled_Search_Engine)
+            {               
+                cwb.Load(Enabled_Search_Engine);
 
                 simplePageButtons.Add(forward_button);
                 simplePageButtons.Add(back_button);
                 simplePageButtons.Add(refresh_button);
                 simplePageButtons.Add(createtab_button);
                 simplePageButtons.Add(closeTab_button);
-                simplePageButtons.Add(settings_button);
+                simplePageButtons.Add(settings_button);               
 
                 for (short i = 0; i < simplePageButtons.Count; i++)
                 {
                     simplePageButtons[i].Icon = icons[i];
                 }                 
-            }           
+            }            
         }        
     }
 }

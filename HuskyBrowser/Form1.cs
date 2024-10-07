@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using CefSharp.DevTools.Autofill;
 using CefSharp.WinForms;
 using HuskyBrowser.WorkingWithBrowserProperties;
 using MaterialSkin;
@@ -9,7 +10,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,19 +29,14 @@ namespace HuskyBrowser
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo600, Primary.Indigo600, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo600, Primary.Indigo600, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
 
             Browser_Initialize();
         }
         private void Browser_Initialize()
         {
-            var _file_Reader = new FileManager();
-            string[] search_engines = new string[_file_Reader._ReadFileLines(_file_Reader._GetPathToFile("search_engine.txt")).Count];
-            for (short i = 0; i < search_engines.Length; i++)
-            {
-                search_engines[i] = _file_Reader._ReadFileLines(_file_Reader._GetPathToFile("search_engine.txt"))[i];
-            }
-            Enabled_Search_Engine = search_engines[0];
+            var _fM = new FileManager();
+            Enabled_Search_Engine = _fM._ReadFileText(_fM._GetPathToFile("enabled_search_engine.txt", "search_engines"));
 
             Controls_Initialize();
         }
@@ -52,7 +50,7 @@ namespace HuskyBrowser
                     icons.Add(imageList1.Images[i]);
                 }
 
-                PagePattern.SimplePagePattern simplepage_pattern = new PagePattern.SimplePagePattern(icons);
+                PagePattern.SimplePagePattern simplepage_pattern = new PagePattern.SimplePagePattern(icons, Enabled_Search_Engine);
 
                 icons.Clear();
 
@@ -64,12 +62,13 @@ namespace HuskyBrowser
                 simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
                 simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
                 simplepage_pattern.cwb.AddressChanged += OnCwb_AddressChanged;
-                                             
-                foreach(var button in simplepage_pattern.simplePageButtons) 
+                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
+                                                              
+                foreach (var button in simplepage_pattern.simplePageButtons) 
                 {
                     simplepage_pattern.panel_2.Controls.Add(button);
-                }                                
-
+                }
+                               
                 simplepage_pattern.panel_2.Controls.Add(simplepage_pattern.adress_line);
                 simplepage_pattern.panel_1.Controls.Add(simplepage_pattern.cwb);
 
@@ -82,7 +81,7 @@ namespace HuskyBrowser
             catch (Exception ex)
             {
                 var file_Manager = new FileManager();
-                file_Manager._WriteFile(ex.Message, file_Manager._GetPathToFile("errors_config.txt"));
+                file_Manager._WriteFile(ex.Message, file_Manager._GetPathToFile("husky_errors_config.txt"));
             }
         }                
 
@@ -175,14 +174,12 @@ namespace HuskyBrowser
                 e.SuppressKeyPress = true;
                 if (IsValidUrl(input))
                 {
-                    cwb.Load(input.StartsWith("http://") || input.StartsWith("https://") ? input : "http://" + input);
-                    adress_line.Text = input;
+                    cwb.Load(input.StartsWith("http://") || input.StartsWith("https://") ? input : "http://" + input);                   
                 }
                 else
                 {
                     string result = Enabled_Search_Engine + input;
                     cwb.Load(result);
-                    adress_line.Text = result;
                 }
             }
         }
@@ -194,17 +191,23 @@ namespace HuskyBrowser
 
             var adress_line = panel_2.Controls[6] as MaterialTextBox;                       
 
-            string _address = e.Address;
+            string _address = e.Address;            
 
-            if (adress_line.Text != Enabled_Search_Engine) 
+            if (adress_line.Text != Enabled_Search_Engine)
             {
-                adress_line.Text = _address;
+                adress_line.Text = _address;                                                     
             }
-            else 
+            else
             {
                 adress_line.Text = "";
-            }
-        }
+            }            
+        }        
+        private void OnCwb_TitleChanged(object sender, TitleChangedEventArgs e) 
+        {
+            TabPage selectedTab = materialTabControl1.SelectedTab;
+
+            selectedTab.Text = e.Title;
+        }        
         private bool IsValidUrl(string url)
         {
             return Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains(".");
