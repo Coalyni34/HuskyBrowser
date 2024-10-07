@@ -49,7 +49,7 @@ namespace HuskyBrowser
                 {
                     icons.Add(imageList1.Images[i]);
                 }
-
+                
                 PagePattern.SimplePagePattern simplepage_pattern = new PagePattern.SimplePagePattern(icons, Enabled_Search_Engine);
 
                 icons.Clear();

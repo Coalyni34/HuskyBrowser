@@ -19,7 +19,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         {
             public TabPage new_TapPage = new TabPage() 
             {
-                Text = "Settings"                                
+                Text = "Settings"
             };
 
             public MaterialButton closeSettings_Button = new MaterialButton() 
@@ -41,10 +41,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
             public List<MaterialButton> simplePageButtons = new List<MaterialButton>();
 
-            public TabPage new_TapPage = new TabPage() 
-            {
-                Text = "New Page"
-            };            
+            public TabPage new_TapPage = new TabPage();
 
             public Panel panel_1 = new Panel()
             {
@@ -127,7 +124,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 simplePageButtons.Add(createtab_button);
                 simplePageButtons.Add(closeTab_button);
                 simplePageButtons.Add(settings_button);               
-
+                
                 for (short i = 0; i < simplePageButtons.Count; i++)
                 {
                     simplePageButtons[i].Icon = icons[i];
