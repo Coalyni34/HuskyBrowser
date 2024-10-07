@@ -141,46 +141,8 @@ namespace HuskyBrowser
             }
         }
         private void OnCreateSimplePage_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                List<Image> icons = new List<Image>();
-                for (short i = 0; i < imageList1.Images.Count; i++)
-                {
-                    icons.Add(imageList1.Images[i]);
-                }
-
-                PagePattern.SimplePagePattern simplePage_Pattern = new PagePattern.SimplePagePattern(icons);
-
-                icons.Clear();
-
-                simplePage_Pattern.simplePageButtons[0].Click += OnGoForward_Click;
-                simplePage_Pattern.simplePageButtons[1].Click += OnGoBack_Click;
-                simplePage_Pattern.simplePageButtons[2].Click += OnRefresh_Click;
-                simplePage_Pattern.simplePageButtons[3].Click += OnCreateSimplePage_Click;
-                simplePage_Pattern.simplePageButtons[4].Click += OnClose_Click;
-                simplePage_Pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
-                simplePage_Pattern.adress_line.KeyDown += OnLoad_Event;                
-
-                foreach (var button in simplePage_Pattern.simplePageButtons)
-                {
-                    simplePage_Pattern.panel_2.Controls.Add(button);
-                }
-
-                simplePage_Pattern.panel_2.Controls.Add(simplePage_Pattern.adress_line);
-                simplePage_Pattern.panel_1.Controls.Add(simplePage_Pattern.cwb);
-
-                simplePage_Pattern.new_TapPage.Controls.Add(simplePage_Pattern.panel_1);
-                simplePage_Pattern.new_TapPage.Controls.Add(simplePage_Pattern.panel_2);
-
-                materialTabControl1.TabPages.Add(simplePage_Pattern.new_TapPage);
-                materialTabControl1.SelectTab(simplePage_Pattern.new_TapPage);
-            }
-            catch (Exception ex)
-            {
-                var file_Manager = new FileManager();
-                file_Manager._WriteFile(ex.Message, file_Manager._GetPathToFile("errors_config.txt"));
-            }
+        {            
+            Controls_Initialize();
         }
         private void OnCreateSettingsPage_Click(object sender, EventArgs e)
         {
