@@ -53,7 +53,7 @@ namespace HuskyBrowser
                     icons.Add(imageList1.Images[i]);
                 }
                 
-                PagePattern.SimplePagePattern simplepage_pattern = new PagePattern.SimplePagePattern(icons, Enabled_Search_Engine);
+                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, Enabled_Search_Engine);
 
                 icons.Clear();
 
@@ -161,29 +161,40 @@ namespace HuskyBrowser
         }        
         private void OnLoad_Event(object sender, KeyEventArgs e)
         {
-            TabPage selectedTab = materialTabControl1.SelectedTab;
-
-            var panel_1 = selectedTab.Controls[0] as Panel;
-            var panel_2 = selectedTab.Controls[1] as Panel;
-
-            var adress_line = panel_2.Controls[6] as MaterialTextBox;
-                        
-            var cwb = panel_1.Controls[0] as ChromiumWebBrowser;         
-            
-            string input = adress_line.Text;
-
-            if ((e.KeyCode == Keys.Enter))
+            try
             {
-                e.SuppressKeyPress = true;
-                if (IsValidUrl(input))
+                materialTabControl1.Invoke((MethodInvoker)delegate
                 {
-                    cwb.Load(input.StartsWith("http://") || input.StartsWith("https://") ? input : "http://" + input);                   
-                }
-                else
-                {
-                    string result = Enabled_Search_Engine + input;
-                    cwb.Load(result);
-                }
+                    TabPage selectedTab = materialTabControl1.SelectedTab;
+
+                    var panel_1 = selectedTab.Controls[0] as Panel;
+                    var panel_2 = selectedTab.Controls[1] as Panel;
+
+                    var adress_line = panel_2.Controls[7] as MaterialTextBox;
+
+                    var cwb = panel_1.Controls[0] as ChromiumWebBrowser;
+
+                    string input = adress_line.Text;
+
+                    if ((e.KeyCode == Keys.Enter))
+                    {
+                        e.SuppressKeyPress = true;
+                        if (IsValidUrl(input))
+                        {
+                            cwb.Load(input.StartsWith("http://") || input.StartsWith("https://") ? input : "http://" + input);
+                        }
+                        else
+                        {
+                            string result = Enabled_Search_Engine + input;
+                            cwb.Load(result);
+                        }
+                    }
+                });
+            }     
+            catch(Exception ex)
+            {
+                var _fM = new FileManager();
+                _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));
             }
         }
         private void OnCwb_AdressChanged(object sender, AddressChangedEventArgs e)
