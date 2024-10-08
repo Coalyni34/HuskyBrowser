@@ -10,6 +10,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern.SettingsPagePattern;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
@@ -17,10 +19,10 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
     public class PagePattern
     {        
         public class SettingsPagePattern : PagePattern
-        {
+        {           
             public TabPage new_TapPage = new TabPage()
             {
-                Text = "Settings"
+                Text = "Settings",
             };
             public MaterialButton closeSettings_Button = new MaterialButton() 
             {
@@ -29,11 +31,31 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Location = new Point(10, 10),
                 DrawShadows = false,
                 AutoSize = false,
-            };            
-            public SettingsPagePattern(Image icon_ExitButton)
+            };
+            public MaterialLabel choosing_SearchEngine_Text = new MaterialLabel()
             {
-                closeSettings_Button.Icon = icon_ExitButton;  
-            }
+                Text = "Search Engine:",                
+                Size = new Size(110, 30),
+                Location = new Point(10, 60),                
+                AutoSize = false,
+            };
+            public MaterialComboBox searchEngine_ComboBox = new MaterialComboBox()
+            {
+                Size = new Size(180, 50),                
+                Location = new Point(130, 45),
+                AutoSize = false,
+            };            
+            public SettingsPagePattern(List<Image> icons, MaterialTabControl tabControl)
+            {
+                closeSettings_Button.Icon = icons[0];
+                                
+                new_TapPage.Controls.Add(closeSettings_Button);
+                new_TapPage.Controls.Add(choosing_SearchEngine_Text);
+                new_TapPage.Controls.Add(searchEngine_ComboBox);                               
+
+                tabControl.TabPages.Add(new_TapPage);
+                tabControl.SelectTab(new_TapPage);
+            }            
         }
         public class SimplePagePattern : PagePattern
         {
@@ -61,7 +83,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(40, 36),
                 Location = new Point(10, 10),
                 DrawShadows = false,
-                AutoSize = false,
+                AutoSize = false,                
             };
             private MaterialButton forward_button = new MaterialButton()
             {
@@ -122,7 +144,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
             };            
-            public SimplePagePattern(List<Image> icons, string Enabled_Search_Engine)
+            public SimplePagePattern(List<Image> icons, string Enabled_Search_Engine, MaterialTabControl tabControl)
             {               
                 cwb.Load(Enabled_Search_Engine);
 
@@ -137,7 +159,20 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 for (short i = 0; i < simplePageButtons.Count; i++)
                 {
                     simplePageButtons[i].Icon = icons[i];
-                }                 
+                }
+
+                foreach (var button in simplePageButtons)
+                {
+                    panel_2.Controls.Add(button);
+                }
+                panel_2.Controls.Add(adress_line);
+                panel_1.Controls.Add(cwb);
+
+                new_TapPage.Controls.Add(panel_1);
+                new_TapPage.Controls.Add(panel_2);
+
+                tabControl.TabPages.Add(new_TapPage);
+                tabControl.SelectTab(new_TapPage);
             }           
         }        
     }

@@ -25,6 +25,7 @@ namespace HuskyBrowser
     public partial class Form1 : MaterialForm
     {
         public static string Enabled_Search_Engine;
+        private string[] title_and_adress = new string[2];
         public Form1()
         {
             InitializeComponent();
@@ -53,7 +54,7 @@ namespace HuskyBrowser
                     icons.Add(imageList1.Images[i]);
                 }
                 
-                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, Enabled_Search_Engine);
+                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, Enabled_Search_Engine, materialTabControl1);
 
                 icons.Clear();
 
@@ -65,21 +66,7 @@ namespace HuskyBrowser
                 simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
                 simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
                 simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
-                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
-                                                              
-                foreach (var button in simplepage_pattern.simplePageButtons) 
-                {
-                    simplepage_pattern.panel_2.Controls.Add(button);
-                }
-                               
-                simplepage_pattern.panel_2.Controls.Add(simplepage_pattern.adress_line);
-                simplepage_pattern.panel_1.Controls.Add(simplepage_pattern.cwb);
-
-                simplepage_pattern.new_TapPage.Controls.Add(simplepage_pattern.panel_1);
-                simplepage_pattern.new_TapPage.Controls.Add(simplepage_pattern.panel_2);
-
-                materialTabControl1.TabPages.Add(simplepage_pattern.new_TapPage);
-                materialTabControl1.SelectTab(simplepage_pattern.new_TapPage);                                
+                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;                                                      
             }
             catch (Exception ex)
             {
@@ -149,15 +136,15 @@ namespace HuskyBrowser
         }
         private void OnCreateSettingsPage_Click(object sender, EventArgs e)
         {
-            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(imageList3.Images[0]);
+            List<Image> icons = new List<Image>();
+            for (short i = 0; i < materialTabControl1.ImageList.Images.Count; i++)
+            {
+                icons.Add(materialTabControl1.ImageList.Images[i]);
+            }
 
+            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(icons, materialTabControl1);
+                       
             settingsPage_Pattern.closeSettings_Button.Click += OnClose_Click;            
-
-            var newTab = settingsPage_Pattern.new_TapPage;
-            newTab.Controls.Add(settingsPage_Pattern.closeSettings_Button);            
-
-            materialTabControl1.TabPages.Add(newTab);
-            materialTabControl1.SelectTab(newTab);
         }        
         private void OnLoad_Event(object sender, KeyEventArgs e)
         {
@@ -213,7 +200,9 @@ namespace HuskyBrowser
 
                     if (adress_line.Text != Enabled_Search_Engine)
                     {
-                        adress_line.Text = _address;
+                        adress_line.Text = _address;                                               
+
+                        title_and_adress[1] = _address;
                     }
                     else
                     {
@@ -235,6 +224,10 @@ namespace HuskyBrowser
                 materialTabControl1.Invoke((MethodInvoker)delegate
                 {
                     materialTabControl1.SelectedTab.Text = e.Title;
+
+                    title_and_adress[0] = e.Title;
+
+                    SaveHistory(title_and_adress[0], title_and_adress[1]);
                 });
             }
             catch (Exception ex)
@@ -243,6 +236,18 @@ namespace HuskyBrowser
                 _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));                
             }
         }        
+        private void SaveHistory(string title, string adress)
+        {
+            var _fM = new FileManager();
+
+            string page = $"{DateTime.Now}: {title} {adress}";
+
+            var ListOfPages = new List<string>() { page };
+
+            _fM._WriteFile(ListOfPages, _fM._GetPathToFile("history.txt", "histоry"));
+
+            ListOfPages.Clear();
+        }
         private bool IsValidUrl(string url)
         {
             return Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains(".");
