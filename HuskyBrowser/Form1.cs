@@ -9,13 +9,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
 
 namespace HuskyBrowser
 {
@@ -61,7 +64,7 @@ namespace HuskyBrowser
                 simplepage_pattern.simplePageButtons[4].Click += OnClose_Click;
                 simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
                 simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
-                simplepage_pattern.cwb.AddressChanged += OnCwb_AddressChanged;
+                simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
                 simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
                                                               
                 foreach (var button in simplepage_pattern.simplePageButtons) 
@@ -76,15 +79,15 @@ namespace HuskyBrowser
                 simplepage_pattern.new_TapPage.Controls.Add(simplepage_pattern.panel_2);
 
                 materialTabControl1.TabPages.Add(simplepage_pattern.new_TapPage);
-                materialTabControl1.SelectTab(simplepage_pattern.new_TapPage);
+                materialTabControl1.SelectTab(simplepage_pattern.new_TapPage);                                
             }
             catch (Exception ex)
             {
                 var file_Manager = new FileManager();
                 file_Manager._WriteFile(ex.Message, file_Manager._GetPathToFile("husky_errors_config.txt"));
             }
-        }                
-
+        }
+        
         private void OnGoForward_Click(object sender, EventArgs e)
         {
             TabPage selectedTab = materialTabControl1.SelectedTab;
@@ -146,12 +149,12 @@ namespace HuskyBrowser
         }
         private void OnCreateSettingsPage_Click(object sender, EventArgs e)
         {
-            PagePattern.SettingsPagePattern settingsPage_Pattern = new PagePattern.SettingsPagePattern(imageList1.Images[6]);
+            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(imageList3.Images[0]);
 
             settingsPage_Pattern.closeSettings_Button.Click += OnClose_Click;            
 
             var newTab = settingsPage_Pattern.new_TapPage;
-            newTab.Controls.Add(settingsPage_Pattern.closeSettings_Button);
+            newTab.Controls.Add(settingsPage_Pattern.closeSettings_Button);            
 
             materialTabControl1.TabPages.Add(newTab);
             materialTabControl1.SelectTab(newTab);
@@ -183,30 +186,51 @@ namespace HuskyBrowser
                 }
             }
         }
-        private void OnCwb_AddressChanged(object sender, AddressChangedEventArgs e) 
-        {           
-            TabPage selectedTab = materialTabControl1.SelectedTab;
-
-            var panel_2 = selectedTab.Controls[1] as Panel;
-
-            var adress_line = panel_2.Controls[6] as MaterialTextBox;                       
-
-            string _address = e.Address;            
-
-            if (adress_line.Text != Enabled_Search_Engine)
-            {
-                adress_line.Text = _address;                                                     
-            }
-            else
-            {
-                adress_line.Text = "";
-            }            
-        }        
-        private void OnCwb_TitleChanged(object sender, TitleChangedEventArgs e) 
+        private void OnCwb_AdressChanged(object sender, AddressChangedEventArgs e)
         {
-            TabPage selectedTab = materialTabControl1.SelectedTab;
+            try
+            {
+                materialTabControl1.Invoke((MethodInvoker)delegate
+                {
+                    TabPage selectedTab = materialTabControl1.SelectedTab;
 
-            selectedTab.Text = e.Title;
+                    var panel_2 = selectedTab.Controls[1] as Panel;
+
+                    var adress_line = panel_2.Controls[7] as MaterialTextBox;
+
+                    string _address = e.Address;
+
+                    if (adress_line.Text != Enabled_Search_Engine)
+                    {
+                        adress_line.Text = _address;
+                    }
+                    else
+                    {
+                        adress_line.Text = "";
+                    }
+                });                
+            }
+            catch (Exception ex) 
+            {
+                var _fM = new FileManager();
+
+                _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));
+            }
+        }       
+        private void OnCwb_TitleChanged(object sender, TitleChangedEventArgs e)
+        {
+            try
+            {
+                materialTabControl1.Invoke((MethodInvoker)delegate
+                {
+                    materialTabControl1.SelectedTab.Text = e.Title;
+                });
+            }
+            catch (Exception ex)
+            {
+                var _fM = new FileManager();
+                _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));                
+            }
         }        
         private bool IsValidUrl(string url)
         {

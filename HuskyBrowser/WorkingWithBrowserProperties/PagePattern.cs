@@ -4,6 +4,7 @@ using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -17,11 +18,10 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
     {        
         public class SettingsPagePattern : PagePattern
         {
-            public TabPage new_TapPage = new TabPage() 
+            public TabPage new_TapPage = new TabPage()
             {
                 Text = "Settings"
             };
-
             public MaterialButton closeSettings_Button = new MaterialButton() 
             {
                 Text = "",
@@ -29,7 +29,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Location = new Point(10, 10),
                 DrawShadows = false,
                 AutoSize = false,
-            };
+            };            
             public SettingsPagePattern(Image icon_ExitButton)
             {
                 closeSettings_Button.Icon = icon_ExitButton;  
@@ -95,11 +95,19 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            public MaterialButton settings_button = new MaterialButton()
+            private MaterialButton settings_button = new MaterialButton()
             {
                 Text = "",
                 Size = new Size(40, 36),
                 Location = new Point(1500, 10),
+                DrawShadows = false,
+                AutoSize = false,
+            };
+            private MaterialButton download_button = new MaterialButton()
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(1550, 10),
                 DrawShadows = false,
                 AutoSize = false,
             };
@@ -123,13 +131,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 simplePageButtons.Add(refresh_button);
                 simplePageButtons.Add(createtab_button);
                 simplePageButtons.Add(closeTab_button);
-                simplePageButtons.Add(settings_button);               
+                simplePageButtons.Add(settings_button);
+                simplePageButtons.Add(download_button);
                 
                 for (short i = 0; i < simplePageButtons.Count; i++)
                 {
                     simplePageButtons[i].Icon = icons[i];
                 }                 
-            }            
+            }           
         }        
     }
 }
