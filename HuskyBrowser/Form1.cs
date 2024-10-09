@@ -142,9 +142,7 @@ namespace HuskyBrowser
                 icons.Add(materialTabControl1.ImageList.Images[i]);
             }
 
-            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(icons, materialTabControl1);
-                       
-            settingsPage_Pattern.closeSettings_Button.Click += OnClose_Click;            
+            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1);                   
         }        
         private void OnLoad_Event(object sender, KeyEventArgs e)
         {
@@ -227,7 +225,7 @@ namespace HuskyBrowser
 
                     title_and_adress[0] = e.Title;
 
-                    SaveHistory(title_and_adress[0], title_and_adress[1]);
+                    HistoryManager history_Manager = new HistoryManager(title_and_adress[0], title_and_adress[1]); 
                 });
             }
             catch (Exception ex)
@@ -235,19 +233,7 @@ namespace HuskyBrowser
                 var _fM = new FileManager();
                 _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));                
             }
-        }        
-        private void SaveHistory(string title, string adress)
-        {
-            var _fM = new FileManager();
-
-            string page = $"{DateTime.Now}: {title} {adress}";
-
-            var ListOfPages = new List<string>() { page };
-
-            _fM._WriteFile(ListOfPages, _fM._GetPathToFile("history.txt", "histоry"));
-
-            ListOfPages.Clear();
-        }
+        }                
         private bool IsValidUrl(string url)
         {
             return Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains(".");
