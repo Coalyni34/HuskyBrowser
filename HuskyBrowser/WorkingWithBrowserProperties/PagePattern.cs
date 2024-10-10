@@ -21,12 +21,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class PagePattern
     {
-        static MaterialTabControl tabControl { get; set; }        
+        static MaterialTabControl tabControl { get; set; }
+        static Color Page_BackColor { get; set; } = Color.FromArgb(255, 23, 25, 30);
         public class SettingsPagePattern : PagePattern
         {           
             private TabPage new_TapPage = new TabPage()
             {
                 Text = "Settings",
+                BackColor = Page_BackColor
             };
             private MaterialButton SaveSettings_Button = new MaterialButton() 
             {
@@ -63,13 +65,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Save history",
                 Size = new Size(180, 50),
                 Location = new Point(0, 60),
-                AutoSize = false,
-                Checked = true
+                AutoSize = false,               
             };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>() 
             {
-                { "DuckDuckGo", "https://duckduckgo.com/" },
+                { "DuckDuckGo", "https://start.duckduckgo.com/" },
                 { "Google", "https://www.google.com/" },
                 { "Bing", "https://www.bing.com/" },
                 { "Brave", "https://search.brave.com/" }
@@ -94,6 +95,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Settings settings = JsonSerializer.Deserialize<Settings>(json);
 
                 SearchEngine_ComboBox.SelectedItem = settings.Search_Engine_Name;
+                SaveHistory_Switch.Checked = settings.Save_History;
 
                 SaveSettings_Button.Click += OnSave_Click;
                 Closing_Button.Click += OnClose_Click;                
@@ -118,8 +120,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                 bool DoSaveHistory = SaveHistory_Switch.Checked;
 
-                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine);   
-
+                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine);
+                
                 string jsonSettings = JsonSerializer.Serialize(settings);
 
                 var _fM = new FileManager();
@@ -142,7 +144,10 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
             public List<MaterialButton> simplePageButtons = new List<MaterialButton>();
 
-            private TabPage new_TapPage = new TabPage();
+            private TabPage new_TapPage = new TabPage()
+            {
+                BackColor = Page_BackColor
+            };
 
             public Panel panel_1 = new Panel()
             {
