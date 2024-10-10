@@ -65,6 +65,11 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             var messages = File.ReadAllText(path);
             return messages;
         }
+        public bool _IsFileExist(string path) 
+        {
+            bool exist = File.Exists(path);
+            return exist;
+        }
         public void _DeleteFileText(string path)
         {
             File.Delete(path);

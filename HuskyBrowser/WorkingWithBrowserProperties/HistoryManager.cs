@@ -27,7 +27,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             string page = $"{DateTime.Now}: {title} {adress}";
 
             var ListOfPages = new List<string>() { page };
-
+                       
             _fM._WriteFile(ListOfPages, _fM._GetPathToFile("history.txt", "histоry"));
 
             ListOfPages.Clear();

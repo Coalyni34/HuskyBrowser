@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
@@ -40,7 +41,12 @@ namespace HuskyBrowser
         private void Browser_Initialize()
         {
             var _fM = new FileManager();
-            Enabled_Search_Engine = _fM._ReadFileText(_fM._GetPathToFile("enabled_search_engine.txt", "search_engines"));
+
+            string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+
+            Settings settings = JsonSerializer.Deserialize<Settings>(json);
+
+            Enabled_Search_Engine = settings.Enabled_Search_Engine;
 
             Controls_Initialize();
         }

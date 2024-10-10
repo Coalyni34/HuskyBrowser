@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern.SettingsPagePattern;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
+using System.Text.Json;
+using static System.Net.WebRequestMethods;
+using HuskyBrowser.Properties;
+using System.Text.Json.Serialization;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -26,17 +30,17 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             };
             private MaterialButton SaveSettings_Button = new MaterialButton() 
             {
-                Text = "",
-                Size = new Size(40, 36),
-                Location = new Point(10, 10),
+                Text = "Save Settings",
+                Size = new Size(70, 40),
+                Location = new Point(90, 10),
                 DrawShadows = false,
                 AutoSize = false,
             };
             private MaterialButton Closing_Button = new MaterialButton()
             {
-                Text = "",
-                Size = new Size(40, 36),
-                Location = new Point(50, 10),
+                Text = "Close Page",
+                Size = new Size(70, 40),
+                Location = new Point(10, 10),
                 DrawShadows = false,
                 AutoSize = false,
             };
@@ -44,25 +48,55 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 Text = "Search Engine:",                
                 Size = new Size(110, 30),
-                Location = new Point(10, 60),                
+                Location = new Point(20, 130),                
                 AutoSize = false,
             };
             public MaterialComboBox SearchEngine_ComboBox = new MaterialComboBox()
             {
                 Text = "DuckDuckGo",
                 Size = new Size(180, 50),                
-                Location = new Point(130, 45),
+                Location = new Point(130, 115),
                 AutoSize = false,
-            };   
+            };
+            public MaterialSwitch SaveHistory_Switch = new MaterialSwitch()
+            {
+                Text = "Save history",
+                Size = new Size(180, 50),
+                Location = new Point(0, 60),
+                AutoSize = false,
+                Checked = true
+            };
+            private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
+            private Dictionary<string, string> Search_Engines = new Dictionary<string, string>() 
+            {
+                { "DuckDuckGo", "https://duckduckgo.com/" },
+                { "Google", "https://www.google.com/" },
+                { "Bing", "https://www.bing.com/" },
+                { "Brave", "https://search.brave.com/" }
+            };
             public SettingsPagePattern(MaterialTabControl materialTabControl)
-            {                                
-                new_TapPage.Controls.Add(SaveSettings_Button);
+            {                               
                 new_TapPage.Controls.Add(Choosing_SearchEngine_Text);
                 new_TapPage.Controls.Add(SearchEngine_ComboBox);
                 new_TapPage.Controls.Add(SaveSettings_Button);
+                new_TapPage.Controls.Add(Closing_Button);
+                new_TapPage.Controls.Add(SaveHistory_Switch);
+
+                foreach (var engine in Engines_Keys) 
+                {
+                    SearchEngine_ComboBox.Items.Add(engine);
+                }
+
+                var _fM = new FileManager();
+
+                string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+
+                Settings settings = JsonSerializer.Deserialize<Settings>(json);
+
+                SearchEngine_ComboBox.SelectedItem = settings.Search_Engine_Name;
 
                 SaveSettings_Button.Click += OnSave_Click;
-                Closing_Button.Click += OnClose_Click;
+                Closing_Button.Click += OnClose_Click;                
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
@@ -80,11 +114,27 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             private void OnSave_Click(object sender, EventArgs e)
             {
-                Settings settings = new Settings()
+                string selected_engine = SearchEngine_ComboBox.Text;
+
+                bool DoSaveHistory = SaveHistory_Switch.Checked;
+
+                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine);   
+
+                string jsonSettings = JsonSerializer.Serialize(settings);
+
+                var _fM = new FileManager();
+                if (_fM._IsFileExist(_fM._GetPathToFile("browser_settings.json")) == false) 
                 {
-                    Search_Engine_Key = SearchEngine_ComboBox.Text,
-                };
-            }
+                    _fM._WriteFile(jsonSettings, _fM._GetPathToFile("browser_settings.json"));
+                }
+                else 
+                {
+                    _fM._DeleteFileText(_fM._GetPathToFile("browser_settings.json"));
+                    _fM._WriteFile(jsonSettings, _fM._GetPathToFile("browser_settings.json"));
+                }              
+
+                Application.Restart();
+            }            
         }
         public class SimplePagePattern : PagePattern
         {
