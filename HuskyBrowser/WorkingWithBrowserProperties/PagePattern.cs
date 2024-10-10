@@ -16,6 +16,7 @@ using System.Text.Json;
 using static System.Net.WebRequestMethods;
 using HuskyBrowser.Properties;
 using System.Text.Json.Serialization;
+using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -226,39 +227,57 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             public ChromiumWebBrowser cwb = new ChromiumWebBrowser()
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
-            };            
+            };
             public SimplePagePattern(List<Image> icons, string Enabled_Search_Engine, MaterialTabControl materialTabControl)
-            {   
-                tabControl = materialTabControl;
-
-                cwb.Load(Enabled_Search_Engine);
-
-                simplePageButtons.Add(forward_button);
-                simplePageButtons.Add(back_button);
-                simplePageButtons.Add(refresh_button);
-                simplePageButtons.Add(createtab_button);
-                simplePageButtons.Add(closeTab_button);
-                simplePageButtons.Add(settings_button);
-                simplePageButtons.Add(download_button);
-                
-                for (short i = 0; i < simplePageButtons.Count; i++)
+            {
+                try
                 {
-                    simplePageButtons[i].Icon = icons[i];
-                }
+                    tabControl = materialTabControl;
 
-                foreach (var button in simplePageButtons)
+                    cwb.Load(Enabled_Search_Engine);
+
+                    simplePageButtons.Add(forward_button);
+                    simplePageButtons.Add(back_button);
+                    simplePageButtons.Add(refresh_button);
+                    simplePageButtons.Add(createtab_button);
+                    simplePageButtons.Add(closeTab_button);
+                    simplePageButtons.Add(settings_button);
+                    simplePageButtons.Add(download_button);
+
+                    for (short i = 0; i < simplePageButtons.Count; i++)
+                    {
+                        simplePageButtons[i].Icon = icons[i];
+                    }
+
+                    foreach (var button in simplePageButtons)
+                    {
+                        panel_2.Controls.Add(button);
+                    }
+                    panel_2.Controls.Add(adress_line);
+                    panel_1.Controls.Add(cwb);
+
+                    new_TapPage.Controls.Add(panel_1);
+                    new_TapPage.Controls.Add(panel_2);
+
+                    cwb.FrameLoadEnd += (sender, args) =>
+                    {
+                        SetTheme("dark");
+                    };
+
+                    tabControl.TabPages.Add(new_TapPage);
+                    tabControl.SelectTab(new_TapPage);
+                }
+                catch (Exception ex) 
                 {
-                    panel_2.Controls.Add(button);
+                    Error_Logger error_Logger = new Error_Logger();
+                    error_Logger.Log_Errors(ex.Message);
                 }
-                panel_2.Controls.Add(adress_line);
-                panel_1.Controls.Add(cwb);
-
-                new_TapPage.Controls.Add(panel_1);
-                new_TapPage.Controls.Add(panel_2);
-
-                tabControl.TabPages.Add(new_TapPage);
-                tabControl.SelectTab(new_TapPage);
-            }           
+            }
+            private void SetTheme(string theme)
+            {
+                string js = $"document.documentElement.setAttribute('data-theme', '{theme}');";
+                cwb.ExecuteScriptAsync(js);
+            }
         }        
     }
 }

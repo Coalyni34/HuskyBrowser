@@ -11,6 +11,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class FileManager
     {
+        public class Error_Logger : FileManager
+        {
+            public void Log_Errors(string message) 
+            {
+                _WriteFile(message, _GetPathToFile("husky_errors_log.json"));
+            }
+        }
         public void _WriteFile(List<string> msg, string path)
         {
             try

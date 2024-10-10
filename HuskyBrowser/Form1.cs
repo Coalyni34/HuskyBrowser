@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
 
 namespace HuskyBrowser
@@ -76,8 +77,8 @@ namespace HuskyBrowser
             }
             catch (Exception ex)
             {
-                var file_Manager = new FileManager();
-                file_Manager._WriteFile(ex.Message, file_Manager._GetPathToFile("husky_errors_config.txt"));
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
             }
         }
         
@@ -184,8 +185,8 @@ namespace HuskyBrowser
             }     
             catch(Exception ex)
             {
-                var _fM = new FileManager();
-                _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
             }
         }
         private void OnCwb_AdressChanged(object sender, AddressChangedEventArgs e)
@@ -216,9 +217,8 @@ namespace HuskyBrowser
             }
             catch (Exception ex) 
             {
-                var _fM = new FileManager();
-
-                _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
             }
         }       
         private void OnCwb_TitleChanged(object sender, TitleChangedEventArgs e)
