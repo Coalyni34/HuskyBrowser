@@ -80,8 +80,8 @@ namespace HuskyBrowser
                 Error_Logger error_Logger = new Error_Logger();
                 error_Logger.Log_Errors(ex.Message);
             }
-        }
-        
+        }      
+
         private void OnGoForward_Click(object sender, EventArgs e)
         {
             TabPage selectedTab = materialTabControl1.SelectedTab;
