@@ -148,10 +148,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkingWithBrowserProperties\FileManager.cs" />
-    <Compile Include="WorkingWithBrowserProperties\HistoryManager.cs" />
-    <Compile Include="WorkingWithBrowserProperties\PagePattern.cs" />
-    <Compile Include="WorkingWithBrowserProperties\Settings.cs" />
+    <Compile Include="WorkingWithBrowserProperties\FileManagement\FileManager.cs" />
+    <Compile Include="WorkingWithBrowserProperties\HistoryMagement\HistoryJournal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkingWithBrowserProperties\HistoryMagement\HistoryJournal.Designer.cs">
+      <DependentUpon>HistoryJournal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkingWithBrowserProperties\HistoryMagement\HistoryManager.cs" />
+    <Compile Include="WorkingWithBrowserProperties\PageManagement\PagePattern.cs" />
+    <Compile Include="WorkingWithBrowserProperties\SettingsManagement\Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -164,6 +170,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="WorkingWithBrowserProperties\HistoryMagement\HistoryJournal.resx">
+      <DependentUpon>HistoryJournal.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -189,6 +198,7 @@
     <Content Include="Icons\9.png" />
     <Content Include="Icons\Husky-browser_2.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

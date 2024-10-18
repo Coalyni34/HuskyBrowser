@@ -18,14 +18,15 @@ using HuskyBrowser.Properties;
 using System.Text.Json.Serialization;
 using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 using CefSharp.DevTools.Debugger;
+using MonoTorrent.Client;
+using HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class PagePattern
     {
         static MaterialTabControl tabControl { get; set; }
-        static Color Page_BackColor { get; set; } = Color.FromArgb(255, 23, 25, 30);
-        static int ScreenWidth { get; set; } = Screen.PrimaryScreen.Bounds.Width;
+        static Color Page_BackColor { get; set; } = Color.FromArgb(255, 23, 25, 30);        
         public class SettingsPagePattern : PagePattern
         {           
             private TabPage new_TapPage = new TabPage()
@@ -70,6 +71,28 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Location = new Point(0, 60),
                 AutoSize = false,               
             };
+            public MaterialComboBox ResolutionOfScreen = new MaterialComboBox()
+            {   
+                Size = new Size(180, 50),
+                Location = new Point(130, 185),
+                AutoSize = false,
+            };
+            public MaterialLabel ResolutionOfScreen_Text = new MaterialLabel()
+            {
+                TextAlign = ContentAlignment.TopCenter,
+                Text = "Screen Resolution:",
+                Size = new Size(130, 50),
+                Location = new Point(10, 190),
+                AutoSize = false,
+            };
+            public MaterialButton OpenHistoryJournal_Button = new MaterialButton()
+            {
+                TextAlign = ContentAlignment.TopCenter,
+                Text = "Open History Journal",
+                Size = new Size(130, 50),
+                Location = new Point(10, 250),
+                AutoSize = false,
+            };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>() 
             {
@@ -85,10 +108,19 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(SaveSettings_Button);
                 new_TapPage.Controls.Add(Closing_Button);
                 new_TapPage.Controls.Add(SaveHistory_Switch);
+                new_TapPage.Controls.Add(ResolutionOfScreen);
+                new_TapPage.Controls.Add(ResolutionOfScreen_Text);
+                new_TapPage.Controls.Add(OpenHistoryJournal_Button);
 
                 foreach (var engine in Engines_Keys) 
                 {
                     SearchEngine_ComboBox.Items.Add(engine);
+                }
+
+                foreach(var screen in Screen.AllScreens) 
+                {
+                    string resolution = $"{screen.Bounds.Width}X{screen.Bounds.Height}";
+                    ResolutionOfScreen.Items.Add(resolution);
                 }
 
                 var _fM = new FileManager();
@@ -99,12 +131,19 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                 SearchEngine_ComboBox.SelectedItem = settings.Search_Engine_Name;
                 SaveHistory_Switch.Checked = settings.Save_History;
+                ResolutionOfScreen.Text = $"{settings.ScreenResolution[0]}X{settings.ScreenResolution[1]}";
 
                 SaveSettings_Button.Click += OnSave_Click;
-                Closing_Button.Click += OnClose_Click;                
+                Closing_Button.Click += OnClose_Click;
+                OpenHistoryJournal_Button.Click += OnOpenJournal_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
+            }
+            private void OnOpenJournal_Click(object sender, EventArgs e)
+            {
+                HistoryJournal historyJournal = new HistoryJournal();
+                historyJournal.Show();
             }
             private void OnClose_Click(object sender, EventArgs e)
             {
@@ -123,7 +162,19 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                 bool DoSaveHistory = SaveHistory_Switch.Checked;
 
-                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine);
+                string[] res = ResolutionOfScreen.Text.Split('X');
+                int[] ScreenResolution;
+
+                if(res != null)
+                {
+                    ScreenResolution = new int[] { int.Parse(res[0]), int.Parse(res[1]) };
+                }
+                else 
+                {
+                    ScreenResolution = new int[] { Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height };
+                }
+
+                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine, ScreenResolution);
                 
                 string jsonSettings = JsonSerializer.Serialize(settings);
 
@@ -139,7 +190,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 }              
 
                 Application.Restart();
-            }            
+            }           
         }
         public class SimplePagePattern : PagePattern
         {
@@ -222,7 +273,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Location = new Point(985, 10),
                 DrawShadows = false,
                 AutoSize = false
-            };
+            };           
             public MaterialTextBox adress_line = new MaterialTextBox()
             {
                 AutoSize = false,
@@ -234,19 +285,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             public ChromiumWebBrowser cwb = new ChromiumWebBrowser()
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
-            };
-            public MaterialProgressBar progressbar = new MaterialProgressBar()
-            {
-                BackColor = Color.White,
-                Value = 1,
-                Maximum = 100,          
-                Location = new Point(0, 49),
-                Size = new Size(3000, 10),
-                Anchor = AnchorStyles.Left | AnchorStyles.Right,               
-            };
+            };           
             public SimplePagePattern(List<Image> icons, string Enabled_Search_Engine, MaterialTabControl materialTabControl)
             {
-                tabControl = materialTabControl;
+                tabControl = materialTabControl;                               
+
+                var _fm = new FileManager();
+                string json = _fm._ReadFileText(_fm._GetPathToFile("browser_settings.json"));                
+                var settings = JsonSerializer.Deserialize<Settings>(json);
 
                 cwb.Load(Enabled_Search_Engine);
 
@@ -258,7 +304,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 simplePageButtons.Add(settings_button);
                 simplePageButtons.Add(download_button);
 
-                ScreenSettings(simplePageButtons[5], simplePageButtons[6], adress_line, ScreenWidth);
+                ScreenSettings(simplePageButtons[5], simplePageButtons[6], adress_line, settings.ScreenResolution[0]);
 
                 for (short i = 0; i < simplePageButtons.Count; i++)
                 {
@@ -271,7 +317,6 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 }
                 panel_2.Controls.Add(adress_line);
                 panel_1.Controls.Add(cwb);
-                panel_2.Controls.Add(progressbar);
 
                 new_TapPage.Controls.Add(panel_1);
                 new_TapPage.Controls.Add(panel_2);
@@ -289,6 +334,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     downloadButton.Location = new Point(985, 10);
                     adressLine.MinimumSize = new Size(200, 35);
                     adressLine.MaximumSize = new Size(700, 35);
+                    break;                
+                case 1920:
+                    settingsButton.Location = new Point(1500, 10);
+                    downloadButton.Location = new Point(1550, 10);
+                    adressLine.MinimumSize = new Size(200, 35);
+                    adressLine.MaximumSize = new Size(1250, 35);
                     break;
                 case 1536:
                     settingsButton.Location = new Point(1500, 10);

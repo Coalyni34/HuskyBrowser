@@ -73,7 +73,7 @@ namespace HuskyBrowser
                 simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
                 simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
                 simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
-                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;                                                      
+                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;                               
             }
             catch (Exception ex)
             {
@@ -230,6 +230,7 @@ namespace HuskyBrowser
                     materialTabControl1.SelectedTab.Text = e.Title;
 
                     title_and_adress[0] = e.Title;
+                    Text = e.Title;
 
                     HistoryManager history_Manager = new HistoryManager(title_and_adress[0], title_and_adress[1]); 
                 });
@@ -243,6 +244,6 @@ namespace HuskyBrowser
         private bool IsValidUrl(string url)
         {
             return Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains(".");
-        }
+        }        
     }
 }
