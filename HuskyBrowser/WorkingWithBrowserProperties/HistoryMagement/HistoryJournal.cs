@@ -30,12 +30,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
         }
 
         private void InitializeJournal()
-        {            
-            var _fM = new FileManager();
+        {
+            var History_Files = new FileManager.History_Files();
 
-            string pathToHistory = _fM._ReadFileText(_fM._GetPathToFile("history.json"));
-            Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(pathToHistory);
-
+            string path = History_Files._GetPathToHistoryFile("history.json");
+            string jsonHistory = History_Files._ReadFileText(path);
+            
+            Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(jsonHistory);
+            
             materialComboBox1.Items.AddRange(entries_Dict.Keys.ToArray());
             materialComboBox1.SelectedItem = $"{DateTime.Now}".Split(' ')[0];
 
@@ -56,12 +58,10 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
         private void materialButton1_Click(object sender, EventArgs e)
         {
-            var _fM = new FileManager();
-
-            var path = _fM._GetPathToFile("history.json");
-
-            _fM._DeleteFileText(path);
-            _fM._WriteFile(string.Empty, path);
+            var History_Files = new FileManager.History_Files();
+            string path = History_Files._GetPathToHistoryFile("history.json");
+           
+            History_Files._WriteFile(string.Empty, path);
 
             MaterialMultiLineTextBox[] textBoxes = new MaterialMultiLineTextBox[] { materialMultiLineTextBox1, materialMultiLineTextBox2, materialMultiLineTextBox3 };
             foreach (var textBox in textBoxes)
@@ -69,17 +69,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
                 textBox.Text = String.Empty;
             }
             materialComboBox1.Items.Clear();
-            materialComboBox1.Text = String.Empty;
-
-            Application.Restart();
+            materialComboBox1.SelectedItem = String.Empty;
         }
 
         private void materialComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var _fM = new FileManager();
+            var History_Files = new FileManager.History_Files();
 
-            string pathToHistory = _fM._ReadFileText(_fM._GetPathToFile("history.json"));
-            Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(pathToHistory);
+            string jsonHistory = History_Files._ReadFileText(History_Files._GetPathToHistoryFile("history.json"));
+            Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(jsonHistory);
                     
             List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
 

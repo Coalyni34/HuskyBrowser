@@ -47,15 +47,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         }
         private void SaveHistory(string title, string adress)
         {           
-            var _fM = new FileManager();
-            string path = _fM._GetPathToFile("history.json");    
+            var History_Files = new FileManager.History_Files();
+            string path = History_Files._GetPathToHistoryFile("history.json");    
 
             string date = $"{DateTime.Now}".Split(' ')[0];
             string time = $"{DateTime.Now}".Split(' ')[1];
             
             Dictionary<string, List<HistoryEntry>> historyEntries = new Dictionary<string, List<HistoryEntry>>();
 
-            string json = _fM._ReadFileText(path);
+            string json = History_Files._ReadFileText(path);
             if (!string.IsNullOrEmpty(json))
             {                   
                historyEntries = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(json);                    
