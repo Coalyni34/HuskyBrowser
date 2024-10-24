@@ -26,7 +26,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
     public class PagePattern
     {
         static MaterialTabControl tabControl { get; set; }
-        static Color Page_BackColor { get; set; } = Color.FromArgb(255, 23, 25, 30);        
+        static Color Page_BackColor { get; set; } = Color.FromArgb(255, 50, 50, 50);
         public class SettingsPagePattern : PagePattern
         {           
             private TabPage new_TapPage = new TabPage()
@@ -257,23 +257,23 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Location = new Point(190, 10),
                 DrawShadows = false,
                 AutoSize = false,
-            };
-            private MaterialButton settings_button = new MaterialButton()
+            };            
+            private MaterialButton download_button = new MaterialButton()
             {
                 Text = "",
                 Size = new Size(40, 36),
                 Location = new Point(940, 10),
                 DrawShadows = false,
-                AutoSize = false,
+                AutoSize = false
             };
-            private MaterialButton download_button = new MaterialButton()
+            private MaterialButton settings_button = new MaterialButton()
             {
                 Text = "",
                 Size = new Size(40, 36),
                 Location = new Point(985, 10),
                 DrawShadows = false,
-                AutoSize = false
-            };           
+                AutoSize = false,
+            };
             public MaterialTextBox adress_line = new MaterialTextBox()
             {
                 AutoSize = false,
@@ -330,8 +330,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             switch (Width)
             {
                 case 1280:
-                    settingsButton.Location = new Point(940, 10);
-                    downloadButton.Location = new Point(985, 10);
+                    settingsButton.Location = new Point(985, 10);
+                    downloadButton.Location = new Point(940, 10);
                     adressLine.MinimumSize = new Size(200, 35);
                     adressLine.MaximumSize = new Size(700, 35);
                     break;                

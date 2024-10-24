@@ -5,19 +5,26 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
+using System.Text.RegularExpressions;
+using System.Security.Policy;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Runtime.InteropServices;
+using System.IO;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class HistoryManager
-    {
+    {        
         public class HistoryEntry
         {
-            private string URL { get; set; }
-            private string Title { get; set; }
-            public HistoryEntry(string _URL, string _Title, string _DateTime) 
+            public string URL { get; set; }
+            public string Title { get; set; }            
+            public string Time { get; set; }          
+            public HistoryEntry(string url, string title, string time)
             {
-                URL = _URL;
-                Title = _Title;
+                URL = url;
+                Title = title;
+                Time = time;
             }
         }
         public bool Save_History { get; set; }
@@ -39,16 +46,35 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
         }
         private void SaveHistory(string title, string adress)
-        {
+        {           
             var _fM = new FileManager();
+            string path = _fM._GetPathToFile("history.json", "history");    
 
-            string page = $"{DateTime.Now}: {title} {adress}";
+            string date = $"{DateTime.Now}".Split(' ')[0];
+            string time = $"{DateTime.Now}".Split(' ')[1];
+            
+            Dictionary<string, List<HistoryEntry>> historyEntries = new Dictionary<string, List<HistoryEntry>>();
 
-            var ListOfPages = new List<string>() { page };
-                       
-            _fM._WriteFile(ListOfPages, _fM._GetPathToFile("history.txt", "histоry"));
+            string json = _fM._ReadFileText(path);
+            if (!string.IsNullOrEmpty(json))
+            {                   
+               historyEntries = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(json);                    
+            }
+            
+            HistoryEntry newEntry = new HistoryEntry(adress, title, time);
 
-            ListOfPages.Clear();
+            List<HistoryEntry> historyEntries_List;
+
+            if (!historyEntries.ContainsKey(date))
+            {
+                historyEntries[date] = new List<HistoryEntry>();
+            }
+
+            historyEntries[date].Add(newEntry);
+
+            string updatedJson = JsonSerializer.Serialize(historyEntries, new JsonSerializerOptions { WriteIndented = true });
+
+            File.WriteAllText(path, updatedJson);            
         }
     }
 }

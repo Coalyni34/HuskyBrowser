@@ -15,7 +15,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         {
             public void Log_Errors(string message) 
             {
-                _WriteFile(message, _GetPathToFile("husky_errors_log.json"));
+                File.AppendAllText(_GetPathToFile("husky_errors_log.txt"), message);
             }
         }
         public void _WriteFile(List<string> msg, string path)
@@ -26,12 +26,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             catch (Exception ex)
             {
-                var errors = new List<string>
-                {
-                    ex.Message
-                };
-                File.AppendAllLines(_GetPathToFile("husky_errors_log.json"), errors);
-                errors.Clear();
+                Error_Logger errors = new Error_Logger(); 
+                errors.Log_Errors(ex.Message);
             }
         }
         public void _WriteFile(string msg, string path)
@@ -42,12 +38,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             catch (Exception ex)
             {
-                var errors = new List<string>
-                {
-                    ex.Message
-                };
-                File.AppendAllLines(_GetPathToFile("husky_errors_log.json"), errors);
-                errors.Clear();
+                Error_Logger errors = new Error_Logger();
+                errors.Log_Errors(ex.Message);
             }
         }
         public List<string> _ReadFileLines(string path)
@@ -59,12 +51,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             catch (Exception ex)
             {
-                var errors = new List<string>
-                {
-                    ex.Message
-                };
-                _WriteFile(errors, _GetPathToFile("husky_errors_log.json"));
-                return errors;
+                Error_Logger errors = new Error_Logger();
+                errors.Log_Errors(ex.Message);
+                return null;
             }
         }
         public string _ReadFileText(string path)
@@ -82,16 +71,25 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             File.Delete(path);
         }
         public string _GetPathToFile(string filename)
-        {            
-            if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties")) 
+        {
+            if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties"))
             {
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{filename}";
+                if (File.Exists(path_ToFile) != true) 
+                {
+                    File.Create(path_ToFile);
+                }
+                else 
+                {
+
+                }
                 return path_ToFile;
             }
-            else 
+            else
             {
                 Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties");
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{filename}";
+                File.Create(path_ToFile);
                 return path_ToFile;
             }
         }
@@ -100,15 +98,37 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}"))
             {
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}/{filename}";
+                if (File.Exists(path_ToFile) != true)
+                {
+                    File.Create(path_ToFile);
+                }
+                else
+                {
+
+                }
                 return path_ToFile;
             }
             else
             {
                 Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}");
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}/{filename}";
+                File.Create(path_ToFile);
                 return path_ToFile;
             }
-        }    
-        
+        }
+        public string _GetPathToDirectory(string directoryname) 
+        {
+            if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}"))
+            {
+                var pathToDirectory = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}"; 
+                return pathToDirectory;
+            }
+            else
+            {
+                Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}");
+                var pathToDirectory = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}";
+                return pathToDirectory;
+            }
+        }
     }
 }
