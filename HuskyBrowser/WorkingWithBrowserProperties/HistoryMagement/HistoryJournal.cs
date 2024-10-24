@@ -61,6 +61,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             var History_Files = new FileManager.History_Files();
             string path = History_Files._GetPathToHistoryFile("history.json");
            
+            History_Files._DeleteFileText(path);
             History_Files._WriteFile(string.Empty, path);
 
             MaterialMultiLineTextBox[] textBoxes = new MaterialMultiLineTextBox[] { materialMultiLineTextBox1, materialMultiLineTextBox2, materialMultiLineTextBox3 };
