@@ -45,7 +45,15 @@ namespace HuskyBrowser
 
             string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
 
-            Settings settings = JsonSerializer.Deserialize<Settings>(json);
+            Settings settings;
+            if (json == string.Empty) 
+            {
+                settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
+            }
+            else 
+            {
+                settings = JsonSerializer.Deserialize<Settings>(json);
+            }            
 
             Enabled_Search_Engine = settings.Enabled_Search_Engine;
 
@@ -237,8 +245,8 @@ namespace HuskyBrowser
             }
             catch (Exception ex)
             {
-                var _fM = new FileManager();
-                _fM._WriteFile(ex.Message, _fM._GetPathToFile("husky_errors_config.txt"));                
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
             }
         }                
         private bool IsValidUrl(string url)

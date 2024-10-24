@@ -48,7 +48,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         private void SaveHistory(string title, string adress)
         {           
             var _fM = new FileManager();
-            string path = _fM._GetPathToFile("history.json", "history");    
+            string path = _fM._GetPathToFile("history.json");    
 
             string date = $"{DateTime.Now}".Split(' ')[0];
             string time = $"{DateTime.Now}".Split(' ')[1];

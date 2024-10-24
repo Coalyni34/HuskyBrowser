@@ -26,8 +26,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             catch (Exception ex)
             {
-                Error_Logger errors = new Error_Logger(); 
-                errors.Log_Errors(ex.Message);
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
             }
         }
         public void _WriteFile(string msg, string path)
@@ -38,8 +38,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             catch (Exception ex)
             {
-                Error_Logger errors = new Error_Logger();
-                errors.Log_Errors(ex.Message);
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
             }
         }
         public List<string> _ReadFileLines(string path)
@@ -51,8 +51,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             catch (Exception ex)
             {
-                Error_Logger errors = new Error_Logger();
-                errors.Log_Errors(ex.Message);
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
                 return null;
             }
         }
@@ -75,21 +75,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties"))
             {
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{filename}";
-                if (File.Exists(path_ToFile) != true) 
-                {
-                    File.Create(path_ToFile);
-                }
-                else 
-                {
-
-                }
                 return path_ToFile;
             }
             else
             {
                 Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties");
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{filename}";
-                File.Create(path_ToFile);
                 return path_ToFile;
             }
         }
@@ -98,21 +89,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}"))
             {
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}/{filename}";
-                if (File.Exists(path_ToFile) != true)
-                {
-                    File.Create(path_ToFile);
-                }
-                else
-                {
-
-                }
                 return path_ToFile;
             }
             else
             {
                 Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}");
                 var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}/{filename}";
-                File.Create(path_ToFile);
                 return path_ToFile;
             }
         }

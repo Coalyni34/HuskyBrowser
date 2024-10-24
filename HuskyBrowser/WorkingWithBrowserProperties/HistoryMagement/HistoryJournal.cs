@@ -33,13 +33,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
         {            
             var _fM = new FileManager();
 
-            string pathToHistory = _fM._ReadFileText(_fM._GetPathToFile("history.json", "history"));
+            string pathToHistory = _fM._ReadFileText(_fM._GetPathToFile("history.json"));
             Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(pathToHistory);
 
             materialComboBox1.Items.AddRange(entries_Dict.Keys.ToArray());
             materialComboBox1.SelectedItem = $"{DateTime.Now}".Split(' ')[0];
 
-            List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
+            List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];                       
 
             foreach (HistoryEntry entry in entries)
             {
@@ -58,9 +58,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
         {
             var _fM = new FileManager();
 
-            var path = _fM._GetPathToFile("history.json", "histоry");
+            var path = _fM._GetPathToFile("history.json");
 
-            File.WriteAllText(path, string.Empty);
+            _fM._WriteFile(string.Empty, path);
 
             MaterialMultiLineTextBox[] textBoxes = new MaterialMultiLineTextBox[] { materialMultiLineTextBox1, materialMultiLineTextBox2, materialMultiLineTextBox3 };
             foreach (var textBox in textBoxes)
@@ -75,7 +75,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
         {
             var _fM = new FileManager();
 
-            string pathToHistory = _fM._ReadFileText(_fM._GetPathToFile("history.json", "history"));
+            string pathToHistory = _fM._ReadFileText(_fM._GetPathToFile("history.json"));
             Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(pathToHistory);
                     
             List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];

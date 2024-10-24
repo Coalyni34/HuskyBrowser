@@ -165,29 +165,29 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 string[] res = ResolutionOfScreen.Text.Split('X');
                 int[] ScreenResolution;
 
-                if(res != null)
+                if (res != null)
                 {
                     ScreenResolution = new int[] { int.Parse(res[0]), int.Parse(res[1]) };
                 }
-                else 
+                else
                 {
                     ScreenResolution = new int[] { Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height };
                 }
 
                 Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine, ScreenResolution);
-                
+
                 string jsonSettings = JsonSerializer.Serialize(settings);
 
                 var _fM = new FileManager();
-                if (_fM._IsFileExist(_fM._GetPathToFile("browser_settings.json")) == false) 
+                if (_fM._IsFileExist(_fM._GetPathToFile("browser_settings.json")) == false)
                 {
                     _fM._WriteFile(jsonSettings, _fM._GetPathToFile("browser_settings.json"));
                 }
-                else 
+                else
                 {
                     _fM._DeleteFileText(_fM._GetPathToFile("browser_settings.json"));
                     _fM._WriteFile(jsonSettings, _fM._GetPathToFile("browser_settings.json"));
-                }              
+                }
 
                 Application.Restart();
             }           
