@@ -60,6 +60,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
             var path = _fM._GetPathToFile("history.json");
 
+            _fM._DeleteFileText(path);
             _fM._WriteFile(string.Empty, path);
 
             MaterialMultiLineTextBox[] textBoxes = new MaterialMultiLineTextBox[] { materialMultiLineTextBox1, materialMultiLineTextBox2, materialMultiLineTextBox3 };
@@ -69,6 +70,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             }
             materialComboBox1.Items.Clear();
             materialComboBox1.Text = String.Empty;
+
+            Application.Restart();
         }
 
         private void materialComboBox1_SelectedIndexChanged(object sender, EventArgs e)
