@@ -46,20 +46,20 @@ namespace HuskyBrowser
             string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
 
             Settings settings;
-            if (json == string.Empty) 
+            if (json == string.Empty)
             {
                 settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
             }
-            else 
+            else
             {
                 settings = JsonSerializer.Deserialize<Settings>(json);
-            }            
+            }
 
             Enabled_Search_Engine = settings.Enabled_Search_Engine;
 
             Controls_Initialize();
         }
-        private void Controls_Initialize() 
+        private void Controls_Initialize()
         {
             try
             {
@@ -68,8 +68,13 @@ namespace HuskyBrowser
                 {
                     icons.Add(imageList1.Images[i]);
                 }
-                
-                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, Enabled_Search_Engine, materialTabControl1);
+                List<Image> markbutton_icons = new List<Image>();
+                for (short i = 0; i < imageList2.Images.Count; i++)
+                {
+                    markbutton_icons.Add(imageList2.Images[i]);
+                }
+
+                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, Enabled_Search_Engine, materialTabControl1);
 
                 icons.Clear();
 
@@ -81,14 +86,14 @@ namespace HuskyBrowser
                 simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
                 simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
                 simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
-                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;                               
+                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
             }
             catch (Exception ex)
             {
                 Error_Logger error_Logger = new Error_Logger();
                 error_Logger.Log_Errors(ex.Message);
             }
-        }      
+        }
 
         private void OnGoForward_Click(object sender, EventArgs e)
         {
@@ -96,7 +101,7 @@ namespace HuskyBrowser
 
             var panel_ = selectedTab.Controls[0] as Panel;
 
-            var cwb = panel_.Controls[0] as ChromiumWebBrowser;            
+            var cwb = panel_.Controls[0] as ChromiumWebBrowser;
 
             if (cwb.CanGoForward)
             {
@@ -146,7 +151,7 @@ namespace HuskyBrowser
             }
         }
         private void OnCreateSimplePage_Click(object sender, EventArgs e)
-        {            
+        {
             Controls_Initialize();
         }
         private void OnCreateSettingsPage_Click(object sender, EventArgs e)
@@ -157,8 +162,8 @@ namespace HuskyBrowser
                 icons.Add(materialTabControl1.ImageList.Images[i]);
             }
 
-            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1);                   
-        }        
+            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1);
+        }
         private void OnLoad_Event(object sender, KeyEventArgs e)
         {
             try
@@ -170,7 +175,7 @@ namespace HuskyBrowser
                     var panel_1 = selectedTab.Controls[0] as Panel;
                     var panel_2 = selectedTab.Controls[1] as Panel;
 
-                    var adress_line = panel_2.Controls[7] as MaterialTextBox;
+                    var adress_line = panel_2.Controls[8] as MaterialTextBox;
 
                     var cwb = panel_1.Controls[0] as ChromiumWebBrowser;
 
@@ -190,8 +195,8 @@ namespace HuskyBrowser
                         }
                     }
                 });
-            }     
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Error_Logger error_Logger = new Error_Logger();
                 error_Logger.Log_Errors(ex.Message);
@@ -207,13 +212,13 @@ namespace HuskyBrowser
 
                     var panel_2 = selectedTab.Controls[1] as Panel;
 
-                    var adress_line = panel_2.Controls[7] as MaterialTextBox;
+                    var adress_line = panel_2.Controls[8] as MaterialTextBox;
 
                     string _address = e.Address;
 
                     if (adress_line.Text != Enabled_Search_Engine)
                     {
-                        adress_line.Text = _address;                                               
+                        adress_line.Text = _address;
 
                         title_and_adress[1] = _address;
                     }
@@ -221,14 +226,14 @@ namespace HuskyBrowser
                     {
                         adress_line.Text = "";
                     }
-                });                
+                });
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Error_Logger error_Logger = new Error_Logger();
                 error_Logger.Log_Errors(ex.Message);
             }
-        }       
+        }
         private void OnCwb_TitleChanged(object sender, TitleChangedEventArgs e)
         {
             try
@@ -240,7 +245,7 @@ namespace HuskyBrowser
                     title_and_adress[0] = e.Title;
                     Text = e.Title;
 
-                    HistoryManager history_Manager = new HistoryManager(title_and_adress[0], title_and_adress[1]); 
+                    HistoryManager history_Manager = new HistoryManager(title_and_adress[0], title_and_adress[1]);
                 });
             }
             catch (Exception ex)
@@ -248,10 +253,10 @@ namespace HuskyBrowser
                 Error_Logger error_Logger = new Error_Logger();
                 error_Logger.Log_Errors(ex.Message);
             }
-        }                
+        }
         private bool IsValidUrl(string url)
         {
             return Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains(".");
-        }        
+        }
     }
 }

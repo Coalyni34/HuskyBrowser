@@ -92,7 +92,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(130, 50),
                 Location = new Point(10, 250),
                 AutoSize = false,
-            };
+            };            
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>() 
             {
@@ -274,6 +274,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
+            private MaterialButton savemark_button = new MaterialButton()
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(1030, 10),
+                DrawShadows = false,
+                AutoSize = false,
+            };
             public MaterialTextBox adress_line = new MaterialTextBox()
             {
                 AutoSize = false,
@@ -286,7 +294,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
             };           
-            public SimplePagePattern(List<Image> icons, string Enabled_Search_Engine, MaterialTabControl materialTabControl)
+            public SimplePagePattern(List<Image> icons, List<Image> savemarksbuttons_icons, string Enabled_Search_Engine, MaterialTabControl materialTabControl)
             {
                 tabControl = materialTabControl;                               
 
@@ -303,7 +311,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 simplePageButtons.Add(closeTab_button);
                 simplePageButtons.Add(settings_button);
                 simplePageButtons.Add(download_button);
-
+               
                 ScreenSettings(simplePageButtons[5], simplePageButtons[6], adress_line, settings.ScreenResolution[0]);
 
                 for (short i = 0; i < simplePageButtons.Count; i++)
@@ -311,10 +319,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                    simplePageButtons[i].Icon = icons[i];
                 }
 
+                savemark_button.Icon = savemarksbuttons_icons[0];
+              
                 foreach (var button in simplePageButtons)
                 {
                    panel_2.Controls.Add(button);
                 }
+
+                panel_2.Controls.Add(savemark_button);
                 panel_2.Controls.Add(adress_line);
                 panel_1.Controls.Add(cwb);
 

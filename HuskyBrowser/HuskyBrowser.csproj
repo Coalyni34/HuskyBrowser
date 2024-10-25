@@ -169,6 +169,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="WorkingWithBrowserProperties\HistoryMagement\HistoryJournal.resx">
       <DependentUpon>HistoryJournal.cs</DependentUpon>
@@ -190,6 +191,7 @@
   <ItemGroup>
     <Content Include="Husky-browser_2.ico" />
     <Content Include="Icons\1.png" />
+    <None Include="Icons\12.png" />
     <Content Include="Icons\2.png" />
     <Content Include="Icons\3.png" />
     <Content Include="Icons\5.png" />

@@ -33,7 +33,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
         {
             var History_Files = new FileManager.History_Files();
 
-            string path = History_Files._GetPathToHistoryFile("history.json");
+            string path = History_Files._GetPathToHistoryFile("history.json"); 
             string jsonHistory = History_Files._ReadFileText(path);
             
             Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(jsonHistory);
@@ -55,12 +55,11 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
         {
            
         }
-
         private void materialButton1_Click(object sender, EventArgs e)
         {
             var History_Files = new FileManager.History_Files();
             string path = History_Files._GetPathToHistoryFile("history.json");
-           
+
             History_Files._DeleteFileText(path);
             History_Files._WriteFile(string.Empty, path);
 
@@ -70,7 +69,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
                 textBox.Text = String.Empty;
             }
             materialComboBox1.Items.Clear();
-            materialComboBox1.SelectedItem = String.Empty;
+            materialComboBox1.SelectedItem = string.Empty;
         }
 
         private void materialComboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -96,6 +95,6 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
                 materialMultiLineTextBox2.Text += $"{entry.Time} \n";
                 materialMultiLineTextBox3.Text += $"{entry.Title} \n";
             }
-        }
+        }      
     }
 }
