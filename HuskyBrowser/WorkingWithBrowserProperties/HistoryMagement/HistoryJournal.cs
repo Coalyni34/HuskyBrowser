@@ -48,7 +48,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
                 materialMultiLineTextBox1.Text += $"{entry.URL} \n";
                 materialMultiLineTextBox2.Text += $"{entry.Time} \n";
                 materialMultiLineTextBox3.Text += $"{entry.Title} \n";
-            }
+            }            
         }
 
         private void HistoryJournal_Load(object sender, EventArgs e)
@@ -95,6 +95,6 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
                 materialMultiLineTextBox2.Text += $"{entry.Time} \n";
                 materialMultiLineTextBox3.Text += $"{entry.Title} \n";
             }
-        }      
+        }        
     }
 }

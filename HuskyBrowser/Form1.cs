@@ -254,6 +254,11 @@ namespace HuskyBrowser
                 error_Logger.Log_Errors(ex.Message);
             }
         }
+        private void SaveBookMarks(object sender, TitleChangedEventArgs e) 
+        {
+            var _fM = new FileManager();
+            string path = _fM._GetPathToFile("", "");
+        }
         private bool IsValidUrl(string url)
         {
             return Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains(".");
