@@ -63,8 +63,6 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             
             HistoryEntry newEntry = new HistoryEntry(adress, title, time);
 
-            List<HistoryEntry> historyEntries_List;
-
             if (!historyEntries.ContainsKey(date))
             {
                 historyEntries[date] = new List<HistoryEntry>();

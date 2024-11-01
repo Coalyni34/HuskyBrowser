@@ -28,25 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryJournal));
             this.panel1 = new System.Windows.Forms.Panel();
             this.materialComboBox1 = new MaterialSkin.Controls.MaterialComboBox();
             this.materialButton1 = new MaterialSkin.Controls.MaterialButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.materialMultiLineTextBox2 = new MaterialSkin.Controls.MaterialMultiLineTextBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.materialMultiLineTextBox3 = new MaterialSkin.Controls.MaterialMultiLineTextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.materialMultiLineTextBox1 = new MaterialSkin.Controls.MaterialMultiLineTextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -111,128 +107,63 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.panel5);
-            this.panel2.Controls.Add(this.panel4);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Location = new System.Drawing.Point(201, 79);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(737, 365);
             this.panel2.TabIndex = 1;
             // 
-            // panel5
+            // dataGridView1
             // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel5.Controls.Add(this.materialMultiLineTextBox2);
-            this.panel5.Location = new System.Drawing.Point(6, 45);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(229, 185);
-            this.panel5.TabIndex = 5;
-            // 
-            // materialMultiLineTextBox2
-            // 
-            this.materialMultiLineTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialMultiLineTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.materialMultiLineTextBox2.Depth = 0;
-            this.materialMultiLineTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialMultiLineTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialMultiLineTextBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialMultiLineTextBox2.Location = new System.Drawing.Point(0, 0);
-            this.materialMultiLineTextBox2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialMultiLineTextBox2.Name = "materialMultiLineTextBox2";
-            this.materialMultiLineTextBox2.Size = new System.Drawing.Size(229, 185);
-            this.materialMultiLineTextBox2.TabIndex = 0;
-            this.materialMultiLineTextBox2.Text = "";
-            // 
-            // panel4
-            // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel4.Controls.Add(this.materialMultiLineTextBox3);
-            this.panel4.Location = new System.Drawing.Point(241, 45);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(346, 185);
-            this.panel4.TabIndex = 4;
-            // 
-            // materialMultiLineTextBox3
-            // 
-            this.materialMultiLineTextBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialMultiLineTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.materialMultiLineTextBox3.Depth = 0;
-            this.materialMultiLineTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialMultiLineTextBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialMultiLineTextBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialMultiLineTextBox3.Location = new System.Drawing.Point(0, 0);
-            this.materialMultiLineTextBox3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialMultiLineTextBox3.Name = "materialMultiLineTextBox3";
-            this.materialMultiLineTextBox3.Size = new System.Drawing.Size(346, 185);
-            this.materialMultiLineTextBox3.TabIndex = 0;
-            this.materialMultiLineTextBox3.Text = "";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(3, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 15);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Time";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(590, 12);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 15);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Address";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(238, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Title";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panel3
-            // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.Controls.Add(this.materialMultiLineTextBox1);
-            this.panel3.Location = new System.Drawing.Point(593, 45);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(141, 185);
-            this.panel3.TabIndex = 0;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Title,
+            this.Time,
+            this.Address});
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(734, 362);
+            this.dataGridView1.TabIndex = 0;
             // 
-            // materialMultiLineTextBox1
+            // Title
             // 
-            this.materialMultiLineTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialMultiLineTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.materialMultiLineTextBox1.Depth = 0;
-            this.materialMultiLineTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialMultiLineTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialMultiLineTextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialMultiLineTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.materialMultiLineTextBox1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialMultiLineTextBox1.Name = "materialMultiLineTextBox1";
-            this.materialMultiLineTextBox1.ReadOnly = true;
-            this.materialMultiLineTextBox1.Size = new System.Drawing.Size(141, 185);
-            this.materialMultiLineTextBox1.TabIndex = 0;
-            this.materialMultiLineTextBox1.Text = "";
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Title.Frozen = true;
+            this.Title.HeaderText = "Title";
+            this.Title.MinimumWidth = 400;
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
+            this.Title.Width = 400;
+            // 
+            // Time
+            // 
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Time.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Time.Frozen = true;
+            this.Time.HeaderText = "Time";
+            this.Time.MinimumWidth = 6;
+            this.Time.Name = "Time";
+            this.Time.ReadOnly = true;
+            this.Time.Width = 125;
+            // 
+            // Address
+            // 
+            this.Address.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Address.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Address.HeaderText = "Address";
+            this.Address.MinimumWidth = 6;
+            this.Address.Name = "Address";
+            this.Address.ReadOnly = true;
             // 
             // HistoryJournal
             // 
@@ -247,10 +178,7 @@
             this.Load += new System.EventHandler(this.HistoryJournal_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -259,16 +187,11 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private MaterialSkin.Controls.MaterialMultiLineTextBox materialMultiLineTextBox1;
         private MaterialSkin.Controls.MaterialButton materialButton1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private MaterialSkin.Controls.MaterialComboBox materialComboBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel5;
-        private MaterialSkin.Controls.MaterialMultiLineTextBox materialMultiLineTextBox2;
-        private System.Windows.Forms.Panel panel4;
-        private MaterialSkin.Controls.MaterialMultiLineTextBox materialMultiLineTextBox3;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Address;
     }
 }

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +19,10 @@ using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 using CefSharp.DevTools.Debugger;
 using MonoTorrent.Client;
 using HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement;
+using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
+using static System.Net.Mime.MediaTypeNames;
+using Application = System.Windows.Forms.Application;
+using Image = System.Drawing.Image;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -40,7 +43,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(70, 40),
                 Location = new Point(90, 10),
                 DrawShadows = false,
-                AutoSize = false,
+                AutoSize = false
             };
             private MaterialButton Closing_Button = new MaterialButton()
             {
@@ -48,34 +51,34 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(70, 40),
                 Location = new Point(10, 10),
                 DrawShadows = false,
-                AutoSize = false,
+                AutoSize = false
             };
             public MaterialLabel Choosing_SearchEngine_Text = new MaterialLabel()
             {
                 Text = "Search Engine:",                
                 Size = new Size(110, 30),
                 Location = new Point(20, 130),                
-                AutoSize = false,
+                AutoSize = false
             };
             public MaterialComboBox SearchEngine_ComboBox = new MaterialComboBox()
             {
                 Text = "DuckDuckGo",
                 Size = new Size(180, 50),                
                 Location = new Point(130, 115),
-                AutoSize = false,
+                AutoSize = false
             };
             public MaterialSwitch SaveHistory_Switch = new MaterialSwitch()
             {
                 Text = "Save history",
                 Size = new Size(180, 50),
                 Location = new Point(0, 60),
-                AutoSize = false,               
+                AutoSize = false               
             };
             public MaterialComboBox ResolutionOfScreen = new MaterialComboBox()
             {   
                 Size = new Size(180, 50),
                 Location = new Point(130, 185),
-                AutoSize = false,
+                AutoSize = false
             };
             public MaterialLabel ResolutionOfScreen_Text = new MaterialLabel()
             {
@@ -83,7 +86,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Screen Resolution:",
                 Size = new Size(130, 50),
                 Location = new Point(10, 190),
-                AutoSize = false,
+                AutoSize = false
             };
             public MaterialButton OpenHistoryJournal_Button = new MaterialButton()
             {
@@ -91,8 +94,16 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Open History Journal",
                 Size = new Size(130, 50),
                 Location = new Point(10, 250),
-                AutoSize = false,
-            };            
+                AutoSize = false
+            };
+            public MaterialButton OpenBookMarks_Button = new MaterialButton()
+            {
+                TextAlign = ContentAlignment.TopCenter,
+                Text = "Open BookMarks",
+                Size = new Size(130, 50),
+                Location = new Point(10, 310),
+                AutoSize = false
+            };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>() 
             {
@@ -101,7 +112,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 { "Bing", "https://www.bing.com/" },
                 { "Brave", "https://search.brave.com/" }
             };
-            public SettingsPagePattern(MaterialTabControl materialTabControl)
+            public Form1 form1;
+            public SettingsPagePattern(MaterialTabControl materialTabControl, Form1 form)
             {                               
                 new_TapPage.Controls.Add(Choosing_SearchEngine_Text);
                 new_TapPage.Controls.Add(SearchEngine_ComboBox);
@@ -111,6 +123,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(ResolutionOfScreen);
                 new_TapPage.Controls.Add(ResolutionOfScreen_Text);
                 new_TapPage.Controls.Add(OpenHistoryJournal_Button);
+                new_TapPage.Controls.Add(OpenBookMarks_Button);
 
                 foreach (var engine in Engines_Keys) 
                 {
@@ -122,6 +135,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     string resolution = $"{screen.Bounds.Width}X{screen.Bounds.Height}";
                     ResolutionOfScreen.Items.Add(resolution);
                 }
+
+                form1 = form;
 
                 var _fM = new FileManager();
 
@@ -136,6 +151,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 SaveSettings_Button.Click += OnSave_Click;
                 Closing_Button.Click += OnClose_Click;
                 OpenHistoryJournal_Button.Click += OnOpenJournal_Click;
+                OpenBookMarks_Button.Click += OnOpenBookmarks_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
@@ -144,6 +160,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 HistoryJournal historyJournal = new HistoryJournal();
                 historyJournal.Show();
+            }
+            private void OnOpenBookmarks_Click(object sender, EventArgs e)
+            {
+                BookMarkForm bookMarks = new BookMarkForm(form1)
+                {
+                    _tabControl = tabControl
+                };
+                bookMarks.Show();
             }
             private void OnClose_Click(object sender, EventArgs e)
             {
@@ -200,7 +224,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
             private TabPage new_TapPage = new TabPage()
             {
-                BackColor = Page_BackColor
+                BackColor = Page_BackColor                
             };
 
             public Panel panel_1 = new Panel()
@@ -216,7 +240,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(786, 70),
                 AutoSize = false,
                 MaximumSize = new Size(1920, 70),
-                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top
+                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
             };
             private MaterialButton back_button = new MaterialButton()
             {
@@ -272,15 +296,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(40, 36),
                 Location = new Point(985, 10),
                 DrawShadows = false,
-                AutoSize = false,
+                AutoSize = false
             };
-            private MaterialButton savemark_button = new MaterialButton()
+            public MaterialButton savemark_button = new MaterialButton()
             {
                 Text = "",
                 Size = new Size(40, 36),
                 Location = new Point(1030, 10),
                 DrawShadows = false,
-                AutoSize = false,
+                AutoSize = false                
             };
             public MaterialTextBox adress_line = new MaterialTextBox()
             {
@@ -316,14 +340,22 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                 for (short i = 0; i < simplePageButtons.Count; i++)
                 {
-                   simplePageButtons[i].Icon = icons[i];
+                    simplePageButtons[i].Icon = icons[i];
+                    simplePageButtons[i].Type = MaterialButton.MaterialButtonType.Text;
                 }
 
                 savemark_button.Icon = savemarksbuttons_icons[0];
-              
+                savemark_button.Type = MaterialButton.MaterialButtonType.Text;
+
+                var marktab = new TabPage()
+                {
+                    BackColor = Page_BackColor,
+                    Text = "New Tab"
+                };
+
                 foreach (var button in simplePageButtons)
                 {
-                   panel_2.Controls.Add(button);
+                    panel_2.Controls.Add(button);
                 }
 
                 panel_2.Controls.Add(savemark_button);
@@ -335,8 +367,52 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                                    
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);                
-            }            
-        }      
+            }
+            public SimplePagePattern(List<Image> icons, List<Image> savemarksbuttons_icons, MaterialTabControl materialTabControl, string mark_Address, string Title)
+            {
+                tabControl = materialTabControl;
+
+                var _fm = new FileManager();
+                string json = _fm._ReadFileText(_fm._GetPathToFile("browser_settings.json"));
+                var settings = JsonSerializer.Deserialize<Settings>(json);
+
+                cwb.Load(mark_Address);                    
+                                
+                var marktab = new TabPage()
+                {
+                    BackColor = Page_BackColor,                    
+                };
+
+                simplePageButtons.Add(closeTab_button);
+                
+                simplePageButtons[0].Location = new Point(10, 10);
+
+                simplePageButtons[0].Icon = icons[4];
+                simplePageButtons[0].Type = MaterialButton.MaterialButtonType.Text;
+                simplePageButtons[0].Click += OnClose_Click;
+
+                panel_2.Controls.Add(simplePageButtons[0]);
+                panel_1.Controls.Add(cwb);
+
+                new_TapPage.Controls.Add(panel_1);
+                new_TapPage.Controls.Add(panel_2);
+
+                tabControl.TabPages.Add(new_TapPage);
+                tabControl.SelectTab(new_TapPage);
+                tabControl.SelectedTab.Text = Title;
+            }
+        }
+        public void OnClose_Click(object sender, EventArgs e)
+        {
+            if (tabControl.TabCount > 1)
+            {
+                tabControl.TabPages.Remove(tabControl.SelectedTab);
+            }
+            else if (tabControl.TabCount == 1)
+            {
+                Application.Exit();
+            }
+        }
         private void ScreenSettings(MaterialButton settingsButton, MaterialButton downloadButton, MaterialButton savemarksButton, MaterialTextBox adressLine, int Width) 
         {
             switch (Width)

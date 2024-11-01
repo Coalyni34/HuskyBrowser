@@ -47,6 +47,7 @@
             this.materialTabControl1.SelectedIndex = 0;
             this.materialTabControl1.Size = new System.Drawing.Size(794, 383);
             this.materialTabControl1.TabIndex = 0;
+            this.materialTabControl1.TabIndexChanged += new System.EventHandler(this.materialTabControl1_TabIndexChanged);
             // 
             // imageList1
             // 

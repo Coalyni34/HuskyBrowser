@@ -45,10 +45,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
             foreach (HistoryEntry entry in entries)
             {
-                materialMultiLineTextBox1.Text += $"{entry.URL} \n";
-                materialMultiLineTextBox2.Text += $"{entry.Time} \n";
-                materialMultiLineTextBox3.Text += $"{entry.Title} \n";
-            }            
+                dataGridView1.Rows.Add($"{entry.URL}", $"{entry.Time}", $"{entry.Title}");                
+            }
+            
         }
 
         private void HistoryJournal_Load(object sender, EventArgs e)
@@ -62,12 +61,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
             History_Files._DeleteFileText(path);
             History_Files._WriteFile(string.Empty, path);
-
-            MaterialMultiLineTextBox[] textBoxes = new MaterialMultiLineTextBox[] { materialMultiLineTextBox1, materialMultiLineTextBox2, materialMultiLineTextBox3 };
-            foreach (var textBox in textBoxes)
-            {
-                textBox.Text = String.Empty;
-            }
+            
+            dataGridView1.Rows.Clear();
+            
             materialComboBox1.Items.Clear();
             materialComboBox1.SelectedItem = string.Empty;
         }
@@ -81,19 +77,11 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
                     
             List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
 
-            MaterialMultiLineTextBox[] textBoxes = new MaterialMultiLineTextBox[] { materialMultiLineTextBox1, materialMultiLineTextBox2, materialMultiLineTextBox3 };
-
-            foreach(var textBox in textBoxes) 
-            {
-                textBox.Text = String.Empty;
-                textBox.ReadOnly = true;
-            }
-
+            dataGridView1.Rows.Clear(); 
+            
             foreach (HistoryEntry entry in entries)
             {
-                materialMultiLineTextBox1.Text += $"{entry.URL} \n";
-                materialMultiLineTextBox2.Text += $"{entry.Time} \n";
-                materialMultiLineTextBox3.Text += $"{entry.Title} \n";
+                dataGridView1.Rows.Add(entry.Title, entry.Time, entry.URL);
             }
         }        
     }
