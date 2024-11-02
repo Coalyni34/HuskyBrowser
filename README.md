@@ -11,7 +11,7 @@ So, how does it work?
 Husky Browser has made by C#, WinForms .NET Framework. Packages, which I'm using for development:
 1. CefShrap.WinForms https://github.com/cefsharp/CefSharp (for working with Browser)
 2. Knapcode.TorSharp https://github.com/joelverhagen/TorSharp (for working with TOR)
-3. MonoTorrenе https://github.com/alanmcgovern/monotorrent (for working with Torrents, P2P etc.)
+3. MonoTorrent https://github.com/alanmcgovern/monotorrent (for working with Torrents, P2P etc.)
 4. MaterialSkin.2 https://github.com/IgnaceMaes/MaterialSkin (for working with simple google-like design)
 There is my own package for working with browser "WorkingWithBrowserProperties". It contains other folders for management of browser part (like bookmarks or history). I won't explain how they work here cause I have comments in my code
 
@@ -28,7 +28,7 @@ Husky Browser — это новый простой веб-браузер, кот
 Браузер Husky создан на C#, WinForms .NET Framework. Пакеты, которые я использую для разработки:
 1. CefShrap.WinForms https://github.com/cefsharp/CefSharp (для работы с браузером)
 2. Knapcode.TorSharp https://github.com/joelverhagen/TorSharp (для работы с TOR)
-3. MonoTorrenе https://github.com/alanmcgovern/monotorrent (для работы с Torrents, P2P и т.д.)
+3. MonoTorrent https://github.com/alanmcgovern/monotorrent (для работы с Torrents, P2P и т.д.)
 4. MaterialSkin.2 https://github.com/IgnaceMaes/MaterialSkin (для работы с простым дизайном в стиле google)
 Есть мой собственный пакет для работы с браузером "WorkingWithBrowserProperties". Он содержит другие папки для управления частью браузера (типа закладок или истории). Я не буду здесь объяснять, как они работают, так как у меня в коде есть комментарии
 
@@ -44,6 +44,6 @@ Do, kiel ĝi funkcias?
 Husky Browser faris per C#, WinForms .NET Framework. Pakoj, kiujn mi uzas por disvolviĝo:
 1. CefShrap.WinForms https://github.com/cefsharp/CefSharp (por labori kun Retumilo)
 2. Knapcode.TorSharp https://github.com/joelverhagen/TorSharp (por labori kun TOR)
-3. MonoTorrenе https://github.com/alanmcgovern/monotorrent (por labori kun Torentoj, P2P ktp.)
+3. MonoTorrent https://github.com/alanmcgovern/monotorrent (por labori kun Torentoj, P2P ktp.)
 4. MaterialSkin.2 https://github.com/IgnaceMaes/MaterialSkin (por labori kun simpla guglo-simila dezajno)
 Estas mia propra pako por labori kun retumilo "WorkingWithBrowserProperties". Ĝi enhavas aliajn dosierujojn por administrado de retumila parto (kiel legosignoj aŭ historio). Mi ne klarigos kiel ili funkcias ĉi tie ĉar mi havas komentojn en mia kodo
