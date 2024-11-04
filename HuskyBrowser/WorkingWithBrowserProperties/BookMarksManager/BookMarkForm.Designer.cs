@@ -65,6 +65,7 @@
             // dataGridView1
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Silver;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
@@ -84,14 +85,15 @@
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 81);
+            this.dataGridView1.Location = new System.Drawing.Point(4, 66);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.DimGray;
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Silver;
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(788, 363);
+            this.dataGridView1.Size = new System.Drawing.Size(591, 295);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -100,6 +102,7 @@
             // Title
             // 
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Silver;
             this.Title.DefaultCellStyle = dataGridViewCellStyle2;
             this.Title.HeaderText = "Title";
@@ -112,6 +115,7 @@
             // 
             this.Address.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Silver;
             this.Address.DefaultCellStyle = dataGridViewCellStyle3;
             this.Address.HeaderText = "Address";
@@ -121,12 +125,14 @@
             // 
             // BookMarkForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.dataGridView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "BookMarkForm";
+            this.Padding = new System.Windows.Forms.Padding(2, 52, 2, 2);
             this.Text = "Marks";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

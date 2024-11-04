@@ -27,10 +27,13 @@ namespace HuskyBrowser
     public partial class Form1 : MaterialForm
     {
         public static string Enabled_Search_Engine;
-        private string[] title_and_adress = new string[2];
+        public string[] title_and_adress = new string[2];
+        public static Form1 thisform;
         public Form1()
         {
             InitializeComponent();
+
+            thisform = this;
 
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
@@ -74,27 +77,31 @@ namespace HuskyBrowser
                     markbutton_icons.Add(imageList2.Images[i]);
                 }
 
-                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, Enabled_Search_Engine, materialTabControl1);
+                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, Enabled_Search_Engine, Text);
 
                 icons.Clear();
-
-                simplepage_pattern.simplePageButtons[0].Click += OnGoForward_Click;
-                simplepage_pattern.simplePageButtons[1].Click += OnGoBack_Click;
-                simplepage_pattern.simplePageButtons[2].Click += OnRefresh_Click;
-                simplepage_pattern.simplePageButtons[3].Click += OnCreateSimplePage_Click;
-                simplepage_pattern.simplePageButtons[4].Click += OnClose_Click;
-                simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
-                simplepage_pattern.savemark_button.MouseClick += Savemark_button_Click;
-                simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
-                simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
-                simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
+                SetClicks(simplepage_pattern);
             }
             catch (Exception ex)
             {
                 Error_Logger error_Logger = new Error_Logger();
                 error_Logger.Log_Errors(ex.Message);
             }
-        }                
+        }
+
+        public void SetClicks(SimplePagePattern simplepage_pattern)
+        {
+            simplepage_pattern.simplePageButtons[0].Click += OnGoForward_Click;
+            simplepage_pattern.simplePageButtons[1].Click += OnGoBack_Click;
+            simplepage_pattern.simplePageButtons[2].Click += OnRefresh_Click;
+            simplepage_pattern.simplePageButtons[3].Click += OnCreateSimplePage_Click;
+            simplepage_pattern.simplePageButtons[4].Click += OnClose_Click;
+            simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
+            simplepage_pattern.savemark_button.MouseClick += Savemark_button_Click;
+            simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
+            simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
+            simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
+        }
 
         public void OnGoForward_Click(object sender, EventArgs e)
         {
@@ -145,7 +152,10 @@ namespace HuskyBrowser
         {
             if (materialTabControl1.TabCount > 1)
             {
+                int selectTabIndex = materialTabControl1.SelectedIndex;
                 materialTabControl1.TabPages.Remove(materialTabControl1.SelectedTab);
+                materialTabControl1.SelectTab(materialTabControl1.TabPages[selectTabIndex-1]);
+                Text = materialTabControl1.SelectedTab.Text;
             }
             else if (materialTabControl1.TabCount == 1)
             {
@@ -164,7 +174,26 @@ namespace HuskyBrowser
                 icons.Add(materialTabControl1.ImageList.Images[i]);
             }
 
-            SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1, this);
+            bool IsSettingsTabCreated = false;
+            var settingsTabPage = new TabPage();
+
+            foreach(TabPage tab in materialTabControl1.TabPages) 
+            {
+                if(tab.Text == "Settings") 
+                {
+                    IsSettingsTabCreated = true;
+                    settingsTabPage = tab;
+                }
+            }
+
+            if (!IsSettingsTabCreated)
+            {
+                SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1);
+            }
+            else 
+            {
+                materialTabControl1.SelectTab(settingsTabPage);
+            }
         }
         public void OnLoad_Event(object sender, KeyEventArgs e)
         {
@@ -270,17 +299,15 @@ namespace HuskyBrowser
 
                     HistoryManager history_Manager = new HistoryManager(title_and_adress[0], title_and_adress[1]);
 
-                    if (bookMarks_Dict[e.Title] != null)
+                    if (bookMarks_Dict[e.Title].URL == cwb.Address)
                     {
-                        if (bookMarks_Dict[e.Title].URL == cwb.Address)
-                        {
-                            savemark_button.Icon = imageList2.Images[1];
-                        }
-                        else
-                        {
-                            savemark_button.Icon = imageList2.Images[0];
-                        }
+                        savemark_button.Icon = imageList2.Images[1];
                     }
+                    else
+                    {
+                        savemark_button.Icon = imageList2.Images[0];
+                    }
+
                 });
             }
             catch (Exception ex)
@@ -305,7 +332,11 @@ namespace HuskyBrowser
 
             var panel_1 = selectedTab.Controls[0] as Panel;
 
+            var panel_2 = selectedTab.Controls[1] as Panel;
+
             var cwb = panel_1.Controls[0] as ChromiumWebBrowser;
+
+            var savemark_button = panel_2.Controls[7] as MaterialButton;
 
             BookMarksManager.BookMark bookMark = new BookMarksManager.BookMark 
             {
@@ -325,6 +356,7 @@ namespace HuskyBrowser
             if (!bookMarks_Dict.ContainsKey(Title))
             {
                 bookMarks_Dict[Title] = bookMark;
+                savemark_button.Icon = imageList2.Images[1];
             }
 
             string jsonMark = JsonSerializer.Serialize(bookMarks_Dict);

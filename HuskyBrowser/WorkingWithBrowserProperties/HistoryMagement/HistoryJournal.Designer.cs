@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryJournal));
             this.panel1 = new System.Windows.Forms.Panel();
             this.materialComboBox1 = new MaterialSkin.Controls.MaterialComboBox();
@@ -40,6 +41,8 @@
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -51,9 +54,10 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.Controls.Add(this.materialComboBox1);
             this.panel1.Controls.Add(this.materialButton1);
-            this.panel1.Location = new System.Drawing.Point(6, 79);
+            this.panel1.Location = new System.Drawing.Point(4, 64);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(192, 365);
+            this.panel1.Size = new System.Drawing.Size(144, 297);
             this.panel1.TabIndex = 0;
             // 
             // materialComboBox1
@@ -70,11 +74,12 @@
             this.materialComboBox1.FormattingEnabled = true;
             this.materialComboBox1.IntegralHeight = false;
             this.materialComboBox1.ItemHeight = 43;
-            this.materialComboBox1.Location = new System.Drawing.Point(3, 7);
+            this.materialComboBox1.Location = new System.Drawing.Point(2, 6);
+            this.materialComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.materialComboBox1.MaxDropDownItems = 4;
             this.materialComboBox1.MouseState = MaterialSkin.MouseState.OUT;
             this.materialComboBox1.Name = "materialComboBox1";
-            this.materialComboBox1.Size = new System.Drawing.Size(186, 49);
+            this.materialComboBox1.Size = new System.Drawing.Size(140, 49);
             this.materialComboBox1.StartIndex = 0;
             this.materialComboBox1.TabIndex = 1;
             this.materialComboBox1.SelectedIndexChanged += new System.EventHandler(this.materialComboBox1_SelectedIndexChanged);
@@ -89,12 +94,12 @@
             this.materialButton1.DrawShadows = false;
             this.materialButton1.HighEmphasis = true;
             this.materialButton1.Icon = null;
-            this.materialButton1.Location = new System.Drawing.Point(23, 313);
-            this.materialButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialButton1.Location = new System.Drawing.Point(17, 254);
+            this.materialButton1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialButton1.Name = "materialButton1";
             this.materialButton1.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.materialButton1.Size = new System.Drawing.Size(138, 46);
+            this.materialButton1.Size = new System.Drawing.Size(104, 37);
             this.materialButton1.TabIndex = 0;
             this.materialButton1.Text = "Delete history";
             this.materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -108,9 +113,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.dataGridView1);
-            this.panel2.Location = new System.Drawing.Point(201, 79);
+            this.panel2.Location = new System.Drawing.Point(151, 64);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(737, 365);
+            this.panel2.Size = new System.Drawing.Size(553, 297);
             this.panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -123,18 +129,20 @@
             this.Title,
             this.Time,
             this.Address});
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(734, 362);
+            this.dataGridView1.Size = new System.Drawing.Size(550, 294);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Title
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Title.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle4;
             this.Title.Frozen = true;
             this.Title.HeaderText = "Title";
             this.Title.MinimumWidth = 400;
@@ -144,9 +152,9 @@
             // 
             // Time
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Time.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Time.DefaultCellStyle = dataGridViewCellStyle5;
             this.Time.Frozen = true;
             this.Time.HeaderText = "Time";
             this.Time.MinimumWidth = 6;
@@ -157,23 +165,44 @@
             // Address
             // 
             this.Address.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Address.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Address.DefaultCellStyle = dataGridViewCellStyle6;
             this.Address.HeaderText = "Address";
             this.Address.MinimumWidth = 6;
             this.Address.Name = "Address";
             this.Address.ReadOnly = true;
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "1.png");
+            this.imageList1.Images.SetKeyName(1, "2.png");
+            this.imageList1.Images.SetKeyName(2, "3.png");
+            this.imageList1.Images.SetKeyName(3, "8.png");
+            this.imageList1.Images.SetKeyName(4, "9.png");
+            this.imageList1.Images.SetKeyName(5, "6 (2).png");
+            this.imageList1.Images.SetKeyName(6, "5.png");
+            // 
+            // imageList2
+            // 
+            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList2.Images.SetKeyName(0, "12.png");
+            this.imageList2.Images.SetKeyName(1, "11.png");
+            // 
             // HistoryJournal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(941, 450);
+            this.ClientSize = new System.Drawing.Size(706, 366);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "HistoryJournal";
+            this.Padding = new System.Windows.Forms.Padding(2, 52, 2, 2);
             this.Text = "HistoryJournal";
             this.Load += new System.EventHandler(this.HistoryJournal_Load);
             this.panel1.ResumeLayout(false);
@@ -193,5 +222,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn Address;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ImageList imageList2;
     }
 }

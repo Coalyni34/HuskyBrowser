@@ -13,23 +13,25 @@ using System.Threading.Tasks;
 using System.Web.UI;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.HistoryManager;
+using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 {
     public partial class HistoryJournal : MaterialForm
     {
         static Color _BackColor { get; set; } = Color.FromArgb(255, 50, 50, 50);
-        public HistoryJournal()
+        MaterialTabControl tabControl;
+        public HistoryJournal(MaterialTabControl tabControl)
         {
             InitializeComponent();
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo600, Primary.Indigo600, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
-            InitializeJournal();
+            InitializeJournal(tabControl);
         }
 
-        private void InitializeJournal()
+        private void InitializeJournal(MaterialTabControl _tabControl)
         {
             var History_Files = new FileManager.History_Files();
 
@@ -41,11 +43,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             materialComboBox1.Items.AddRange(entries_Dict.Keys.ToArray());
             materialComboBox1.SelectedItem = $"{DateTime.Now}".Split(' ')[0];
 
-            List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];                       
+            List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
+
+            tabControl = _tabControl;
 
             foreach (HistoryEntry entry in entries)
             {
-                dataGridView1.Rows.Add($"{entry.URL}", $"{entry.Time}", $"{entry.Title}");                
+                dataGridView1.Rows.Add($"{entry.Title}", $"{entry.Time}", $"{entry.URL}");                
             }
             
         }
@@ -83,6 +87,33 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             {
                 dataGridView1.Rows.Add(entry.Title, entry.Time, entry.URL);
             }
-        }        
+        }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var url = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
+            var title = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value.ToString();
+
+            if (url.StartsWith("https://") || url.StartsWith("http://"))
+            {
+                var _fM = new FileManager();
+                string path = _fM._GetPathToFile("bookmarks.json", "bookmarks");
+                string json = _fM._ReadFileText(path);
+                Dictionary<string, BookMarksManager.BookMarksManager.BookMark> bookMarks_Dict = JsonSerializer.Deserialize<Dictionary<string, BookMarksManager.BookMarksManager.BookMark>>(json);
+
+                List<Image> icons = new List<Image>();
+                for (short i = 0; i < imageList1.Images.Count; i++)
+                {
+                    icons.Add(imageList1.Images[i]);
+                }
+                List<Image> markbutton_icons = new List<Image>();
+                for (short i = 0; i < imageList2.Images.Count; i++)
+                {
+                    markbutton_icons.Add(imageList2.Images[i]);
+                }
+                PagePattern.SimplePagePattern simplePagePattern = new PagePattern.SimplePagePattern(icons, markbutton_icons, tabControl, url, title);
+                Form1.thisform.Text = title;
+            }
+        }
     }
 }
