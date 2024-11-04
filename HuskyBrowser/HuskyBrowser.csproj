@@ -146,25 +146,26 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HuskyBrowserManagement\DownloadingManager\DownloadManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkingWithBrowserProperties\BookMarksManager\BookMarksManager.cs" />
-    <Compile Include="WorkingWithBrowserProperties\BookMarksManager\BookMarkForm.cs">
+    <Compile Include="HuskyBrowserManagement\BookMarksManager\BookMarksManager.cs" />
+    <Compile Include="HuskyBrowserManagement\BookMarksManager\BookMarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WorkingWithBrowserProperties\BookMarksManager\BookMarkForm.Designer.cs">
+    <Compile Include="HuskyBrowserManagement\BookMarksManager\BookMarkForm.Designer.cs">
       <DependentUpon>BookMarkForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorkingWithBrowserProperties\FileManagement\FileManager.cs" />
-    <Compile Include="WorkingWithBrowserProperties\HistoryMagement\HistoryJournal.cs">
+    <Compile Include="HuskyBrowserManagement\FileManagement\FileManager.cs" />
+    <Compile Include="HuskyBrowserManagement\HistoryMagement\HistoryJournal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WorkingWithBrowserProperties\HistoryMagement\HistoryJournal.Designer.cs">
+    <Compile Include="HuskyBrowserManagement\HistoryMagement\HistoryJournal.Designer.cs">
       <DependentUpon>HistoryJournal.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorkingWithBrowserProperties\HistoryMagement\HistoryManager.cs" />
-    <Compile Include="WorkingWithBrowserProperties\PageManagement\PagePattern.cs" />
-    <Compile Include="WorkingWithBrowserProperties\SettingsManagement\Settings.cs" />
+    <Compile Include="HuskyBrowserManagement\HistoryMagement\HistoryManager.cs" />
+    <Compile Include="HuskyBrowserManagement\PageManagement\PagePattern.cs" />
+    <Compile Include="HuskyBrowserManagement\SettingsManagement\Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,10 +179,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="WorkingWithBrowserProperties\BookMarksManager\BookMarkForm.resx">
+    <EmbeddedResource Include="HuskyBrowserManagement\BookMarksManager\BookMarkForm.resx">
       <DependentUpon>BookMarkForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WorkingWithBrowserProperties\HistoryMagement\HistoryJournal.resx">
+    <EmbeddedResource Include="HuskyBrowserManagement\HistoryMagement\HistoryJournal.resx">
       <DependentUpon>HistoryJournal.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

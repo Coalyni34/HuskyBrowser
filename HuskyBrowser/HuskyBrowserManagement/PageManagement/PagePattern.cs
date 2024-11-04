@@ -310,6 +310,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 MinimumSize = new Size(200, 35),
                 MaximumSize = new Size(700, 35),
                 Location = new Point(235, 10),
+                DetectUrls = true,
+                MaxLength = 1000
             };
             public ChromiumWebBrowser cwb = new ChromiumWebBrowser()
             {
@@ -333,7 +335,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 simplePageButtons.Add(settings_button);
                 simplePageButtons.Add(download_button);                
 
-                ScreenSettings(simplePageButtons[5], simplePageButtons[6], savemark_button, adress_line, cwb, settings.ScreenResolution[0]);
+                ScreenSettings(simplePageButtons[5], simplePageButtons[6], savemark_button, adress_line, settings.ScreenResolution[0]);
 
                 for (short i = 0; i < simplePageButtons.Count; i++)
                 {
@@ -378,17 +380,17 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     Application.Exit();
                 }
             }
-            private void ScreenSettings(MaterialButton settingsButton, MaterialButton downloadButton, MaterialButton savemarksButton, MaterialTextBox adressLine, ChromiumWebBrowser cwb,int Width)
+            private void ScreenSettings(MaterialButton settingsButton, MaterialButton downloadButton, MaterialButton savemarksButton, MaterialTextBox adressLine, int Width)
             {
                 switch (Width)
                 {
-                    case 900:
-                        settingsButton.Location = new Point(1500, 10);
-                        downloadButton.Location = new Point(1550, 10);
-                        savemarksButton.Location = new Point(1600, 10);
+                    case 1600:
+                        settingsButton.Location = new Point(1070, 10);
+                        downloadButton.Location = new Point(1110, 10);
+                        savemarksButton.Location = new Point(1150, 10);
                         adressLine.MinimumSize = new Size(200, 35);
-                        adressLine.MaximumSize = new Size(1250, 35);
-                        cwb.MaximumSize = new Size(1920, 780);
+                        adressLine.MaximumSize = new Size(900, 35);
+                        cwb.MaximumSize = new Size(1600, 740);
                         break;
                     case 1280:
                         settingsButton.Location = new Point(985, 10);
@@ -396,7 +398,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                         savemarksButton.Location = new Point(1030, 10);
                         adressLine.MinimumSize = new Size(200, 35);
                         adressLine.MaximumSize = new Size(700, 35);
-                        cwb.MaximumSize = new Size(1920, 870);
+                        cwb.MaximumSize = new Size(1280, 870);
                         break;
                     case 1920:
                         settingsButton.Location = new Point(1500, 10);
