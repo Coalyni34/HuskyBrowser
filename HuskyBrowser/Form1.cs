@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.DevTools.Autofill;
 using CefSharp.WinForms;
+using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
 using HuskyBrowser.WorkingWithBrowserProperties;
 using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
 using MaterialSkin;
@@ -97,10 +98,17 @@ namespace HuskyBrowser
             simplepage_pattern.simplePageButtons[3].Click += OnCreateSimplePage_Click;
             simplepage_pattern.simplePageButtons[4].Click += OnClose_Click;
             simplepage_pattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
+            simplepage_pattern.simplePageButtons[6].Click += OnShowDownloadManager;
             simplepage_pattern.savemark_button.MouseClick += Savemark_button_Click;
             simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
             simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
             simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
+        }
+
+        public void OnShowDownloadManager(object sender, EventArgs e)
+        {
+            DownloadManagerForm downloadManagerForm = new DownloadManagerForm();
+            downloadManagerForm.ShowDialog();
         }
 
         public void OnGoForward_Click(object sender, EventArgs e)
@@ -299,13 +307,20 @@ namespace HuskyBrowser
 
                     HistoryManager history_Manager = new HistoryManager(title_and_adress[0], title_and_adress[1]);
 
-                    if (bookMarks_Dict[e.Title].URL == cwb.Address)
+                    if (bookMarks_Dict.ContainsKey(e.Title))
                     {
-                        savemark_button.Icon = imageList2.Images[1];
+                        if (bookMarks_Dict[e.Title].URL == cwb.Address)
+                        {
+                            savemark_button.Icon = imageList2.Images[1];
+                        }
+                        else
+                        {
+                            savemark_button.Icon = imageList2.Images[0];
+                        }
                     }
-                    else
+                    else 
                     {
-                        savemark_button.Icon = imageList2.Images[0];
+
                     }
 
                 });

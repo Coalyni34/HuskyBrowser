@@ -59,6 +59,7 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MonoTorrent, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoTorrent.3.0.2\lib\net472\MonoTorrent.dll</HintPath>
     </Reference>
@@ -147,6 +148,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="HuskyBrowserManagement\DownloadingManager\DownloadManager.cs" />
+    <Compile Include="HuskyBrowserManagement\DownloadingManager\DownloadManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HuskyBrowserManagement\DownloadingManager\DownloadManagerForm.Designer.cs">
+      <DependentUpon>DownloadManagerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HuskyBrowserManagement\BookMarksManager\BookMarksManager.cs" />
@@ -168,6 +175,9 @@
     <Compile Include="HuskyBrowserManagement\SettingsManagement\Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HuskyBrowserManagement\DownloadingManager\DownloadManagerForm.resx">
+      <DependentUpon>DownloadManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -23,6 +23,7 @@ using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
 using static System.Net.Mime.MediaTypeNames;
 using Application = System.Windows.Forms.Application;
 using Image = System.Drawing.Image;
+using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -326,6 +327,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 var settings = JsonSerializer.Deserialize<Settings>(json);
 
                 cwb.Load(URL);
+                DownloadManager downloadManager = new DownloadManager();
+                cwb.DownloadHandler = downloadManager;
 
                 simplePageButtons.Add(forward_button);
                 simplePageButtons.Add(back_button);
