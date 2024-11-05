@@ -22,25 +22,30 @@ namespace HuskyBrowser.HuskyBrowserManagement.DownloadingManager
         public DownloadManagerForm()
         {
             InitializeComponent();
-            var materialSkinManager = MaterialSkinManager.Instance;
-            materialSkinManager.AddFormToManage(this);
-            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo600, Primary.Indigo600, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
-            
+
+            InitializeManager();
+        }
+
+        private void InitializeManager()
+        {
             var _fM = new FileManager();
 
-            var files = _fM._GetFilesFromDirectory("downloads");                       
+            var files = _fM._GetFilesFromDirectory("downloads");
 
-            foreach (var f in files) 
+            foreach (var f in files)
             {
                 FileInfo fileInfo = new FileInfo(_fM._GetPathToFile(f, "downloads"));
                 var dateTime = fileInfo.CreationTime;
                 dataGridView1.Rows.Add($"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}", f);
-            }            
-        }       
+            }
+        }
+
         public void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) 
         {
-                   
+            var title = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            var _fM = new FileManager();
+            string path = _fM._GetPathToFile(title, "downloads");
+            Process.Start("explorer.exe", $"/select,\"{path}\"");
         }
     }
 }

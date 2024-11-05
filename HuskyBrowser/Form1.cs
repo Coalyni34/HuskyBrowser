@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -108,7 +109,7 @@ namespace HuskyBrowser
         public void OnShowDownloadManager(object sender, EventArgs e)
         {
             DownloadManagerForm downloadManagerForm = new DownloadManagerForm();
-            downloadManagerForm.ShowDialog();
+            downloadManagerForm.ShowDialog();           
         }
 
         public void OnGoForward_Click(object sender, EventArgs e)

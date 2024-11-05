@@ -132,15 +132,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         {
             try
             {
-                if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}"))
+                if (Directory.Exists($"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}"))
                 {
-                    var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}/{filename}";
+                    var path_ToFile = $"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}\\{filename}";
                     return path_ToFile;
                 }
                 else
                 {
-                    Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}");
-                    var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}/{filename}";
+                    Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}");
+                    var path_ToFile = $"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}\\{filename}";
                     return path_ToFile;
                 }
             }
@@ -155,15 +155,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         {
             try
             {
-                if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}"))
+                if (Directory.Exists($"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}"))
                 {
                     var pathToDirectory = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}";
                     return pathToDirectory;
                 }
                 else
                 {
-                    Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}");
-                    var pathToDirectory = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}";
+                    Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}");
+                    var pathToDirectory = $"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}";
                     return pathToDirectory;
                 }
             }
