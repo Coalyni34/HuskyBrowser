@@ -24,6 +24,8 @@ using static System.Net.Mime.MediaTypeNames;
 using Application = System.Windows.Forms.Application;
 using Image = System.Drawing.Image;
 using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
+using System.Diagnostics;
+using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -31,6 +33,66 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
     {
         static MaterialTabControl tabControl { get; set; }
         static Color Page_BackColor { get; set; } = Color.FromArgb(255, 50, 50, 50);
+        public class DownloadPagePattern : PagePattern 
+        {            
+            private TabPage new_TapPage = new TabPage()
+            {
+                Text = "Downloads",
+                BackColor = Page_BackColor
+            };
+            private DataGridView trumpDownloads = new DataGridView() 
+            {
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                ReadOnly = true,
+                AllowUserToDeleteRows = false,
+                AllowUserToResizeColumns = false,
+                AllowUserToOrderColumns = false,
+                AllowUserToResizeRows = false,  
+            };
+            public DownloadPagePattern() 
+            {
+                var _fM = new FileManager();
+
+                var files = _fM._GetFilesFromDirectory("downloads");
+
+                trumpDownloads.DefaultCellStyle.ForeColor = Color.White;
+                trumpDownloads.DefaultCellStyle.BackColor = Page_BackColor;
+                trumpDownloads.DefaultCellStyle.SelectionBackColor = Color.Silver;
+
+                trumpDownloads.Columns.Add("Time", "Time");
+                trumpDownloads.Columns.Add("Name", "Name");
+                trumpDownloads.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                trumpDownloads.CellClick += trumpDownloadClick;
+                new_TapPage.Leave += tabChange;
+
+                foreach (var f in files)
+                {
+                    FileInfo fileInfo = new FileInfo(_fM._GetPathToFile(f, "downloads"));
+                    var dateTime = fileInfo.CreationTime;
+                    trumpDownloads.Rows.Add($"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}", f);
+                }
+
+                new_TapPage.Controls.Add(trumpDownloads);
+
+                tabControl.TabPages.Add(new_TapPage);
+                tabControl.SelectTab(new_TapPage);
+            }
+            private void tabChange(object sender, EventArgs e)
+            {
+                if (tabControl.TabPages.ContainsKey("Downloads"))
+                {
+                    tabControl.TabPages.RemoveByKey("Downloads");
+                }
+            }
+            public void trumpDownloadClick(object sender, DataGridViewCellEventArgs e)
+            {
+                var title = trumpDownloads.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                var _fM = new FileManager();
+                string path = _fM._GetPathToFile(title, "downloads");
+                Process.Start("explorer.exe", $"/select,\"{path}\"");
+            }
+        }
         public class SettingsPagePattern : PagePattern
         {
             private TabPage new_TapPage = new TabPage()
@@ -109,9 +171,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {
                 { "DuckDuckGo", "https://start.duckduckgo.com/" },
-                { "Google", "https://www.google.com/" },
-                { "Bing", "https://www.bing.com/" },
-                { "Brave", "https://search.brave.com/" }
+                { "Google", "https://www.google.com/search?q=" },
+                { "Bing", "https://www.bing.com/search?=" },
+                { "Brave", "https://search.brave.com/search?q=" }
             };
             public SettingsPagePattern(MaterialTabControl materialTabControl)
             {
@@ -316,7 +378,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             };
             public ChromiumWebBrowser cwb = new ChromiumWebBrowser()
             {
-                Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top                
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top
             };
             public SimplePagePattern(List<Image> icons, List<Image> savemarksbuttons_icons, MaterialTabControl materialTabControl, string URL, string Title)
             {
@@ -326,9 +388,11 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 string json = _fm._ReadFileText(_fm._GetPathToFile("browser_settings.json"));
                 var settings = JsonSerializer.Deserialize<Settings>(json);
 
+                SearchContextMenuHandler menuHandler = new SearchContextMenuHandler();
                 cwb.Load(URL);
                 DownloadManager downloadManager = new DownloadManager();
-                cwb.DownloadHandler = downloadManager;
+                cwb.DownloadHandler = downloadManager;   
+                cwb.MenuHandler = menuHandler;
 
                 simplePageButtons.Add(forward_button);
                 simplePageButtons.Add(back_button);
@@ -347,7 +411,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 }
 
                 savemark_button.Icon = savemarksbuttons_icons[0];
-                savemark_button.Type = MaterialButton.MaterialButtonType.Text;
+                savemark_button.Type = MaterialButton.MaterialButtonType.Text;                                             
 
                 Form1.thisform.SetClicks(this);
 
@@ -366,7 +430,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 panel_1.Controls.Add(cwb);
 
                 new_TapPage.Controls.Add(panel_1);
-                new_TapPage.Controls.Add(panel_2);
+                new_TapPage.Controls.Add(panel_2);                               
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);

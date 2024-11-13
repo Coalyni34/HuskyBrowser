@@ -147,14 +147,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="HuskyBrowserManagement\BrowserManagement\ContextMenuManager\ContextMenuManager.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManager.cs" />
-    <Compile Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManagerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManagerForm.Designer.cs">
-      <DependentUpon>DownloadManagerForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="HuskyBrowserManagement\BrowserManagement\SearchContextMenuManager\SearchContextMenuHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\BookMarksManager\BookMarksManager.cs" />
@@ -176,9 +170,6 @@
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManagerForm.resx">
-      <DependentUpon>DownloadManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

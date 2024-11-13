@@ -62,9 +62,9 @@ namespace HuskyBrowser
 
             Enabled_Search_Engine = settings.Enabled_Search_Engine;
 
-            Controls_Initialize();
+            Controls_Initialize(settings);
         }
-        private void Controls_Initialize()
+        private void Controls_Initialize(Settings settings)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace HuskyBrowser
                     markbutton_icons.Add(imageList2.Images[i]);
                 }
 
-                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, Enabled_Search_Engine, Text);
+                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, settings.Start_Page, Text);
 
                 icons.Clear();
                 SetClicks(simplepage_pattern);
@@ -103,13 +103,12 @@ namespace HuskyBrowser
             simplepage_pattern.savemark_button.MouseClick += Savemark_button_Click;
             simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
             simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
-            simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;
+            simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;            
         }
 
         public void OnShowDownloadManager(object sender, EventArgs e)
         {
-            DownloadManagerForm downloadManagerForm = new DownloadManagerForm();
-            downloadManagerForm.ShowDialog();           
+            DownloadPagePattern downloadPagePattern = new DownloadPagePattern();                        
         }
 
         public void OnGoForward_Click(object sender, EventArgs e)
@@ -143,7 +142,7 @@ namespace HuskyBrowser
             }
             else
             {
-
+                              
             }
         }
         public void OnRefresh_Click(object sender, EventArgs e)
@@ -173,7 +172,20 @@ namespace HuskyBrowser
         }
         public void OnCreateSimplePage_Click(object sender, EventArgs e)
         {
-            Controls_Initialize();
+            var _fM = new FileManager();
+
+            string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+
+            Settings settings;
+            if (json == string.Empty)
+            {
+                settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
+            }
+            else
+            {
+                settings = JsonSerializer.Deserialize<Settings>(json);
+            }
+            Controls_Initialize(settings);
         }
         public void OnCreateSettingsPage_Click(object sender, EventArgs e)
         {
@@ -381,7 +393,10 @@ namespace HuskyBrowser
         }
         private void materialTabControl1_TabIndexChanged(object sender, EventArgs e)
         {
-            Text = materialTabControl1.SelectedTab.Text;
+            if (materialTabControl1.TabPages.ContainsKey("Downloads")) 
+            {
+                materialTabControl1.TabPages.RemoveByKey("Downloads");
+            }
         }
         public bool IsValidUrl(string url)
         {
