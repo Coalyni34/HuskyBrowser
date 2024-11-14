@@ -33,6 +33,7 @@
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.imageList3 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // materialTabControl1
@@ -70,6 +71,12 @@
             this.imageList2.Images.SetKeyName(0, "12.png");
             this.imageList2.Images.SetKeyName(1, "11.png");
             // 
+            // imageList3
+            // 
+            this.imageList3.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList3.ImageStream")));
+            this.imageList3.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList3.Images.SetKeyName(0, "folder.png");
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,6 +101,7 @@
         private MaterialSkin.Controls.MaterialTabControl materialTabControl1;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ImageList imageList2;
+        private System.Windows.Forms.ImageList imageList3;
     }
 }
 

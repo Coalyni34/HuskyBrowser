@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using CefSharp;
 using HuskyBrowser.WorkingWithBrowserProperties;
 
@@ -18,7 +19,21 @@ namespace HuskyBrowser.HuskyBrowserManagement.DownloadingManager
             OnBeforeDownloadFired?.Invoke(this, downloadItem);
 
             var _fM = new FileManager();
-            string path = _fM._GetPathToFile(downloadItem.SuggestedFileName, "downloads");
+
+            string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+
+            Settings settings;
+
+            if (json == string.Empty)
+            {
+                settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
+            }
+            else
+            {
+                settings = JsonSerializer.Deserialize<Settings>(json);
+            }
+
+            string path = settings.SaveDirectoryPath;
 
             if (!callback.IsDisposed)
             {

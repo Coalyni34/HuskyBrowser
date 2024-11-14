@@ -39,7 +39,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager
             var url = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
 
             var title = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex-1].Value.ToString();                       
-
+                        
             if (url.StartsWith("https://") || url.StartsWith("http://"))
             {
                 var _fM = new FileManager();

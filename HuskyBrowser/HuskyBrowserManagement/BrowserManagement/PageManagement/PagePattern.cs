@@ -28,7 +28,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Name = "Downloads",
                 BackColor = Page_BackColor
             };
-            private DataGridView Downloads = new DataGridView() 
+            private DataGridView Downloads = new DataGridView 
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
                 ReadOnly = true,
@@ -38,7 +38,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 AllowUserToResizeRows = false,
                 Location = new Point(75, 0),
             };
-            private MaterialButton Closing_Button = new MaterialButton()
+            private MaterialButton Closing_Button = new MaterialButton
             {
                 Text = "Close Page",
                 Size = new Size(70, 40),
@@ -108,79 +108,104 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         }
         public class SettingsPagePattern : PagePattern
         {
-            private TabPage new_TapPage = new TabPage()
+            private TabPage new_TapPage = new TabPage
             {
                 Text = "Settings",
                 Name = "Settings",
                 BackColor = Page_BackColor
             };
-            private MaterialButton SaveSettings_Button = new MaterialButton()
+            private MaterialButton SaveSettings_Button = new MaterialButton
             {
                 Text = "Save Settings",
                 Size = new Size(70, 40),
-                Location = new Point(90, 10),
+                Location = new Point(90, 15),
                 DrawShadows = false,
                 AutoSize = false
             };
-            private MaterialButton Closing_Button = new MaterialButton()
+            private MaterialButton Closing_Button = new MaterialButton
             {
                 Text = "Close Page",
                 Size = new Size(70, 40),
-                Location = new Point(10, 10),
+                Location = new Point(10, 15),
                 DrawShadows = false,
                 AutoSize = false
             };
-            public MaterialLabel Choosing_SearchEngine_Text = new MaterialLabel()
+            public MaterialLabel Choosing_SearchEngine_Text = new MaterialLabel
             {
-                Text = "Search Engine:",
+                Text = "Search engine:",
                 Size = new Size(110, 30),
                 Location = new Point(20, 130),
                 AutoSize = false
             };
-            public MaterialComboBox SearchEngine_ComboBox = new MaterialComboBox()
+            public MaterialComboBox SearchEngine_ComboBox = new MaterialComboBox
             {
                 Text = "DuckDuckGo",
                 Size = new Size(180, 50),
                 Location = new Point(130, 115),
                 AutoSize = false
             };
-            public MaterialSwitch SaveHistory_Switch = new MaterialSwitch()
+            public MaterialSwitch SaveHistory_Switch = new MaterialSwitch
             {
-                Text = "Save history",
                 Size = new Size(180, 50),
-                Location = new Point(0, 60),
+                Location = new Point(120, 245),
                 AutoSize = false
             };
-            public MaterialComboBox ResolutionOfScreen = new MaterialComboBox()
+            public MaterialLabel SaveHistory_Label = new MaterialLabel
+            {
+                Text = "Save history:",
+                Location = new Point(20, 260),
+                AutoSize = false
+            };
+            public MaterialLabel SavePath_Label = new MaterialLabel
+            {
+                Text = "Save folder path:",
+                Size = new Size(125, 30),
+                Location = new Point(20, 300),
+                AutoSize = false
+            };
+            public MaterialMultiLineTextBox SavePath_TextBox = new MaterialMultiLineTextBox
+            {
+                Size = new Size(700, 20),
+                Location = new Point(145, 300),
+                AutoSize = false
+            };
+            public MaterialButton SelectedPath_Button = new MaterialButton
+            {
+                Size = new Size(32, 40),
+                Location = new Point(845, 290),
+                AutoSize = false,
+                Type = MaterialButton.MaterialButtonType.Text
+            };
+            public MaterialComboBox ResolutionOfScreen = new MaterialComboBox
             {
                 Size = new Size(180, 50),
                 Location = new Point(130, 185),
                 AutoSize = false
             };
-            public MaterialLabel ResolutionOfScreen_Text = new MaterialLabel()
+            public MaterialLabel ResolutionOfScreen_Text = new MaterialLabel
             {
                 TextAlign = ContentAlignment.TopCenter,
-                Text = "Screen Resolution:",
+                Text = "Screen resolution:",
                 Size = new Size(130, 50),
                 Location = new Point(10, 190),
                 AutoSize = false
             };
-            public MaterialButton OpenHistoryJournal_Button = new MaterialButton()
+            public MaterialButton OpenHistoryJournal_Button = new MaterialButton
             {
                 TextAlign = ContentAlignment.TopCenter,
-                Text = "Open History Journal",
+                Text = "Open history journal",
                 Size = new Size(130, 50),
-                Location = new Point(10, 250),
+                Location = new Point(170, 10),
                 AutoSize = false
             };
-            public MaterialButton OpenBookMarks_Button = new MaterialButton()
+            public MaterialButton OpenBookMarks_Button = new MaterialButton
             {
                 TextAlign = ContentAlignment.TopCenter,
-                Text = "Open BookMarks",
+                Text = "Open bookmarks",
                 Size = new Size(130, 50),
-                Location = new Point(10, 310),
+                Location = new Point(310, 10),
                 AutoSize = false
-            };
+            };            
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {
@@ -189,7 +214,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 { "Bing", "https://www.bing.com/search?=" },
                 { "Brave", "https://search.brave.com/search?q=" }
             };
-            public SettingsPagePattern(MaterialTabControl materialTabControl)
+            private string SaveDirectoryPath;
+            public SettingsPagePattern(MaterialTabControl materialTabControl, Image[] button_icons)
             {
                 new_TapPage.Controls.Add(Choosing_SearchEngine_Text);
                 new_TapPage.Controls.Add(SearchEngine_ComboBox);
@@ -200,6 +226,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(ResolutionOfScreen_Text);
                 new_TapPage.Controls.Add(OpenHistoryJournal_Button);
                 new_TapPage.Controls.Add(OpenBookMarks_Button);
+                new_TapPage.Controls.Add(SaveHistory_Label);
+                new_TapPage.Controls.Add(SavePath_Label);
+                new_TapPage.Controls.Add(SavePath_TextBox);
+                new_TapPage.Controls.Add(SelectedPath_Button);
+
+                SelectedPath_Button.Icon = button_icons[0];
 
                 foreach (var engine in Engines_Keys)
                 {
@@ -216,20 +248,46 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                 string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
 
-                Settings settings = JsonSerializer.Deserialize<Settings>(json);
+                Settings settings;
+
+                if (json == string.Empty)
+                {
+                    settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
+                }
+                else
+                {
+                    settings = JsonSerializer.Deserialize<Settings>(json);
+                }
+
+                string path = settings.SaveDirectoryPath;
 
                 SearchEngine_ComboBox.SelectedItem = settings.Search_Engine_Name;
                 SaveHistory_Switch.Checked = settings.Save_History;
                 ResolutionOfScreen.Text = $"{settings.ScreenResolution[0]}X{settings.ScreenResolution[1]}";
+                SavePath_TextBox.Text = settings.SaveDirectoryPath;
 
                 SaveSettings_Button.Click += OnSave_Click;
                 Closing_Button.Click += OnClose_Click;
                 OpenHistoryJournal_Button.Click += OnOpenJournal_Click;
                 OpenBookMarks_Button.Click += OnOpenBookmarks_Click;
+                SelectedPath_Button.Click += SelectedPath_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
             }
+
+            private void SelectedPath_Click(object sender, EventArgs e)
+            {
+                FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+                folderDialog.Description = "Выберите папку";
+
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SaveDirectoryPath = folderDialog.SelectedPath;
+                    SavePath_TextBox.Text = folderDialog.SelectedPath;
+                }
+            }
+
             private void OnOpenJournal_Click(object sender, EventArgs e)
             {
                 HistoryJournal historyJournal = new HistoryJournal(tabControl);
@@ -272,7 +330,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     ScreenResolution = new int[] { Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height };
                 }
 
-                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine, ScreenResolution);
+                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine, ScreenResolution, SaveDirectoryPath);
 
                 string jsonSettings = JsonSerializer.Serialize(settings);
 
@@ -301,14 +359,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 BackColor = Page_BackColor
             };
 
-            public Panel panel_1 = new Panel()
+            public Panel panel_1 = new Panel
             {
                 AutoSize = false,
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
                 Location = new Point(0, 59),
                 Size = new Size(786, 330)
             };
-            public Panel panel_2 = new Panel()
+            public Panel panel_2 = new Panel
             {
                 Location = new Point(0, 0),
                 Size = new Size(786, 70),
@@ -316,7 +374,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 MaximumSize = new Size(1920, 70),
                 Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
             };
-            private MaterialButton back_button = new MaterialButton()
+            private MaterialButton back_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -324,7 +382,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false
             };
-            private MaterialButton forward_button = new MaterialButton()
+            private MaterialButton forward_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -332,7 +390,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton refresh_button = new MaterialButton()
+            private MaterialButton refresh_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -340,7 +398,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton createtab_button = new MaterialButton()
+            private MaterialButton createtab_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -348,7 +406,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton closeTab_button = new MaterialButton()
+            private MaterialButton closeTab_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -356,7 +414,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton download_button = new MaterialButton()
+            private MaterialButton download_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -364,7 +422,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false
             };
-            private MaterialButton settings_button = new MaterialButton()
+            private MaterialButton settings_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -372,7 +430,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false
             };
-            public MaterialButton savemark_button = new MaterialButton()
+            public MaterialButton savemark_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -380,7 +438,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false
             };
-            public MaterialTextBox adress_line = new MaterialTextBox()
+            public MaterialTextBox adress_line = new MaterialTextBox
             {
                 AutoSize = false,
                 Anchor = AnchorStyles.Left | AnchorStyles.Right,

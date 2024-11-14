@@ -191,14 +191,14 @@ namespace HuskyBrowser
         public void OnCreateSettingsPage_Click(object sender, EventArgs e)
         {
             List<Image> icons = new List<Image>();
-            for (short i = 0; i < materialTabControl1.ImageList.Images.Count; i++)
+            for (short i = 0; i < imageList3.Images.Count; i++)
             {
-                icons.Add(materialTabControl1.ImageList.Images[i]);
+                icons.Add(imageList3.Images[i]);
             }
 
             if (!materialTabControl1.TabPages.ContainsKey("Settings"))
             {
-                SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1);
+                SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1, icons.ToArray());
                 Text = "Settings";
             }
             else

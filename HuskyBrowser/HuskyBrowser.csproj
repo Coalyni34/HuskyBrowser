@@ -213,7 +213,10 @@
     <Content Include="Icons\9.png" />
     <Content Include="Icons\Husky-browser_2.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="HuskyBrowserManagement\TorManager\" />
+    <Folder Include="HuskyBrowserManagement\TorrentsManagement\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
