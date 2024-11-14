@@ -38,9 +38,10 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             private TabPage new_TapPage = new TabPage()
             {
                 Text = "Downloads",
+                Name = "Downloads",
                 BackColor = Page_BackColor
             };
-            private DataGridView trumpDownloads = new DataGridView() 
+            private DataGridView Downloads = new DataGridView() 
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
                 ReadOnly = true,
@@ -49,49 +50,51 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 AllowUserToOrderColumns = false,
                 AllowUserToResizeRows = false,  
             };
-            public DownloadPagePattern() 
+            public DownloadPagePattern()
             {
                 var _fM = new FileManager();
 
                 var files = _fM._GetFilesFromDirectory("downloads");
 
-                trumpDownloads.DefaultCellStyle.ForeColor = Color.White;
-                trumpDownloads.DefaultCellStyle.BackColor = Page_BackColor;
-                trumpDownloads.DefaultCellStyle.SelectionBackColor = Color.Silver;
-
-                trumpDownloads.Columns.Add("Time", "Time");
-                trumpDownloads.Columns.Add("Name", "Name");
-                trumpDownloads.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-                trumpDownloads.CellClick += trumpDownloadClick;
-                new_TapPage.Leave += tabChange;
-
-                foreach (var f in files)
+                if (files.Length != 0)
                 {
-                    FileInfo fileInfo = new FileInfo(_fM._GetPathToFile(f, "downloads"));
-                    var dateTime = fileInfo.CreationTime;
-                    trumpDownloads.Rows.Add($"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}", f);
+                    Downloads.DefaultCellStyle.ForeColor = Color.White;
+                    Downloads.DefaultCellStyle.BackColor = Page_BackColor;
+                    Downloads.DefaultCellStyle.SelectionBackColor = Color.Silver;
+
+                    Downloads.Columns.Add("Time", "Time");
+                    Downloads.Columns.Add("Name", "Name");
+                    Downloads.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                    Downloads.CellClick += DownloadClick;
+
+                    foreach (var f in files)
+                    {
+                        FileInfo fileInfo = new FileInfo(_fM._GetPathToFile(f, "downloads"));
+                        var dateTime = fileInfo.CreationTime;
+                        Downloads.Rows.Add($"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}", f);
+                    }
+
+                    new_TapPage.Controls.Add(Downloads);
+
+                    tabControl.TabPages.Add(new_TapPage);
+                    tabControl.SelectTab(new_TapPage);
                 }
-
-                new_TapPage.Controls.Add(trumpDownloads);
-
-                tabControl.TabPages.Add(new_TapPage);
-                tabControl.SelectTab(new_TapPage);
-            }
-            private void tabChange(object sender, EventArgs e)
-            {
-                if (tabControl.TabPages.ContainsKey("Downloads"))
+                else 
                 {
-                    tabControl.TabPages.RemoveByKey("Downloads");
+                    MessageBox.Show("You haven't any downloads");
                 }
-            }
-            public void trumpDownloadClick(object sender, DataGridViewCellEventArgs e)
+            }            
+            public void DownloadClick(object sender, DataGridViewCellEventArgs e)
             {
-                var title = trumpDownloads.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                var _fM = new FileManager();
-                string path = _fM._GetPathToFile(title, "downloads");
-                Process.Start("explorer.exe", $"/select,\"{path}\"");
-            }
+                var title = Downloads.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                if (title != null)
+                {
+                    var _fM = new FileManager();
+                    string path = _fM._GetPathToFile(title, "downloads");
+                    Process.Start("explorer.exe", $"/select,\"{path}\"");
+                }
+            }            
         }
         public class SettingsPagePattern : PagePattern
         {

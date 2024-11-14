@@ -42,32 +42,28 @@ namespace HuskyBrowser
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo600, Primary.Indigo600, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
 
-            Browser_Initialize();
+            IntializationItems();
         }
-        private void Browser_Initialize()
-        {
-            var _fM = new FileManager();
-
-            string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
-
-            Settings settings;
-            if (json == string.Empty)
-            {
-                settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
-            }
-            else
-            {
-                settings = JsonSerializer.Deserialize<Settings>(json);
-            }
-
-            Enabled_Search_Engine = settings.Enabled_Search_Engine;
-
-            Controls_Initialize(settings);
-        }
-        private void Controls_Initialize(Settings settings)
+        private void IntializationItems()
         {
             try
             {
+                var _fM = new FileManager();
+
+                string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+
+                Settings settings;
+                if (json == string.Empty)
+                {
+                    settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
+                }
+                else
+                {
+                    settings = JsonSerializer.Deserialize<Settings>(json);
+                }
+
+                Enabled_Search_Engine = settings.Enabled_Search_Engine;
+
                 List<Image> icons = new List<Image>();
                 for (short i = 0; i < imageList1.Images.Count; i++)
                 {
@@ -82,14 +78,13 @@ namespace HuskyBrowser
                 SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, settings.Start_Page, Text);
 
                 icons.Clear();
-                SetClicks(simplepage_pattern);
             }
             catch (Exception ex)
             {
                 Error_Logger error_Logger = new Error_Logger();
                 error_Logger.Log_Errors(ex.Message);
             }
-        }
+        }        
 
         public void SetClicks(SimplePagePattern simplepage_pattern)
         {
@@ -108,7 +103,14 @@ namespace HuskyBrowser
 
         public void OnShowDownloadManager(object sender, EventArgs e)
         {
-            DownloadPagePattern downloadPagePattern = new DownloadPagePattern();                        
+            if (!materialTabControl1.TabPages.ContainsKey("Downloads")) 
+            {
+                DownloadPagePattern downloadPagePattern = new DownloadPagePattern();
+            }
+            else 
+            {
+                materialTabControl1.SelectTab("Downloads");
+            }
         }
 
         public void OnGoForward_Click(object sender, EventArgs e)
@@ -185,7 +187,18 @@ namespace HuskyBrowser
             {
                 settings = JsonSerializer.Deserialize<Settings>(json);
             }
-            Controls_Initialize(settings);
+            List<Image> icons = new List<Image>();
+            for (short i = 0; i < imageList1.Images.Count; i++)
+            {
+                icons.Add(imageList1.Images[i]);
+            }
+            List<Image> markbutton_icons = new List<Image>();
+            for (short i = 0; i < imageList2.Images.Count; i++)
+            {
+                markbutton_icons.Add(imageList2.Images[i]);
+            }
+
+            SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, settings.Start_Page, Text);
         }
         public void OnCreateSettingsPage_Click(object sender, EventArgs e)
         {
@@ -393,10 +406,7 @@ namespace HuskyBrowser
         }
         private void materialTabControl1_TabIndexChanged(object sender, EventArgs e)
         {
-            if (materialTabControl1.TabPages.ContainsKey("Downloads")) 
-            {
-                materialTabControl1.TabPages.RemoveByKey("Downloads");
-            }
+            
         }
         public bool IsValidUrl(string url)
         {
