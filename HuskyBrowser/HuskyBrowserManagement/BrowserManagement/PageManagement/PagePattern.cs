@@ -51,7 +51,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 var _fM = new FileManager();
 
-                var files = _fM._GetFilesFromDirectory("downloads");
+                string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+                Settings settings = GetSettings(_fM, json);
+
+                string path = settings.SaveDirectoryPath;
+
+                var files = _fM._GetFilesFromAnyDirectory(path);
 
                 if (files.Length != 0)
                 {
@@ -68,7 +73,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                     foreach (var f in files)
                     {
-                        FileInfo fileInfo = new FileInfo(_fM._GetPathToFile(f, "downloads"));
+                        FileInfo fileInfo = new FileInfo($"{path}\\{f}");
                         var dateTime = fileInfo.CreationTime;
                         Downloads.Rows.Add($"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}", f);
                     }
@@ -79,19 +84,43 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     tabControl.TabPages.Add(new_TapPage);
                     tabControl.SelectTab(new_TapPage);
                 }
-                else 
+                else
                 {
                     MessageBox.Show("You haven't any downloads");
                 }
-            }            
+            }
+
+            private static Settings GetSettings(FileManager _fM, string json)
+            {
+                Settings settings;
+
+                if (json == string.Empty)
+                {
+                    settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
+                }
+                else
+                {
+                    settings = JsonSerializer.Deserialize<Settings>(json);
+                }
+
+                return settings;
+            }
+
             public void DownloadClick(object sender, DataGridViewCellEventArgs e)
             {
-                var title = Downloads.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                if (title != null)
+                if (e.ColumnIndex == 1)
                 {
+                    var title = Downloads.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
                     var _fM = new FileManager();
-                    string path = _fM._GetPathToFile(title, "downloads");
-                    Process.Start("explorer.exe", $"/select,\"{path}\"");
+                    string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+                    Settings settings = GetSettings(_fM, json);
+                    string path = settings.SaveDirectoryPath + "\\" + title;
+
+                    if (title != null)
+                    {
+                        Process.Start("explorer.exe", $"/select,\"{path}\"");
+                    }
                 }
             }
             private void OnClose_Click(object sender, EventArgs e)
@@ -141,13 +170,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 Text = "DuckDuckGo",
                 Size = new Size(180, 50),
-                Location = new Point(130, 115),
+                Location = new Point(160, 115),
                 AutoSize = false
             };
             public MaterialSwitch SaveHistory_Switch = new MaterialSwitch
             {
                 Size = new Size(180, 50),
-                Location = new Point(120, 245),
+                Location = new Point(140, 245),
                 AutoSize = false
             };
             public MaterialLabel SaveHistory_Label = new MaterialLabel
@@ -155,39 +184,19 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Save history:",
                 Location = new Point(20, 260),
                 AutoSize = false
-            };
-            public MaterialLabel SavePath_Label = new MaterialLabel
-            {
-                Text = "Save folder path:",
-                Size = new Size(125, 30),
-                Location = new Point(20, 300),
-                AutoSize = false
-            };
-            public MaterialMultiLineTextBox SavePath_TextBox = new MaterialMultiLineTextBox
-            {
-                Size = new Size(700, 20),
-                Location = new Point(145, 300),
-                AutoSize = false
-            };
-            public MaterialButton SelectedPath_Button = new MaterialButton
-            {
-                Size = new Size(32, 40),
-                Location = new Point(845, 290),
-                AutoSize = false,
-                Type = MaterialButton.MaterialButtonType.Text
-            };
+            };            
             public MaterialComboBox ResolutionOfScreen = new MaterialComboBox
             {
                 Size = new Size(180, 50),
-                Location = new Point(130, 185),
+                Location = new Point(160, 185),
                 AutoSize = false
             };
             public MaterialLabel ResolutionOfScreen_Text = new MaterialLabel
             {
                 TextAlign = ContentAlignment.TopCenter,
                 Text = "Screen resolution:",
-                Size = new Size(130, 50),
-                Location = new Point(10, 190),
+                Size = new Size(145, 50),
+                Location = new Point(10, 200),
                 AutoSize = false
             };
             public MaterialButton OpenHistoryJournal_Button = new MaterialButton
@@ -205,7 +214,27 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(130, 50),
                 Location = new Point(310, 10),
                 AutoSize = false
-            };            
+            };
+            public MaterialLabel SavePath_Label = new MaterialLabel
+            {
+                Text = "Save folder path:",
+                Size = new Size(125, 30),
+                Location = new Point(20, 300),
+                AutoSize = false
+            };
+            public MaterialMultiLineTextBox SavePath_TextBox = new MaterialMultiLineTextBox
+            {
+                Size = new Size(700, 20),
+                Location = new Point(160, 300),
+                AutoSize = false
+            };
+            public MaterialButton SelectedPath_Button = new MaterialButton
+            {
+                Size = new Size(40, 40),
+                Location = new Point(865, 290),
+                AutoSize = false,
+                Type = MaterialButton.MaterialButtonType.Text
+            };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {

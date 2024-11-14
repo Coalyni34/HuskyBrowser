@@ -20,7 +20,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.DownloadingManager
 
             var _fM = new FileManager();
 
-            string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+            string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));          
 
             Settings settings;
 

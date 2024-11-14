@@ -190,5 +190,27 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 return null;
             }
         }
+        public string[] _GetFilesFromAnyDirectory(string path)
+        {
+            try
+            {
+                var files = Directory.GetFiles(path);
+
+                var names = new string[files.Length];
+
+                for (int i = 0; i < names.Length; i++)
+                {
+                    names[i] = Path.GetFileName(files[i]);
+                }
+
+                return names;
+            }
+            catch (Exception ex)
+            {
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
+                return null;
+            }
+        }
     }
 }
