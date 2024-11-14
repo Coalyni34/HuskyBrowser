@@ -164,7 +164,6 @@ namespace HuskyBrowser
             {
                 int selectTabIndex = materialTabControl1.SelectedIndex;
                 materialTabControl1.TabPages.Remove(materialTabControl1.SelectedTab);
-                materialTabControl1.SelectTab(materialTabControl1.TabPages[selectTabIndex-1]);
                 Text = materialTabControl1.SelectedTab.Text;
             }
             else if (materialTabControl1.TabCount == 1)

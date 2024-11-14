@@ -48,7 +48,17 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 AllowUserToDeleteRows = false,
                 AllowUserToResizeColumns = false,
                 AllowUserToOrderColumns = false,
-                AllowUserToResizeRows = false,  
+                AllowUserToResizeRows = false,
+                Location = new Point(75, 0),
+            };
+            private MaterialButton Closing_Button = new MaterialButton()
+            {
+                Text = "Close Page",
+                Size = new Size(70, 40),
+                Location = new Point(0, 10),
+                Anchor = AnchorStyles.Left | AnchorStyles.Top,
+                DrawShadows = false,
+                AutoSize = false
             };
             public DownloadPagePattern()
             {
@@ -67,6 +77,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     Downloads.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                     Downloads.CellClick += DownloadClick;
+                    Closing_Button.Click += OnClose_Click;
 
                     foreach (var f in files)
                     {
@@ -75,6 +86,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                         Downloads.Rows.Add($"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}", f);
                     }
 
+                    new_TapPage.Controls.Add(Closing_Button);
                     new_TapPage.Controls.Add(Downloads);
 
                     tabControl.TabPages.Add(new_TapPage);
@@ -94,7 +106,18 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     string path = _fM._GetPathToFile(title, "downloads");
                     Process.Start("explorer.exe", $"/select,\"{path}\"");
                 }
-            }            
+            }
+            private void OnClose_Click(object sender, EventArgs e)
+            {
+                if (tabControl.TabCount > 1)
+                {
+                    tabControl.TabPages.Remove(tabControl.SelectedTab);
+                }
+                else if (tabControl.TabCount == 1)
+                {
+                    Application.Exit();
+                }
+            }
         }
         public class SettingsPagePattern : PagePattern
         {
