@@ -1,26 +1,13 @@
-﻿using CefSharp;
-using CefSharp.WinForms;
+﻿using CefSharp.WinForms;
 using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern.SettingsPagePattern;
-using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
 using System.Text.Json;
-using static System.Net.WebRequestMethods;
-using HuskyBrowser.Properties;
-using System.Text.Json.Serialization;
-using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
-using CefSharp.DevTools.Debugger;
-using MonoTorrent.Client;
 using HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement;
 using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
-using static System.Net.Mime.MediaTypeNames;
 using Application = System.Windows.Forms.Application;
 using Image = System.Drawing.Image;
 using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
@@ -124,6 +111,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             private TabPage new_TapPage = new TabPage()
             {
                 Text = "Settings",
+                Name = "Settings",
                 BackColor = Page_BackColor
             };
             private MaterialButton SaveSettings_Button = new MaterialButton()

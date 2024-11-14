@@ -1,27 +1,16 @@
 ﻿using CefSharp;
-using CefSharp.DevTools.Autofill;
 using CefSharp.WinForms;
-using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
 using HuskyBrowser.WorkingWithBrowserProperties;
 using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
-using static HuskyBrowser.WorkingWithBrowserProperties.HistoryManager;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
 
 namespace HuskyBrowser
@@ -207,26 +196,16 @@ namespace HuskyBrowser
                 icons.Add(materialTabControl1.ImageList.Images[i]);
             }
 
-            bool IsSettingsTabCreated = false;
-            var settingsTabPage = new TabPage();
-
-            foreach(TabPage tab in materialTabControl1.TabPages) 
-            {
-                if(tab.Text == "Settings") 
-                {
-                    IsSettingsTabCreated = true;
-                    settingsTabPage = tab;
-                }
-            }
-
-            if (!IsSettingsTabCreated)
+            if (!materialTabControl1.TabPages.ContainsKey("Settings"))
             {
                 SettingsPagePattern settingsPage_Pattern = new SettingsPagePattern(materialTabControl1);
+                Text = "Settings";
             }
-            else 
+            else
             {
-                materialTabControl1.SelectTab(settingsTabPage);
-            }
+                materialTabControl1.SelectTab("Settings");
+                Text = "Settings";
+            }            
         }
         public void OnLoad_Event(object sender, KeyEventArgs e)
         {
@@ -405,7 +384,7 @@ namespace HuskyBrowser
         }
         private void materialTabControl1_TabIndexChanged(object sender, EventArgs e)
         {
-            
+            Text = materialTabControl1.SelectedTab.Text;
         }
         public bool IsValidUrl(string url)
         {
