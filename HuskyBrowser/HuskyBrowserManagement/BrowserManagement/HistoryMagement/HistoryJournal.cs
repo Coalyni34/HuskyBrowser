@@ -36,10 +36,11 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             var History_Files = new FileManager.History_Files();
 
             string path = History_Files._GetPathToHistoryFile("history.json"); 
+
             string jsonHistory = History_Files._ReadFileText(path);
-            
+
             Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(jsonHistory);
-            
+
             materialComboBox1.Items.AddRange(entries_Dict.Keys.ToArray());
             materialComboBox1.SelectedItem = $"{DateTime.Now}".Split(' ')[0];
 
@@ -49,9 +50,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
             foreach (HistoryEntry entry in entries)
             {
-                dataGridView1.Rows.Add($"{entry.Title}", $"{entry.Time}", $"{entry.URL}");                
-            }
-            
+               dataGridView1.Rows.Add($"{entry.Title}", $"{entry.Time}", $"{entry.URL}");
+            }            
         }
 
         private void HistoryJournal_Load(object sender, EventArgs e)
@@ -64,7 +64,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             string path = History_Files._GetPathToHistoryFile("history.json");
 
             History_Files._DeleteFileText(path);
-            History_Files._WriteFile(string.Empty, path);
+            History_Files._WriteFile("", path);
             
             dataGridView1.Rows.Clear();
             
@@ -74,19 +74,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
         private void materialComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var History_Files = new FileManager.History_Files();
-
-            string jsonHistory = History_Files._ReadFileText(History_Files._GetPathToHistoryFile("history.json"));
-            Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(jsonHistory);
-                    
-            List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
-
-            dataGridView1.Rows.Clear(); 
             
-            foreach (HistoryEntry entry in entries)
-            {
-                dataGridView1.Rows.Add(entry.Title, entry.Time, entry.URL);
-            }
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

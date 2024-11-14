@@ -308,7 +308,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             private void SelectedPath_Click(object sender, EventArgs e)
             {
                 FolderBrowserDialog folderDialog = new FolderBrowserDialog();
-                folderDialog.Description = "Выберите папку";
+                folderDialog.Description = "Select folder";
 
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -319,8 +319,20 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
             private void OnOpenJournal_Click(object sender, EventArgs e)
             {
-                HistoryJournal historyJournal = new HistoryJournal(tabControl);
-                historyJournal.Show();
+                var _fM = new FileManager();
+
+                string path = _fM._GetPathToFile("history.json", "history");
+
+                string jsonHistory = _fM._ReadFileText(path);
+                if(jsonHistory != string.Empty) 
+                {
+                    HistoryJournal historyJournal = new HistoryJournal(tabControl);
+                    historyJournal.Show();
+                }
+                else 
+                {
+                    MessageBox.Show("History has deleted. You have to search some in the Internet or reload the program");
+                }
             }
             private void OnOpenBookmarks_Click(object sender, EventArgs e)
             {
