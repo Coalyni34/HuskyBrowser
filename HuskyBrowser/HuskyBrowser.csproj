@@ -178,6 +178,7 @@
     </Compile>
     <Compile Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManager.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SearchContextMenuManager\SearchContextMenuHandler.cs" />
+    <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\SettingsSetup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\BookMarksManager\BookMarksManager.cs" />

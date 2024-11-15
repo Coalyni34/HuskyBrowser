@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -103,15 +104,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         {
             try
             {
-                if (Directory.Exists($"{Directory.GetCurrentDirectory()}/browser_properties"))
+                if (Directory.Exists($"{Directory.GetCurrentDirectory()}\\browser_properties"))
                 {
-                    var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{filename}";
+                    var path_ToFile = $"{Directory.GetCurrentDirectory()}\\browser_properties\\{filename}";
                     return path_ToFile;
                 }
                 else
                 {
-                    Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}/browser_properties");
-                    var path_ToFile = $"{Directory.GetCurrentDirectory()}/browser_properties/{filename}";
+                    Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}\\browser_properties");
+                    var path_ToFile = $"{Directory.GetCurrentDirectory()}\\browser_properties\\{filename}";
                     return path_ToFile;
                 }
             }
@@ -151,7 +152,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 if (Directory.Exists($"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}"))
                 {
-                    var pathToDirectory = $"{Directory.GetCurrentDirectory()}/browser_properties/{directoryname}";
+                    var pathToDirectory = $"{Directory.GetCurrentDirectory()}\\browser_properties\\{directoryname}";
                     return pathToDirectory;
                 }
                 else
@@ -212,5 +213,56 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 return null;
             }
         }
+        public void _CreatePropertiesDirectory() 
+        {
+            try
+            {
+                var pathToDirectory = $"{Directory.GetCurrentDirectory()}\\browser_properties";
+                if (!Directory.Exists(pathToDirectory))
+                {                    
+                    Directory.CreateDirectory(pathToDirectory + "\\history");
+                    Directory.CreateDirectory(pathToDirectory + "\\simple_settings");
+                    Directory.CreateDirectory(pathToDirectory + "\\bookmarks"); 
+                    Settings settings = new Settings("https://start.duckduckgo.com/", "https://start.duckduckgo.com/", true, "DuckDuckGo", new int[] { 1920, 1080 }, $"C:\\Users\\{Environment.UserName}\\Downloads");
+                    string jsonSettings = JsonSerializer.Serialize(settings);
+                    _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json"));
+                    _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json", "simple_settings"));
+                    _WriteFile(string.Empty, pathToDirectory + "\\history\\history.json");
+                    _WriteFile(string.Empty, pathToDirectory + "\\bookmarks\\bookmarks.json");
+                }
+                else
+                {
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);               
+            }
+        }
+        public string _GetPropertiesDirectory() 
+        {
+            try
+            {
+                if (Directory.Exists($"{Directory.GetCurrentDirectory()}\\browser_properties"))
+                {
+                    var pathToDirectory = $"{Directory.GetCurrentDirectory()}\\browser_properties";
+                    return pathToDirectory;
+                }
+                else
+                {
+                    Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}\\browser_properties");
+                    var pathToDirectory = $"{Directory.GetCurrentDirectory()}\\browser_properties";
+                    return pathToDirectory;
+                }
+            }
+            catch (Exception ex)
+            {
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
+                return null; 
+            }
+        }        
     }
 }

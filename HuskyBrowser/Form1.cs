@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
+using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SettingsManagement;
 using HuskyBrowser.WorkingWithBrowserProperties;
 using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
 using MaterialSkin;
@@ -23,8 +24,9 @@ namespace HuskyBrowser
         public Form1()
         {
             InitializeComponent();
+            SettingsSetup settingsSetup = new SettingsSetup();
 
-            thisform = this;
+            thisform = this;            
 
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
