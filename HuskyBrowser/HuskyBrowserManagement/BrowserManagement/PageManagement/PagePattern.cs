@@ -371,7 +371,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     ScreenResolution = new int[] { Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height };
                 }
 
-                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine, ScreenResolution, SaveDirectoryPath);
+                string sdpt = $"C:\\Users\\{System.Security.Principal.WindowsIdentity.GetCurrent().Name}\\Downloads";
+                if(SaveDirectoryPath != string.Empty)
+                {
+                    sdpt = SaveDirectoryPath;
+                }
+
+                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine, ScreenResolution, sdpt);
 
                 string jsonSettings = JsonSerializer.Serialize(settings);
 
