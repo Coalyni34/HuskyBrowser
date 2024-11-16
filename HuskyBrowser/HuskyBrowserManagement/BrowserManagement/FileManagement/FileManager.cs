@@ -223,7 +223,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     Directory.CreateDirectory(pathToDirectory + "\\history");
                     Directory.CreateDirectory(pathToDirectory + "\\simple_settings");
                     Directory.CreateDirectory(pathToDirectory + "\\bookmarks"); 
-                    Settings settings = new Settings("https://start.duckduckgo.com/", "https://start.duckduckgo.com/", true, "DuckDuckGo", new int[] { 1920, 1080 }, $"C:\\Users\\{Environment.UserName}\\Downloads");
+                    Settings settings = new Settings("https://start.duckduckgo.com/", "https://start.duckduckgo.com/", true, "DuckDuckGo", new int[] { 1920, 1080 }, $"C:\\Users\\{System.Security.Principal.WindowsIdentity.GetCurrent().Name}\\Downloads");
                     string jsonSettings = JsonSerializer.Serialize(settings);
                     _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json"));
                     _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json", "simple_settings"));
