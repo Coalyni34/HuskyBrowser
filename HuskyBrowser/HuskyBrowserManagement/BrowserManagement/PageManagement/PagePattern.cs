@@ -226,7 +226,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 Size = new Size(700, 20),
                 Location = new Point(160, 300),
-                AutoSize = false
+                AutoSize = false,
+                ReadOnly = true
             };
             public MaterialButton SelectedPath_Button = new MaterialButton
             {
