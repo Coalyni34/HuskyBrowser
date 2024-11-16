@@ -57,10 +57,10 @@
     <ApplicationIcon>Husky-browser_2.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>EE45B7A4BC7A330AF6352F8E67DF23AC17A8D377</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>11F7E5BCD7164211B8DD2953817BF8954B7466EB</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>HuskyBrowser_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>HuskyBrowser_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -216,6 +216,7 @@
     <EmbeddedResource Include="HuskyBrowserManagement\BrowserManagement\HistoryMagement\HistoryJournal.resx">
       <DependentUpon>HistoryJournal.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="HuskyBrowser_1_TemporaryKey.pfx" />
     <None Include="HuskyBrowser_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
