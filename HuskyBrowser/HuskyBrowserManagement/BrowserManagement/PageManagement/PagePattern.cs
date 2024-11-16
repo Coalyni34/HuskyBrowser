@@ -371,8 +371,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     ScreenResolution = new int[] { Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height };
                 }
 
-                string sdpt = $"C:\\Users\\{System.Security.Principal.WindowsIdentity.GetCurrent().Name}\\Downloads";
-                if(SaveDirectoryPath != string.Empty)
+                string sdpt = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+                if (SaveDirectoryPath != string.Empty)
                 {
                     sdpt = SaveDirectoryPath;
                 }
