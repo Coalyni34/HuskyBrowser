@@ -261,7 +261,20 @@ namespace HuskyBrowser
 
                     string _address = e.Address;
 
-                    if (adress_line.Text != Enabled_Search_Engine)
+                    FileManager _fM = new FileManager();
+
+                    string json = _fM._ReadFileText(_fM._GetPathToFile("browser_settings.json"));
+                    Settings settings;
+                    if (json == string.Empty)
+                    {
+                        settings = JsonSerializer.Deserialize<Settings>(_fM._GetPathToFile("browser_settings.json", "simple_settings"));
+                    }
+                    else
+                    {
+                        settings = JsonSerializer.Deserialize<Settings>(json);
+                    }
+
+                    if (adress_line.Text != settings.Start_Page)
                     {
                         adress_line.Text = _address;
 

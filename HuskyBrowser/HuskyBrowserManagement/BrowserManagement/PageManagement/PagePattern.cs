@@ -13,6 +13,7 @@ using Image = System.Drawing.Image;
 using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
 using System.Diagnostics;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
+using CefSharp;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -239,10 +240,17 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {
-                { "DuckDuckGo", "https://start.duckduckgo.com/" },
+                { "DuckDuckGo", "https://duckduckgo.com/?t=ffab&q=" },
                 { "Google", "https://www.google.com/search?q=" },
                 { "Bing", "https://www.bing.com/search?=" },
                 { "Brave", "https://search.brave.com/search?q=" }
+            };
+            private Dictionary<string, string> Start_Pages = new Dictionary<string, string>()
+            {
+                { "DuckDuckGo", "https://start.duckduckgo.com/" },
+                { "Google", "https://www.google.com/" },
+                { "Bing", "https://www.bing.com/" },
+                { "Brave", "https://search.brave.com/" }
             };
             private string SaveDirectoryPath;
             public SettingsPagePattern(MaterialTabControl materialTabControl, Image[] button_icons)
@@ -260,9 +268,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(SavePath_Label);
                 new_TapPage.Controls.Add(SavePath_TextBox);
                 new_TapPage.Controls.Add(SelectedPath_Button);
-
+                               
                 SelectedPath_Button.Icon = button_icons[0];
-
+                
                 foreach (var engine in Engines_Keys)
                 {
                     SearchEngine_ComboBox.Items.Add(engine);
@@ -294,7 +302,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 SearchEngine_ComboBox.SelectedItem = settings.Search_Engine_Name;
                 SaveHistory_Switch.Checked = settings.Save_History;
                 ResolutionOfScreen.Text = $"{settings.ScreenResolution[0]}X{settings.ScreenResolution[1]}";
-                SavePath_TextBox.Text = settings.SaveDirectoryPath;
+
+                if(settings.SaveDirectoryPath != null) 
+                {
+                    SavePath_TextBox.Text = settings.SaveDirectoryPath;
+                }
+                else 
+                {
+                    SavePath_TextBox.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+                }
 
                 SaveSettings_Button.Click += OnSave_Click;
                 Closing_Button.Click += OnClose_Click;
@@ -373,12 +389,12 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 }
 
                 string sdpt = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-                if (SaveDirectoryPath != string.Empty)
+                if (SaveDirectoryPath != null)
                 {
                     sdpt = SaveDirectoryPath;
                 }
 
-                Settings settings = new Settings(Search_Engines[selected_engine], Search_Engines[selected_engine], DoSaveHistory, selected_engine, ScreenResolution, sdpt);
+                Settings settings = new Settings(Search_Engines[selected_engine], Start_Pages[selected_engine], DoSaveHistory, selected_engine, ScreenResolution, sdpt);
 
                 string jsonSettings = JsonSerializer.Serialize(settings);
 
@@ -506,8 +522,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                 var _fm = new FileManager();
                 string json = _fm._ReadFileText(_fm._GetPathToFile("browser_settings.json"));
-                var settings = JsonSerializer.Deserialize<Settings>(json);
-
+                var settings = JsonSerializer.Deserialize<Settings>(json);                               
+                
                 SearchContextMenuHandler menuHandler = new SearchContextMenuHandler();
                 cwb.Load(URL);
                 DownloadManager downloadManager = new DownloadManager();
