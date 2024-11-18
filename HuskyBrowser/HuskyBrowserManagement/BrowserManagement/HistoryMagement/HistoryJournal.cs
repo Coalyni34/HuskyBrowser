@@ -75,6 +75,10 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
         private void materialComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
+        }
+        private void OnSelectedItemChanged(object sender, EventArgs e)
+        {
             var History_Files = new FileManager.History_Files();
 
             string path = History_Files._GetPathToHistoryFile("history.json");
@@ -83,8 +87,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 
             Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(jsonHistory);
 
-            List<HistoryEntry> entries = entries_Dict[materialComboBox1.SelectedValue.ToString()];
+            List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
 
+            dataGridView1.Rows.Clear();
             foreach (HistoryEntry entry in entries)
             {
                 dataGridView1.Rows.Add($"{entry.Title}", $"{entry.Time}", $"{entry.URL}");

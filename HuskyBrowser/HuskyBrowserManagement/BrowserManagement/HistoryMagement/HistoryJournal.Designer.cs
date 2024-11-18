@@ -83,6 +83,7 @@
             this.materialComboBox1.StartIndex = 0;
             this.materialComboBox1.TabIndex = 1;
             this.materialComboBox1.SelectedIndexChanged += new System.EventHandler(this.materialComboBox1_SelectedIndexChanged);
+            this.materialComboBox1.SelectionChangeCommitted += new System.EventHandler(this.OnSelectedItemChanged);
             this.materialComboBox1.SelectedValueChanged += new System.EventHandler(this.materialComboBox1_SelectedIndexChanged);
             // 
             // materialButton1
