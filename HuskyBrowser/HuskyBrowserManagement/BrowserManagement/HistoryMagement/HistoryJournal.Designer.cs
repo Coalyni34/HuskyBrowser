@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryJournal));
             this.panel1 = new System.Windows.Forms.Panel();
             this.materialComboBox1 = new MaterialSkin.Controls.MaterialComboBox();
@@ -55,7 +55,7 @@
             this.panel1.Controls.Add(this.materialComboBox1);
             this.panel1.Controls.Add(this.materialButton1);
             this.panel1.Location = new System.Drawing.Point(4, 64);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(144, 297);
             this.panel1.TabIndex = 0;
@@ -75,7 +75,7 @@
             this.materialComboBox1.IntegralHeight = false;
             this.materialComboBox1.ItemHeight = 43;
             this.materialComboBox1.Location = new System.Drawing.Point(2, 6);
-            this.materialComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.materialComboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.materialComboBox1.MaxDropDownItems = 4;
             this.materialComboBox1.MouseState = MaterialSkin.MouseState.OUT;
             this.materialComboBox1.Name = "materialComboBox1";
@@ -83,6 +83,7 @@
             this.materialComboBox1.StartIndex = 0;
             this.materialComboBox1.TabIndex = 1;
             this.materialComboBox1.SelectedIndexChanged += new System.EventHandler(this.materialComboBox1_SelectedIndexChanged);
+            this.materialComboBox1.SelectedValueChanged += new System.EventHandler(this.materialComboBox1_SelectedIndexChanged);
             // 
             // materialButton1
             // 
@@ -114,7 +115,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Location = new System.Drawing.Point(151, 64);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(553, 297);
             this.panel2.TabIndex = 1;
@@ -130,7 +131,7 @@
             this.Time,
             this.Address});
             this.dataGridView1.Location = new System.Drawing.Point(2, 2);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -140,9 +141,9 @@
             // 
             // Title
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Title.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle1;
             this.Title.Frozen = true;
             this.Title.HeaderText = "Title";
             this.Title.MinimumWidth = 400;
@@ -152,9 +153,9 @@
             // 
             // Time
             // 
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Time.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Time.DefaultCellStyle = dataGridViewCellStyle2;
             this.Time.Frozen = true;
             this.Time.HeaderText = "Time";
             this.Time.MinimumWidth = 6;
@@ -165,9 +166,9 @@
             // Address
             // 
             this.Address.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Address.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Address.DefaultCellStyle = dataGridViewCellStyle3;
             this.Address.HeaderText = "Address";
             this.Address.MinimumWidth = 6;
             this.Address.Name = "Address";
@@ -200,7 +201,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "HistoryJournal";
             this.Padding = new System.Windows.Forms.Padding(2, 52, 2, 2);
             this.Text = "HistoryJournal";
