@@ -14,6 +14,7 @@ using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
 using System.Diagnostics;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
 using CefSharp;
+using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SettingsManagement.ColorManagement;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -237,6 +238,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 AutoSize = false,
                 Type = MaterialButton.MaterialButtonType.Text
             };
+            public MaterialButton OpenColorManager = new MaterialButton            
+            {
+                TextAlign = ContentAlignment.TopCenter,
+                Text = "Open ColorTheme Changer",
+                Size = new Size(150, 50),
+                Location = new Point(450, 10),
+                AutoSize = false
+            };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {
@@ -268,6 +277,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(SavePath_Label);
                 new_TapPage.Controls.Add(SavePath_TextBox);
                 new_TapPage.Controls.Add(SelectedPath_Button);
+                new_TapPage.Controls.Add(OpenColorManager);
                                
                 SelectedPath_Button.Icon = button_icons[0];
                 
@@ -317,9 +327,16 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 OpenHistoryJournal_Button.Click += OnOpenJournal_Click;
                 OpenBookMarks_Button.Click += OnOpenBookmarks_Click;
                 SelectedPath_Button.Click += SelectedPath_Click;
+                OpenColorManager.Click += OpenColorManager_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
+            }
+
+            private void OpenColorManager_Click(object sender, EventArgs e)
+            {
+                ColorManagerForm color = new ColorManagerForm();
+                color.Show();
             }
 
             private void SelectedPath_Click(object sender, EventArgs e)

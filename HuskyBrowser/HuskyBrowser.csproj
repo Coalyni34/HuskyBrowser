@@ -179,6 +179,12 @@
     </Compile>
     <Compile Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManager.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SearchContextMenuManager\SearchContextMenuHandler.cs" />
+    <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\ColorManagement\ColorManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\ColorManagement\ColorManagerForm.Designer.cs">
+      <DependentUpon>ColorManagerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\SettingsSetup.cs" />
     <Compile Include="HuskyBrowserManagement\ParserManager\ParserForm.cs">
       <SubType>Form</SubType>
@@ -208,6 +214,9 @@
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\ColorManagement\ColorManagerForm.resx">
+      <DependentUpon>ColorManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HuskyBrowserManagement\ParserManager\ParserForm.resx">
       <DependentUpon>ParserForm.cs</DependentUpon>
