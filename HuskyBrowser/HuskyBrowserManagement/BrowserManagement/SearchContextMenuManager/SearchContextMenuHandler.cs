@@ -1,22 +1,23 @@
 ﻿using CefSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 
 namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager
 {
     public class SearchContextMenuHandler : IContextMenuHandler
     {
-        private Dictionary<string, CefMenuCommand> searchMenuItems = new Dictionary<string, CefMenuCommand>
+        Dictionary<string, CefMenuCommand> searchMenuItems = new Dictionary<string, CefMenuCommand>
         {
             {"Cut", CefMenuCommand.Cut },
             {"Copy", CefMenuCommand.Copy },
-            {"Paste", CefMenuCommand.Paste },            
+            {"Paste", CefMenuCommand.Paste },
             {"Search it", CefMenuCommand.Find },
-            {"Select all", CefMenuCommand.SelectAll },           
-            {"Save file", (CefMenuCommand)10001}
+            {"Select all", CefMenuCommand.SelectAll },   
         };
         public void OnBeforeContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
@@ -30,13 +31,43 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             {
                 model.SetEnabledAt(i, !string.IsNullOrWhiteSpace(parameters.SelectionText));
             }
-            
+
+            model.SetEnabled(CefMenuCommand.Paste, !string.IsNullOrEmpty(Clipboard.GetText()));
+
+            if (!string.IsNullOrEmpty(parameters.LinkUrl))
+            {                
+                model.AddItem((CefMenuCommand)26501, "Copy link");
+                model.SetEnabled((CefMenuCommand)26501, !string.IsNullOrEmpty(parameters.LinkUrl));
+            }
+            else
+            {
+                model.Remove((CefMenuCommand)26501);
+            }
+
+            if (parameters.HasImageContents) 
+            {
+                model.AddItem((CefMenuCommand)26502, "Copy as image");
+                model.SetEnabled((CefMenuCommand)26502, parameters.HasImageContents);
+            }
+            else
+            {
+                model.Remove((CefMenuCommand)26502);
+            }
+
             string file_url = parameters.LinkUrl;
-            model.SetEnabled((CefMenuCommand)10001, !string.IsNullOrEmpty(file_url));
+            if (!string.IsNullOrEmpty(file_url))
+            {
+                model.AddItem((CefMenuCommand)10001, "Save as");
+                model.SetEnabled((CefMenuCommand)10001, !string.IsNullOrEmpty(file_url));
+            }
+            else
+            {
+                model.Remove((CefMenuCommand)10001);
+            }    
         }
 
         public bool OnContextMenuCommand(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
-        {
+        {            
             switch (commandId) 
             {                
                 case CefMenuCommand.Copy:
@@ -49,10 +80,15 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
                 case (CefMenuCommand)10001:
                     SaveFile(parameters.LinkUrl);
                     return true;
+                case (CefMenuCommand)26501:
+                    CopyLink(parameters.LinkUrl);
+                return true;  
+                case (CefMenuCommand)26502:
+                    CopyImage(parameters.LinkUrl);
+                    return true;
             }
             return false;
-        }
-
+        }                
         public void OnContextMenuDismissed(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
             
@@ -62,7 +98,33 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
         {
             return false;            
         }
+        private void CopyImage(string linkUrl)
+        {
+            try
+            {
+                var imageUrl = linkUrl;
 
+                Clipboard.Clear();
+                using (var webClient = new WebClient())
+                {
+                    byte[] imageBytes = webClient.DownloadData(imageUrl);
+                    using (var ms = new MemoryStream(imageBytes))
+                    {
+                        var image = Image.FromStream(ms);
+                        Clipboard.SetImage(image);
+                    }
+                }
+            }
+            catch (Exception e) 
+            {
+                Error_Logger logger = new Error_Logger();
+                logger.Log_Errors(e.Message);                
+            }
+        }
+        private void CopyLink(string linkUrl)
+        {
+            System.Windows.Forms.Clipboard.SetText(linkUrl);
+        }
         private void SaveFile(string url)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
