@@ -10,6 +10,6 @@ namespace HuskyBrowser.HuskyBrowserManagement.TorManager
 {
     public class TorrentPage : PagePattern
     {
-        public TabPage TabPage = new TabPage();
+        TabPage tabPage = new TabPage();        
     }
 }
