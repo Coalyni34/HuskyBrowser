@@ -45,6 +45,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             materialComboBox1.SelectedItem = $"{DateTime.Now}".Split(' ')[0];
 
             List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
+            entries.Reverse();
 
             tabControl = _tabControl;
 
@@ -88,6 +89,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
             Dictionary<string, List<HistoryEntry>> entries_Dict = JsonSerializer.Deserialize<Dictionary<string, List<HistoryEntry>>>(jsonHistory);
 
             List<HistoryEntry> entries = entries_Dict[materialComboBox1.Text];
+            entries.Reverse();
 
             dataGridView1.Rows.Clear();
             foreach (HistoryEntry entry in entries)
