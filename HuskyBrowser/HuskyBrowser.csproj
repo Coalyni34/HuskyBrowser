@@ -184,7 +184,7 @@
     <Compile Include="HuskyBrowserManagement\ParserManager\ParserForm.Designer.cs">
       <DependentUpon>ParserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HuskyBrowserManagement\TorrentsManagement\TorrentPage.cs.cs" />
+    <Compile Include="HuskyBrowserManagement\TorrentsManagement\TorrentPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\BookMarksManager\BookMarksManager.cs" />
