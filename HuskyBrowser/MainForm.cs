@@ -18,14 +18,14 @@ using Settings = HuskyBrowser.WorkingWithBrowserProperties.Settings;
 
 namespace HuskyBrowser
 {
-    public partial class Form1 : MaterialForm
+    public partial class MainForm : MaterialForm
     {
         public static string Enabled_Search_Engine;
         public string[] title_and_adress = new string[2];
-        public static Form1 thisform;
+        public static MainForm thisform;
         public static Color _BackColor { get; set; }
         public static Color _ForeColor { get; set; } = Color.White;
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             SettingsSetup settingsSetup = new SettingsSetup();
@@ -33,7 +33,7 @@ namespace HuskyBrowser
             thisform = this;
 
             ForeColor = _ForeColor;
-            
+                        
             FileManager fileManager = new FileManager();
 
             string json = fileManager._ReadFileText(fileManager._GetPathToFile("browser_theme.json"));
@@ -80,16 +80,23 @@ namespace HuskyBrowser
                 for (short i = 0; i < imageList1.Images.Count; i++)
                 {
                     icons.Add(imageList1.Images[i]);
-                }
+                }                
                 List<Image> markbutton_icons = new List<Image>();
                 for (short i = 0; i < imageList2.Images.Count; i++)
                 {
                     markbutton_icons.Add(imageList2.Images[i]);
                 }
-
-                SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, settings.Start_Page, Text);
-
+                switch (settings.TypeOfStartPage)
+                {
+                    case "Simple page":
+                        SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, settings.Start_Page, Text);
+                        break;
+                    case "Empty page":
+                        CustomPagePattern customPagePattern = new CustomPagePattern(icons, markbutton_icons, materialTabControl1);
+                        break;
+                }
                 icons.Clear();
+                markbutton_icons.Clear();
             }
             catch (Exception ex)
             {
@@ -111,6 +118,60 @@ namespace HuskyBrowser
             simplepage_pattern.adress_line.KeyDown += OnLoad_Event;
             simplepage_pattern.cwb.AddressChanged += OnCwb_AdressChanged;
             simplepage_pattern.cwb.TitleChanged += OnCwb_TitleChanged;            
+        }
+        public void SetClicks(CustomPagePattern customPagePattern)
+        {
+            customPagePattern.simplePageButtons[0].Click += OnGoForward_Click;
+            customPagePattern.simplePageButtons[1].Click += OnGoBack_Click;
+            customPagePattern.simplePageButtons[2].Click += OnRefresh_Click;
+            customPagePattern.simplePageButtons[3].Click += OnCreateSimplePage_Click;
+            customPagePattern.simplePageButtons[4].Click += OnClose_Click;
+            customPagePattern.simplePageButtons[5].Click += OnCreateSettingsPage_Click;
+            customPagePattern.simplePageButtons[6].Click += OnShowDownloadManager;
+            customPagePattern.savemark_button.MouseClick += Savemark_button_Click;
+            customPagePattern.adress_line.KeyDown += OnCustomLoad_Event;
+            customPagePattern.cwb.AddressChanged += OnCwb_AdressChanged;
+            customPagePattern.cwb.TitleChanged += OnCwb_TitleChanged;
+        }
+
+        private void OnCustomLoad_Event(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                materialTabControl1.Invoke((MethodInvoker)delegate
+                {
+                    TabPage selectedTab = materialTabControl1.SelectedTab;
+
+                    var panel_1 = selectedTab.Controls[0] as Panel;
+                    var panel_2 = selectedTab.Controls[1] as Panel;
+
+                    var adress_line = panel_2.Controls[8] as MaterialTextBox;
+
+                    var cwb = panel_1.Controls[0] as ChromiumWebBrowser;
+
+                    string input = adress_line.Text;
+
+                    if ((e.KeyCode == Keys.Enter))
+                    {
+                        cwb.Visible = true;
+                        e.SuppressKeyPress = true;                        
+                        if (IsValidUrl(input))
+                        {
+                            cwb.Load(input.StartsWith("http://") || input.StartsWith("https://") ? input : "http://" + input);
+                        }
+                        else
+                        {
+                            string result = Enabled_Search_Engine + input;
+                            cwb.Load(result);
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Error_Logger error_Logger = new Error_Logger();
+                error_Logger.Log_Errors(ex.Message);
+            }
         }
 
         public void OnShowDownloadManager(object sender, EventArgs e)
@@ -208,8 +269,15 @@ namespace HuskyBrowser
             {
                 markbutton_icons.Add(imageList2.Images[i]);
             }
-
-            SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, settings.Start_Page, Text);
+            switch (settings.TypeOfStartPage) 
+            {
+                case "Simple page":                   
+                    SimplePagePattern simplepage_pattern = new SimplePagePattern(icons, markbutton_icons, materialTabControl1, settings.Start_Page, Text);
+                    break;
+                case "Empty page":
+                    CustomPagePattern customPagePattern = new CustomPagePattern(icons, markbutton_icons, materialTabControl1);
+                    break;
+            }            
         }
         public void OnCreateSettingsPage_Click(object sender, EventArgs e)
         {
@@ -425,6 +493,6 @@ namespace HuskyBrowser
         public bool IsValidUrl(string url)
         {
             return Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains(".");
-        }        
+        }                
     }
 }

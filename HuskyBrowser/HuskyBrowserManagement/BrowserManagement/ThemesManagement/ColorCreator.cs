@@ -16,14 +16,14 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement
 {
     public partial class ColorCreator : MaterialForm
     {
-        static Color Page_BackColor { get; set; } = Form1._BackColor;
+        static Color Page_BackColor { get; set; } = MainForm._BackColor;
         Dictionary<string, Primary> colors = new Dictionary<string, Primary>();
         Dictionary<string, Accent> accents = new Dictionary<string, Accent>();
         public ColorCreator()
         {
             InitializeComponent();
             BackColor = Page_BackColor;    
-            ForeColor = Form1._ForeColor;
+            ForeColor = MainForm._ForeColor;
             foreach(var primary in Enum.GetValues(typeof(Primary))) 
             {
                 colors.Add($"{primary}", (Primary)primary);

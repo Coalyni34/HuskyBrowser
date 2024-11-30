@@ -81,7 +81,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
                     Clipboard.SetText(parameters.SelectionText);
                     return true;
                 case CefMenuCommand.Find:
-                    string Addres = Form1.Enabled_Search_Engine + parameters.SelectionText;
+                    string Addres = MainForm.Enabled_Search_Engine + parameters.SelectionText;
                     chromiumWebBrowser.Load(Addres);
                     return true;
                 case (CefMenuCommand)10001:

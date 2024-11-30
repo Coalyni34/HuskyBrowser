@@ -232,7 +232,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                         true, "DuckDuckGo", 
                         new int[] { 1920, 1080 },
                         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                        "Downloads"));
+                        "Downloads"),
+                        "Simple page"
+                        );
                     string jsonSettings = JsonSerializer.Serialize(settings);
                     _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json"));
                     _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json", "simple_settings"));

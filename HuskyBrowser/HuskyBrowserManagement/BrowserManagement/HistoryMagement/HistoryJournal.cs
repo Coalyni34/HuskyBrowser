@@ -19,13 +19,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 {
     public partial class HistoryJournal : MaterialForm
     {
-        static Color _BackColor { get; set; } = Form1._BackColor;
+        static Color _BackColor { get; set; } = MainForm._BackColor;
         MaterialTabControl tabControl;
         public HistoryJournal(MaterialTabControl tabControl)
         {
             InitializeComponent();
-            ForeColor = Form1._ForeColor;
-            BackColor = Form1._BackColor;
+            ForeColor = MainForm._ForeColor;
+            BackColor = MainForm._BackColor;
             InitializeJournal(tabControl);
         }
 
@@ -121,7 +121,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
                         markbutton_icons.Add(imageList2.Images[i]);
                     }
                     PagePattern.SimplePagePattern simplePagePattern = new PagePattern.SimplePagePattern(icons, markbutton_icons, tabControl, url, title);
-                    Form1.thisform.Text = title;
+                    MainForm.thisform.Text = title;
                 }
             }
         }

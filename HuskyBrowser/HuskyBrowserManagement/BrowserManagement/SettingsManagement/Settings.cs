@@ -13,7 +13,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         public string Search_Engine_Name { get; set; }
         public int[] ScreenResolution { get; set; }
         public string SaveDirectoryPath { get; set; }
-        public Settings(string enabled_search_engine, string start_page, bool save_history, string search_Engine_Name, int[] screenResolution, string saveDirectoryPath)
+        public string TypeOfStartPage { get; set; }
+        public Settings(string enabled_search_engine, string start_page, bool save_history, string search_Engine_Name, int[] screenResolution, string saveDirectoryPath, string typeOfStartPage)
         {
             Enabled_Search_Engine = enabled_search_engine;
             Start_Page = start_page;
@@ -21,6 +22,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             Search_Engine_Name = search_Engine_Name;
             ScreenResolution = screenResolution;
             SaveDirectoryPath = saveDirectoryPath;
+            TypeOfStartPage = typeOfStartPage;
         }           
     }
 }

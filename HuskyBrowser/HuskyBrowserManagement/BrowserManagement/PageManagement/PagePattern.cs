@@ -13,16 +13,15 @@ using Image = System.Drawing.Image;
 using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
 using System.Diagnostics;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
-using CefSharp;
-using MaterialSkin;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement;
+using Panel = System.Windows.Forms.Panel;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class PagePattern
     {
         public static MaterialTabControl tabControl { get; set; }
-        static Color Page_BackColor { get; set; } = Form1._BackColor;
+        static Color Page_BackColor { get; set; } = MainForm._BackColor;
         public class DownloadPagePattern : PagePattern 
         {            
             private TabPage new_TapPage = new TabPage()
@@ -240,13 +239,26 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 AutoSize = false,
                 ReadOnly = true
             };
+            public MaterialLabel TypeOfPage_Label = new MaterialLabel
+            {
+                Text = "Type of new pages:",
+                Size = new Size(180, 50),
+                Location = new Point(20, 360),
+                AutoSize = false
+            };
+            public MaterialComboBox TypeOfPage_Box = new MaterialComboBox
+            {
+                Size = new Size(180, 50),
+                Location = new Point(160, 345),
+                AutoSize = false
+            };
             public MaterialButton SelectedPath_Button = new MaterialButton
             {
                 Size = new Size(40, 40),
                 Location = new Point(865, 290),
                 AutoSize = false,
                 Type = MaterialButton.MaterialButtonType.Text
-            };           
+            };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {
@@ -279,6 +291,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(SavePath_TextBox);
                 new_TapPage.Controls.Add(SelectedPath_Button);
                 new_TapPage.Controls.Add(OpenColorCreator_Button);
+                new_TapPage.Controls.Add(TypeOfPage_Box);
+                new_TapPage.Controls.Add(TypeOfPage_Label);
                                
                 SelectedPath_Button.Icon = button_icons[0];
 
@@ -292,6 +306,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     string resolution = $"{screen.Bounds.Width}X{screen.Bounds.Height}";
                     ResolutionOfScreen.Items.Add(resolution);
                 }
+
+                TypeOfPage_Box.Items.AddRange(new string[] { "Simple page", "Empty page" });
 
                 var _fM = new FileManager();
 
@@ -313,6 +329,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 SearchEngine_ComboBox.SelectedItem = settings.Search_Engine_Name;
                 SaveHistory_Switch.Checked = settings.Save_History;
                 ResolutionOfScreen.Text = $"{settings.ScreenResolution[0]}X{settings.ScreenResolution[1]}";
+                TypeOfPage_Box.SelectedItem = settings.TypeOfStartPage;
 
                 if(settings.SaveDirectoryPath != null) 
                 {
@@ -332,7 +349,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
-            }
+            }          
 
             private void OpenColorCreator_Button_Click(object sender, EventArgs e)
             {
@@ -371,7 +388,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             }
             private void OnOpenBookmarks_Click(object sender, EventArgs e)
             {
-                BookMarkForm bookMarks = new BookMarkForm(Form1.thisform)
+                BookMarkForm bookMarks = new BookMarkForm(MainForm.thisform)
                 {
                     _tabControl = tabControl
                 };
@@ -391,6 +408,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             private void OnSave_Click(object sender, EventArgs e)
             {
                 string selected_engine = SearchEngine_ComboBox.Text;
+
+                string typeOfStartPage = TypeOfPage_Box.Text;
 
                 bool DoSaveHistory = SaveHistory_Switch.Checked;
 
@@ -412,7 +431,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     sdpt = SaveDirectoryPath;
                 }
 
-                Settings settings = new Settings(Search_Engines[selected_engine], Start_Pages[selected_engine], DoSaveHistory, selected_engine, ScreenResolution, sdpt);
+                Settings settings = new Settings(Search_Engines[selected_engine], Start_Pages[selected_engine], DoSaveHistory, selected_engine, ScreenResolution, sdpt, typeOfStartPage);
 
                 string jsonSettings = JsonSerializer.Serialize(settings);
 
@@ -434,7 +453,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         {
             public List<MaterialButton> simplePageButtons = new List<MaterialButton>();
 
-            private TabPage new_TapPage = new TabPage()
+            public TabPage new_TapPage = new TabPage()
             {
                 BackColor = Page_BackColor
             };
@@ -454,7 +473,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 MaximumSize = new Size(1920, 70),
                 Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
             };
-            private MaterialButton back_button = new MaterialButton
+            public MaterialButton back_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -462,7 +481,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false
             };
-            private MaterialButton forward_button = new MaterialButton
+            public MaterialButton forward_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -470,7 +489,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton refresh_button = new MaterialButton
+            public MaterialButton refresh_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -478,7 +497,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton createtab_button = new MaterialButton
+            public MaterialButton createtab_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -486,7 +505,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton closeTab_button = new MaterialButton
+            public MaterialButton closeTab_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -494,7 +513,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false,
             };
-            private MaterialButton download_button = new MaterialButton
+            public MaterialButton download_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -502,7 +521,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 DrawShadows = false,
                 AutoSize = false
             };
-            private MaterialButton settings_button = new MaterialButton
+            public MaterialButton settings_button = new MaterialButton
             {
                 Text = "",
                 Size = new Size(40, 36),
@@ -569,7 +588,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 savemark_button.Icon = savemarksbuttons_icons[0];
                 savemark_button.Type = MaterialButton.MaterialButtonType.Text;                                             
 
-                Form1.thisform.SetClicks(this);
+                MainForm.thisform.SetClicks(this);
 
                 var marktab = new TabPage()
                 {
@@ -592,7 +611,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 tabControl.SelectTab(new_TapPage);
                 tabControl.SelectedTab.Text = Title;
             }            
-            private void ScreenSettings(MaterialButton settingsButton, MaterialButton downloadButton, MaterialButton savemarksButton, MaterialTextBox adressLine, int Width)
+            public void ScreenSettings(MaterialButton settingsButton, MaterialButton downloadButton, MaterialButton savemarksButton, MaterialTextBox adressLine, int Width)
             {
                 switch (Width)
                 {
@@ -631,5 +650,206 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 }
             }
         }
+        public class CustomPagePattern : PagePattern
+        {
+            public List<MaterialButton> simplePageButtons = new List<MaterialButton>();
+
+            public TabPage new_TapPage = new TabPage()
+            {
+                BackColor = Page_BackColor
+            };
+
+            public Panel panel_1 = new Panel
+            {
+                AutoSize = false,
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                Location = new Point(0, 59),
+                Size = new Size(786, 330)
+            };
+            public Panel panel_2 = new Panel
+            {
+                Location = new Point(0, 0),
+                Size = new Size(786, 70),
+                AutoSize = false,
+                MaximumSize = new Size(1920, 70),
+                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
+            };
+            public MaterialButton back_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(10, 10),
+                DrawShadows = false,
+                AutoSize = false
+            };
+            public MaterialButton forward_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(55, 10),
+                DrawShadows = false,
+                AutoSize = false,
+            };
+            public MaterialButton refresh_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(100, 10),
+                DrawShadows = false,
+                AutoSize = false,
+            };
+            public MaterialButton createtab_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(145, 10),
+                DrawShadows = false,
+                AutoSize = false,
+            };
+            public MaterialButton closeTab_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(190, 10),
+                DrawShadows = false,
+                AutoSize = false,
+            };
+            public MaterialButton download_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(940, 10),
+                DrawShadows = false,
+                AutoSize = false
+            };
+            public MaterialButton settings_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(985, 10),
+                DrawShadows = false,
+                AutoSize = false
+            };
+            public MaterialButton savemark_button = new MaterialButton
+            {
+                Text = "",
+                Size = new Size(40, 36),
+                Location = new Point(1030, 10),
+                DrawShadows = false,
+                AutoSize = false
+            };
+            public MaterialTextBox adress_line = new MaterialTextBox
+            {
+                AutoSize = false,
+                Anchor = AnchorStyles.Left | AnchorStyles.Right,
+                MinimumSize = new Size(200, 35),
+                MaximumSize = new Size(700, 35),
+                Location = new Point(235, 10),
+                DetectUrls = true,
+                MaxLength = 1000
+            };
+            public ChromiumWebBrowser cwb = new ChromiumWebBrowser()
+            {
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                Visible = false,
+            };
+            public static List<Image> images_buttons;
+            public static List<Image> mark_icons;
+            public CustomPagePattern(List<Image> icons, List<Image> savemarksbuttons_icons, MaterialTabControl materialTabControl)
+            {
+                tabControl = materialTabControl;
+                images_buttons = icons;
+                mark_icons = savemarksbuttons_icons;
+
+                var _fm = new FileManager();
+                string json = _fm._ReadFileText(_fm._GetPathToFile("browser_settings.json"));
+                var settings = JsonSerializer.Deserialize<Settings>(json);
+
+                SearchContextMenuHandler menuHandler = new SearchContextMenuHandler();
+                DownloadManager downloadManager = new DownloadManager();
+                cwb.DownloadHandler = downloadManager;
+                cwb.MenuHandler = menuHandler;
+
+                simplePageButtons.Add(forward_button);
+                simplePageButtons.Add(back_button);
+                simplePageButtons.Add(refresh_button);
+                simplePageButtons.Add(createtab_button);
+                simplePageButtons.Add(closeTab_button);
+                simplePageButtons.Add(settings_button);
+                simplePageButtons.Add(download_button);
+
+                ScreenSettings(simplePageButtons[5], simplePageButtons[6], savemark_button, adress_line, settings.ScreenResolution[0]);
+
+                for (short i = 0; i < simplePageButtons.Count; i++)
+                {
+                    simplePageButtons[i].Icon = icons[i];
+                    simplePageButtons[i].Type = MaterialButton.MaterialButtonType.Text;
+                }
+
+                savemark_button.Icon = savemarksbuttons_icons[0];
+                savemark_button.Type = MaterialButton.MaterialButtonType.Text;
+
+                MainForm.thisform.SetClicks(this);
+
+                var marktab = new TabPage()
+                {
+                    BackColor = Page_BackColor
+                };
+
+                foreach (var button in simplePageButtons)
+                {
+                    panel_2.Controls.Add(button);
+                }
+
+                panel_2.Controls.Add(savemark_button);
+                panel_2.Controls.Add(adress_line);
+                panel_1.Controls.Add(cwb);
+
+                new_TapPage.Controls.Add(panel_1);
+                new_TapPage.Controls.Add(panel_2);
+
+                tabControl.TabPages.Add(new_TapPage);
+                tabControl.SelectTab(new_TapPage);
+                tabControl.SelectedTab.Text = "New Page";
+            }
+            public void ScreenSettings(MaterialButton settingsButton, MaterialButton downloadButton, MaterialButton savemarksButton, MaterialTextBox adressLine, int Width)
+            {
+                switch (Width)
+                {
+                    case 1600:
+                        settingsButton.Location = new Point(1070, 10);
+                        downloadButton.Location = new Point(1110, 10);
+                        savemarksButton.Location = new Point(1150, 10);
+                        adressLine.MinimumSize = new Size(200, 35);
+                        adressLine.MaximumSize = new Size(900, 35);
+                        cwb.MaximumSize = new Size(1600, 740);
+                        break;
+                    case 1280:
+                        settingsButton.Location = new Point(985, 10);
+                        downloadButton.Location = new Point(940, 10);
+                        savemarksButton.Location = new Point(1030, 10);
+                        adressLine.MinimumSize = new Size(200, 35);
+                        adressLine.MaximumSize = new Size(700, 35);
+                        cwb.MaximumSize = new Size(1280, 870);
+                        break;
+                    case 1920:
+                        settingsButton.Location = new Point(1500, 10);
+                        downloadButton.Location = new Point(1550, 10);
+                        savemarksButton.Location = new Point(1600, 10);
+                        adressLine.MinimumSize = new Size(200, 35);
+                        adressLine.MaximumSize = new Size(1250, 35);
+                        cwb.MaximumSize = new Size(1920, 932);
+                        break;
+                    case 1536:
+                        settingsButton.Location = new Point(1500, 10);
+                        downloadButton.Location = new Point(1550, 10);
+                        savemarksButton.Location = new Point(1600, 10);
+                        adressLine.MinimumSize = new Size(200, 35);
+                        adressLine.MaximumSize = new Size(1250, 35);
+                        cwb.MaximumSize = new Size(1920, 932);
+                        break;
+                }
+            }
+        }       
     }
 }

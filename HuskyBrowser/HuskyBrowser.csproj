@@ -181,11 +181,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManager.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SearchContextMenuManager\SearchContextMenuHandler.cs" />
@@ -223,8 +223,8 @@
     <Compile Include="HuskyBrowserManagement\BrowserManagement\HistoryMagement\HistoryManager.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\PageManagement\PagePattern.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\Settings.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HuskyBrowserManagement\BrowserManagement\ThemesManagement\ColorCreator.resx">
       <DependentUpon>ColorCreator.cs</DependentUpon>
