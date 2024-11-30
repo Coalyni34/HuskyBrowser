@@ -1,9 +1,11 @@
-﻿using MaterialSkin;
+﻿using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement;
+using MaterialSkin;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.Json;
+using System.Windows.Forms.VisualStyles;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -225,10 +227,23 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     Directory.CreateDirectory(pathToDirectory + "\\history");
                     Directory.CreateDirectory(pathToDirectory + "\\simple_settings");
                     Directory.CreateDirectory(pathToDirectory + "\\bookmarks"); 
-                    Settings settings = new Settings("https://duckduckgo.com/?t=ffab\u0026q=", "https://start.duckduckgo.com/", true, "DuckDuckGo", new int[] { 1920, 1080 }, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads"));
+                    Settings settings = new Settings("https://duckduckgo.com/?t=ffab\u0026q=",
+                        "https://start.duckduckgo.com/",
+                        true, "DuckDuckGo", 
+                        new int[] { 1920, 1080 },
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                        "Downloads"));
                     string jsonSettings = JsonSerializer.Serialize(settings);
                     _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json"));
                     _WriteFile(jsonSettings, _GetPathToFile("browser_settings.json", "simple_settings"));
+                    ThemeManager themeManager = new ThemeManager(new Dictionary<string, Primary> { { "primary", Primary.Indigo600 },
+                        { "darkprimary", Primary.Indigo600 },
+                        { "lightprimary", Primary.BlueGrey500 }, },
+                    MaterialSkinManager.Themes.DARK, Accent.Cyan100
+                    );                    
+                    string jsonTheme = JsonSerializer.Serialize(themeManager);
+                    _WriteFile(jsonTheme, _GetPathToFile("browser_theme.json"));
+                    _WriteFile(jsonTheme, _GetPathToFile("browser_theme.json", "simple_settings"));
                     _WriteFile(string.Empty, pathToDirectory + "\\history\\history.json");
                     _WriteFile(string.Empty, pathToDirectory + "\\bookmarks\\bookmarks.json");
                 }
