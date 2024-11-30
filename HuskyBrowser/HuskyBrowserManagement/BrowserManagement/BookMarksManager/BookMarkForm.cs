@@ -9,13 +9,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager
     public partial class BookMarkForm : MaterialForm
     {
         public MaterialTabControl _tabControl { set; get; }
-        static Color Page_BackColor { get; set; } = Color.FromArgb(255, 50, 50, 50);
+        static Color Page_BackColor { get; set; } = Form1._BackColor;
         private Form1 _form;
         public BookMarkForm(Form1 form)
         {
             InitializeComponent();
 
-            dataGridView1.BackgroundColor = Page_BackColor;            
+            dataGridView1.BackgroundColor = Page_BackColor;    
+            ForeColor = Form1._ForeColor;
 
             var _fM = new FileManager();
             string path = _fM._GetPathToFile("bookmarks.json", "bookmarks");

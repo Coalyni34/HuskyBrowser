@@ -15,13 +15,14 @@ using System.Diagnostics;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
 using CefSharp;
 using MaterialSkin;
+using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class PagePattern
     {
         public static MaterialTabControl tabControl { get; set; }
-        static Color Page_BackColor { get; set; } = Color.FromArgb(255, 50, 50, 50);
+        static Color Page_BackColor { get; set; } = Form1._BackColor;
         public class DownloadPagePattern : PagePattern 
         {            
             private TabPage new_TapPage = new TabPage()
@@ -217,6 +218,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Location = new Point(310, 10),
                 AutoSize = false
             };
+            public MaterialButton OpenColorCreator_Button = new MaterialButton
+            {
+                TextAlign = ContentAlignment.TopCenter,
+                Text = "Open Color Creator",
+                Size = new Size(130, 50),
+                Location = new Point(450, 10),
+                AutoSize = false
+            };
             public MaterialLabel SavePath_Label = new MaterialLabel
             {
                 Text = "Save folder path:",
@@ -269,6 +278,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(SavePath_Label);
                 new_TapPage.Controls.Add(SavePath_TextBox);
                 new_TapPage.Controls.Add(SelectedPath_Button);
+                new_TapPage.Controls.Add(OpenColorCreator_Button);
                                
                 SelectedPath_Button.Icon = button_icons[0];
 
@@ -318,10 +328,17 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 OpenHistoryJournal_Button.Click += OnOpenJournal_Click;
                 OpenBookMarks_Button.Click += OnOpenBookmarks_Click;
                 SelectedPath_Button.Click += SelectedPath_Click;
+                OpenColorCreator_Button.Click += OpenColorCreator_Button_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
-            }           
+            }
+
+            private void OpenColorCreator_Button_Click(object sender, EventArgs e)
+            {
+                ColorCreator colorCreator = new ColorCreator();
+                colorCreator.Show();
+            }
 
             private void SelectedPath_Click(object sender, EventArgs e)
             {

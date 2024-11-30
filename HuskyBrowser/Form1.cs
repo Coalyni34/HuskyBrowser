@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SettingsManagement;
+using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement;
 using HuskyBrowser.WorkingWithBrowserProperties;
 using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
 using MaterialSkin;
@@ -13,7 +14,7 @@ using System.Text.Json;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
-using static HuskyBrowser.WorkingWithBrowserProperties.Settings;
+using Settings = HuskyBrowser.WorkingWithBrowserProperties.Settings;
 
 namespace HuskyBrowser
 {
@@ -23,18 +24,36 @@ namespace HuskyBrowser
         public string[] title_and_adress = new string[2];
         public static Form1 thisform;
         public static Color _BackColor { get; set; }
-
+        public static Color _ForeColor { get; set; } = Color.White;
         public Form1()
         {
             InitializeComponent();
             SettingsSetup settingsSetup = new SettingsSetup();
 
             thisform = this;
+
+            ForeColor = _ForeColor;
             
+            FileManager fileManager = new FileManager();
+
+            string json = fileManager._ReadFileText(fileManager._GetPathToFile("browser_theme.json"));
+
+            var colorsettings = JsonSerializer.Deserialize<ThemeManager>(json);
+
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
-            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Amber700, Primary.Amber700, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
+            materialSkinManager.Theme = colorsettings.ThemeName;
+            if (materialSkinManager.Theme == MaterialSkinManager.Themes.DARK)
+            {
+                materialSkinManager.ColorScheme = new ColorScheme(colorsettings.Primaries["primary"], colorsettings.Primaries["darkprimary"], colorsettings.Primaries["lightprimary"], colorsettings.Accent, TextShade.WHITE);
+                _BackColor = Color.FromArgb(50, 50, 50);
+            }
+            else
+            {
+                materialSkinManager.ColorScheme = new ColorScheme(colorsettings.Primaries["primary"], colorsettings.Primaries["darkprimary"], colorsettings.Primaries["lightprimary"], colorsettings.Accent, TextShade.WHITE);
+                _BackColor = Color.FromArgb(255, 255, 255);
+            }
+
             IntializationItems();
         }
         private void IntializationItems()

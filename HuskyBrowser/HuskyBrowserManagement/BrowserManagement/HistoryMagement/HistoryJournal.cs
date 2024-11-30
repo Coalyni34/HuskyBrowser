@@ -19,15 +19,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 {
     public partial class HistoryJournal : MaterialForm
     {
-        static Color _BackColor { get; set; } = Color.FromArgb(255, 50, 50, 50);
+        static Color _BackColor { get; set; } = Form1._BackColor;
         MaterialTabControl tabControl;
         public HistoryJournal(MaterialTabControl tabControl)
         {
             InitializeComponent();
-            var materialSkinManager = MaterialSkinManager.Instance;
-            materialSkinManager.AddFormToManage(this);
-            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo600, Primary.Indigo600, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
+            ForeColor = Form1._ForeColor;
+            BackColor = Form1._BackColor;
             InitializeJournal(tabControl);
         }
 
