@@ -14,13 +14,13 @@ using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
 using System.Diagnostics;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
 using CefSharp;
-using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SettingsManagement.ColorManagement;
+using MaterialSkin;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class PagePattern
     {
-        static MaterialTabControl tabControl { get; set; }
+        public static MaterialTabControl tabControl { get; set; }
         static Color Page_BackColor { get; set; } = Color.FromArgb(255, 50, 50, 50);
         public class DownloadPagePattern : PagePattern 
         {            
@@ -237,15 +237,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Location = new Point(865, 290),
                 AutoSize = false,
                 Type = MaterialButton.MaterialButtonType.Text
-            };
-            public MaterialButton OpenColorManager = new MaterialButton            
-            {
-                TextAlign = ContentAlignment.TopCenter,
-                Text = "Open ColorTheme Changer",
-                Size = new Size(150, 50),
-                Location = new Point(450, 10),
-                AutoSize = false
-            };
+            };           
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {
@@ -261,7 +253,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 { "Bing", "https://www.bing.com/" },
                 { "Brave", "https://search.brave.com/" }
             };
-            private string SaveDirectoryPath;
+            private static string SaveDirectoryPath;
             public SettingsPagePattern(MaterialTabControl materialTabControl, Image[] button_icons)
             {
                 new_TapPage.Controls.Add(Choosing_SearchEngine_Text);
@@ -277,10 +269,9 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 new_TapPage.Controls.Add(SavePath_Label);
                 new_TapPage.Controls.Add(SavePath_TextBox);
                 new_TapPage.Controls.Add(SelectedPath_Button);
-                new_TapPage.Controls.Add(OpenColorManager);
                                
                 SelectedPath_Button.Icon = button_icons[0];
-                
+
                 foreach (var engine in Engines_Keys)
                 {
                     SearchEngine_ComboBox.Items.Add(engine);
@@ -327,17 +318,10 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 OpenHistoryJournal_Button.Click += OnOpenJournal_Click;
                 OpenBookMarks_Button.Click += OnOpenBookmarks_Click;
                 SelectedPath_Button.Click += SelectedPath_Click;
-                OpenColorManager.Click += OpenColorManager_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
-            }
-
-            private void OpenColorManager_Click(object sender, EventArgs e)
-            {
-                ColorManagerForm color = new ColorManagerForm();
-                color.Show();
-            }
+            }           
 
             private void SelectedPath_Click(object sender, EventArgs e)
             {
@@ -431,8 +415,6 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
         }
         public class SimplePagePattern : PagePattern
         {
-            List<Image> images_buttons = new List<Image>();
-
             public List<MaterialButton> simplePageButtons = new List<MaterialButton>();
 
             private TabPage new_TapPage = new TabPage()
@@ -533,9 +515,13 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             {
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top
             };
+            public static List<Image> images_buttons;
+            public static List<Image> mark_icons;            
             public SimplePagePattern(List<Image> icons, List<Image> savemarksbuttons_icons, MaterialTabControl materialTabControl, string URL, string Title)
             {
                 tabControl = materialTabControl;
+                images_buttons = icons;
+                mark_icons = savemarksbuttons_icons;
 
                 var _fm = new FileManager();
                 string json = _fm._ReadFileText(_fm._GetPathToFile("browser_settings.json"));
@@ -589,17 +575,6 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 tabControl.SelectTab(new_TapPage);
                 tabControl.SelectedTab.Text = Title;
             }            
-            public void OnClose_Click(object sender, EventArgs e)
-            {
-                if (tabControl.TabCount > 1)
-                {
-                    tabControl.TabPages.Remove(tabControl.SelectedTab);
-                }
-                else if (tabControl.TabCount == 1)
-                {
-                    Application.Exit();
-                }
-            }
             private void ScreenSettings(MaterialButton settingsButton, MaterialButton downloadButton, MaterialButton savemarksButton, MaterialTextBox adressLine, int Width)
             {
                 switch (Width)

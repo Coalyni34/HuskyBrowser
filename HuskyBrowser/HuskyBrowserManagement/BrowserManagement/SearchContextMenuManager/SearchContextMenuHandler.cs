@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
+using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
 
 namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager
 {
@@ -46,12 +47,18 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
 
             if (parameters.HasImageContents) 
             {
+                model.Remove((CefMenuCommand)26503);
+                model.Remove((CefMenuCommand)26501);
+                model.AddItem((CefMenuCommand)26501, "Copy image as link");
+                model.SetEnabled((CefMenuCommand)26501, !string.IsNullOrEmpty(parameters.LinkUrl));
                 model.AddItem((CefMenuCommand)26502, "Copy as image");
                 model.SetEnabled((CefMenuCommand)26502, parameters.HasImageContents);
             }
             else
             {
+                model.Remove((CefMenuCommand)26503);
                 model.Remove((CefMenuCommand)26502);
+                model.Remove((CefMenuCommand)26501);
             }
 
             string file_url = parameters.LinkUrl;
@@ -85,19 +92,18 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
                 return true;  
                 case (CefMenuCommand)26502:
                     CopyImage(parameters.LinkUrl);
-                    return true;
+                    return true;                
             }
             return false;
-        }                
+        }   
         public void OnContextMenuDismissed(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
             
         }
-
         public bool RunContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
         {
             return false;            
-        }
+        }        
         private void CopyImage(string linkUrl)
         {
             try
@@ -120,7 +126,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
                 Error_Logger logger = new Error_Logger();
                 logger.Log_Errors(e.Message);                
             }
-        }
+        }        
         private void CopyLink(string linkUrl)
         {
             System.Windows.Forms.Clipboard.SetText(linkUrl);

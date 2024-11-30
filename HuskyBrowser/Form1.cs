@@ -13,6 +13,7 @@ using System.Text.Json;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
+using static HuskyBrowser.WorkingWithBrowserProperties.Settings;
 
 namespace HuskyBrowser
 {
@@ -21,18 +22,19 @@ namespace HuskyBrowser
         public static string Enabled_Search_Engine;
         public string[] title_and_adress = new string[2];
         public static Form1 thisform;
+        public static Color _BackColor { get; set; }
+
         public Form1()
         {
             InitializeComponent();
             SettingsSetup settingsSetup = new SettingsSetup();
 
-            thisform = this;            
-
+            thisform = this;
+            
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Indigo600, Primary.Indigo600, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
-
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Amber700, Primary.Amber700, Primary.BlueGrey500, Accent.Cyan100, TextShade.WHITE);
             IntializationItems();
         }
         private void IntializationItems()

@@ -1,7 +1,12 @@
-﻿namespace HuskyBrowser.WorkingWithBrowserProperties
+﻿using MaterialSkin;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+
+namespace HuskyBrowser.WorkingWithBrowserProperties
 {
     public class Settings
-    {
+    {             
         public string Enabled_Search_Engine { get; set; }
         public string Start_Page { get; set; }
         public bool Save_History { get; set; }
@@ -16,6 +21,6 @@
             Search_Engine_Name = search_Engine_Name;
             ScreenResolution = screenResolution;
             SaveDirectoryPath = saveDirectoryPath;
-        }
+        }           
     }
 }
