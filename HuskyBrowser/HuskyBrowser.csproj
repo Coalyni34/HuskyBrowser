@@ -266,6 +266,7 @@
   <ItemGroup>
     <Content Include="Husky-browser_2.ico" />
     <Content Include="Icons\1.png" />
+    <Content Include="LICENSE.txt" />
     <None Include="Icons\12.png" />
     <Content Include="Icons\2.png" />
     <Content Include="Icons\3.png" />
