@@ -190,6 +190,7 @@
     <Compile Include="HuskyBrowserManagement\BrowserManagement\DownloadingManager\DownloadManager.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SearchContextMenuManager\SearchContextMenuHandler.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\SettingsSetup.cs" />
+    <Compile Include="HuskyBrowserManagement\BrowserManagement\ThemesManagement\ThemesManager.cs" />
     <Compile Include="HuskyBrowserManagement\ParserManager\ParserForm.cs">
       <SubType>Form</SubType>
     </Compile>
