@@ -129,7 +129,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
         }        
         private void CopyLink(string linkUrl)
         {
-            System.Windows.Forms.Clipboard.SetText(linkUrl);
+            Clipboard.SetText(linkUrl);
         }
         private void SaveFile(string url)
         {
