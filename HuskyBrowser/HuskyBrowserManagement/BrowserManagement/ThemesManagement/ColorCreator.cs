@@ -83,6 +83,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement
                 fileManager._DeleteFileText(fileManager._GetPathToFile("browser_theme.json"));
             }
             fileManager._WriteFile(saveJson, fileManager._GetPathToFile("browser_theme.json"));
+            Application.Restart();
         }
 
         private void materialLabel1_Click(object sender, EventArgs e)
