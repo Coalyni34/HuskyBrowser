@@ -181,6 +181,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HuskyBrowserManagement\TorManager\TORManagement.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,9 +277,7 @@
     <Content Include="Icons\9.png" />
     <Content Include="Icons\Husky-browser_2.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HuskyBrowserManagement\TorManager\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>
