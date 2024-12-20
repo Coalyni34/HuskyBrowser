@@ -8,5 +8,6 @@ namespace HuskyBrowser.HuskyBrowserManagement.TorManager
 {
     public class TORManagement
     {
+
     }
 }

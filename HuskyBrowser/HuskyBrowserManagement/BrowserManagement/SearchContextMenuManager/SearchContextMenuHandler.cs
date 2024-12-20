@@ -7,6 +7,7 @@ using System.Net;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 using static HuskyBrowser.WorkingWithBrowserProperties.PagePattern;
+using static System.Net.WebRequestMethods;
 
 namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager
 {
@@ -46,8 +47,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             }
 
             if (parameters.HasImageContents) 
-            {
-                model.Remove((CefMenuCommand)26503);
+            {               
                 model.Remove((CefMenuCommand)26501);
                 model.AddItem((CefMenuCommand)26501, "Copy image as link");
                 model.SetEnabled((CefMenuCommand)26501, !string.IsNullOrEmpty(parameters.LinkUrl));
@@ -56,7 +56,6 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             }
             else
             {
-                model.Remove((CefMenuCommand)26503);
                 model.Remove((CefMenuCommand)26502);
                 model.Remove((CefMenuCommand)26501);
             }
@@ -70,7 +69,17 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             else
             {
                 model.Remove((CefMenuCommand)10001);
-            }    
+            }
+                        
+            if (!string.IsNullOrWhiteSpace(parameters.SelectionText)) 
+            {
+                model.AddItem((CefMenuCommand)26503, "Search in the Rutracker");
+                model.SetEnabled((CefMenuCommand)26503, !string.IsNullOrWhiteSpace(parameters.SelectionText));
+            }
+            else
+            {
+                model.Remove((CefMenuCommand)26503);
+            }
         }
 
         public bool OnContextMenuCommand(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
@@ -92,7 +101,11 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
                 return true;  
                 case (CefMenuCommand)26502:
                     CopyImage(parameters.LinkUrl);
-                    return true;                
+                    return true;
+                case (CefMenuCommand)26503:
+                    string rutracker_address = "https://rutracker.org/forum/tracker.php?nm=";
+                    chromiumWebBrowser.Load(rutracker_address + parameters.SelectionText);
+                    return true;
             }
             return false;
         }   
