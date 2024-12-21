@@ -19,7 +19,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             {"Copy", CefMenuCommand.Copy },
             {"Paste", CefMenuCommand.Paste },
             {"Search it", CefMenuCommand.Find },
-            {"Select all", CefMenuCommand.SelectAll },   
+            {"Select all", CefMenuCommand.SelectAll },
         };
         public void OnBeforeContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
@@ -37,17 +37,17 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             model.SetEnabled(CefMenuCommand.Paste, !string.IsNullOrEmpty(Clipboard.GetText()));
 
             if (!string.IsNullOrEmpty(parameters.LinkUrl))
-            {                
-                model.AddItem((CefMenuCommand)26501, "Copy link");
-                model.SetEnabled((CefMenuCommand)26501, !string.IsNullOrEmpty(parameters.LinkUrl));
+            {
+                model.AddItem((CefMenuCommand)26504, "Copy link");
+                model.SetEnabled((CefMenuCommand)26504, !string.IsNullOrEmpty(parameters.LinkUrl));
             }
             else
             {
                 model.Remove((CefMenuCommand)26501);
             }
 
-            if (parameters.HasImageContents) 
-            {               
+            if (parameters.HasImageContents)
+            {
                 model.Remove((CefMenuCommand)26501);
                 model.AddItem((CefMenuCommand)26501, "Copy image as link");
                 model.SetEnabled((CefMenuCommand)26501, !string.IsNullOrEmpty(parameters.LinkUrl));
@@ -70,8 +70,8 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             {
                 model.Remove((CefMenuCommand)10001);
             }
-                        
-            if (!string.IsNullOrWhiteSpace(parameters.SelectionText)) 
+
+            if (!string.IsNullOrWhiteSpace(parameters.SelectionText))
             {
                 model.AddItem((CefMenuCommand)26503, "Search in the Rutracker");
                 model.SetEnabled((CefMenuCommand)26503, !string.IsNullOrWhiteSpace(parameters.SelectionText));
@@ -83,9 +83,9 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
         }
 
         public bool OnContextMenuCommand(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
-        {            
-            switch (commandId) 
-            {                
+        {
+            switch (commandId)
+            {
                 case CefMenuCommand.Copy:
                     Clipboard.SetText(parameters.SelectionText);
                     return true;
@@ -98,25 +98,28 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
                     return true;
                 case (CefMenuCommand)26501:
                     CopyLink(parameters.LinkUrl);
-                return true;  
+                    return true;
                 case (CefMenuCommand)26502:
                     CopyImage(parameters.LinkUrl);
                     return true;
                 case (CefMenuCommand)26503:
-                    string rutracker_address = "https://rutracker.org/forum/tracker.php?nm=";
+                    string rutracker_address = "https://rutracker.net/forum/tracker.php?nm=";
                     chromiumWebBrowser.Load(rutracker_address + parameters.SelectionText);
+                    return true;
+                case (CefMenuCommand)26504:
+                    CopyLink(parameters.LinkUrl);
                     return true;
             }
             return false;
-        }   
+        }
         public void OnContextMenuDismissed(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
         {
-            
+
         }
         public bool RunContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
         {
-            return false;            
-        }        
+            return false;
+        }
         private void CopyImage(string linkUrl)
         {
             try
@@ -134,12 +137,12 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
                     }
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Error_Logger logger = new Error_Logger();
-                logger.Log_Errors(e.Message);                
+                logger.Log_Errors(e.Message);
             }
-        }        
+        }
         private void CopyLink(string linkUrl)
         {
             Clipboard.SetText(linkUrl);
@@ -149,14 +152,15 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             Uri uri = new Uri(url);
             string fileExtension = Path.GetExtension(uri.AbsolutePath);
-            saveFileDialog.Filter = $"Image Files (*{fileExtension})|*{fileExtension}";
+            saveFileDialog.Filter = $"Files (*{fileExtension})|*{fileExtension}";
+            saveFileDialog.FileName = Path.GetFileName(uri.AbsolutePath);
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 using (WebClient client = new WebClient())
                 {
                     client.DownloadFile(url, saveFileDialog.FileName);
                 }
-            }                 
+            }
         }
-    }
+    }        
 }
