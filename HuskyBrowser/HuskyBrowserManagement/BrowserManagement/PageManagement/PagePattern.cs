@@ -15,6 +15,7 @@ using System.Diagnostics;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement;
 using Panel = System.Windows.Forms.Panel;
+using HuskyBrowser.HuskyBrowserManagement.ParserManager;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -259,6 +260,14 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 AutoSize = false,
                 Type = MaterialButton.MaterialButtonType.Text
             };
+            public MaterialButton OpenParserWindowButton = new MaterialButton
+            {
+                TextAlign = ContentAlignment.TopCenter,
+                Text = "Open Parser",
+                Size = new Size(130, 50),
+                Location = new Point(590, 10),
+                AutoSize = false
+            };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
             private Dictionary<string, string> Search_Engines = new Dictionary<string, string>()
             {
@@ -277,23 +286,23 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
             private static string SaveDirectoryPath;
             public SettingsPagePattern(MaterialTabControl materialTabControl, Image[] button_icons)
             {
-                new_TapPage.Controls.Add(Choosing_SearchEngine_Text);
-                new_TapPage.Controls.Add(SearchEngine_ComboBox);
-                new_TapPage.Controls.Add(SaveSettings_Button);
-                new_TapPage.Controls.Add(Closing_Button);
-                new_TapPage.Controls.Add(SaveHistory_Switch);
-                new_TapPage.Controls.Add(ResolutionOfScreen);
-                new_TapPage.Controls.Add(ResolutionOfScreen_Text);
-                new_TapPage.Controls.Add(OpenHistoryJournal_Button);
-                new_TapPage.Controls.Add(OpenBookMarks_Button);
-                new_TapPage.Controls.Add(SaveHistory_Label);
-                new_TapPage.Controls.Add(SavePath_Label);
-                new_TapPage.Controls.Add(SavePath_TextBox);
-                new_TapPage.Controls.Add(SelectedPath_Button);
-                new_TapPage.Controls.Add(OpenColorCreator_Button);
-                new_TapPage.Controls.Add(TypeOfPage_Box);
-                new_TapPage.Controls.Add(TypeOfPage_Label);
-                               
+                Control[] controls = new Control[] {
+                    Closing_Button, Choosing_SearchEngine_Text,
+                    SearchEngine_ComboBox, SaveSettings_Button,
+                    ResolutionOfScreen, ResolutionOfScreen_Text,
+                    OpenHistoryJournal_Button, OpenBookMarks_Button,
+                    SaveHistory_Label, SavePath_Label,
+                    SavePath_TextBox, SelectedPath_Button,
+                    OpenColorCreator_Button, TypeOfPage_Box,
+                    TypeOfPage_Label, OpenParserWindowButton,
+                    SaveHistory_Switch
+                };
+
+                foreach (Control control in controls)
+                {
+                    new_TapPage.Controls.Add(control);
+                }
+
                 SelectedPath_Button.Icon = button_icons[0];
 
                 foreach (var engine in Engines_Keys)
@@ -346,10 +355,17 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 OpenBookMarks_Button.Click += OnOpenBookmarks_Click;
                 SelectedPath_Button.Click += SelectedPath_Click;
                 OpenColorCreator_Button.Click += OpenColorCreator_Button_Click;
+                OpenParserWindowButton.Click += OpenParserWindowButton_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
-            }          
+            }
+
+            private void OpenParserWindowButton_Click(object sender, EventArgs e)
+            {
+                ParserForm parserForm = new ParserForm();
+                parserForm.Show();
+            }
 
             private void OpenColorCreator_Button_Click(object sender, EventArgs e)
             {

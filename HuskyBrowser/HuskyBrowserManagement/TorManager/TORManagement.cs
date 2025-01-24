@@ -7,7 +7,7 @@ using Knapcode.TorSharp;
 
 namespace HuskyBrowser.HuskyBrowserManagement.TorManager
 {
-    public class TORManagement
+    public class TorManagement
     {
 
     }

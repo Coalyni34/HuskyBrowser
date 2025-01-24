@@ -181,7 +181,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HuskyBrowserManagement\TorManager\TORManagement.cs" />
+    <Compile Include="HuskyBrowserManagement\TorManager\TorManagement.cs" />
     <Compile Include="HuskyBrowserManagement\TorrentsManagement\TorrentManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
