@@ -32,8 +32,6 @@
             this.ChoosingBox = new MaterialSkin.Controls.MaterialComboBox();
             this.ChooseText = new MaterialSkin.Controls.MaterialLabel();
             this.PirateChoose = new MaterialSkin.Controls.MaterialComboBox();
-            this.OrText = new MaterialSkin.Controls.MaterialLabel();
-            this.PirateSiteLink = new MaterialSkin.Controls.MaterialTextBox();
             this.GetMagnetLinks = new MaterialSkin.Controls.MaterialButton();
             this.MagnerLinksBox = new MaterialSkin.Controls.MaterialMultiLineTextBox();
             this.EnterRequest = new MaterialSkin.Controls.MaterialTextBox();
@@ -87,7 +85,7 @@
             this.PirateChoose.DropDownHeight = 174;
             this.PirateChoose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PirateChoose.DropDownWidth = 121;
-            this.PirateChoose.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.PirateChoose.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.PirateChoose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.PirateChoose.FormattingEnabled = true;
             this.PirateChoose.IntegralHeight = false;
@@ -102,37 +100,6 @@
             this.PirateChoose.Size = new System.Drawing.Size(167, 49);
             this.PirateChoose.StartIndex = 0;
             this.PirateChoose.TabIndex = 2;
-            // 
-            // OrText
-            // 
-            this.OrText.AutoSize = true;
-            this.OrText.Depth = 0;
-            this.OrText.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.OrText.Location = new System.Drawing.Point(182, 136);
-            this.OrText.MouseState = MaterialSkin.MouseState.HOVER;
-            this.OrText.Name = "OrText";
-            this.OrText.Size = new System.Drawing.Size(182, 19);
-            this.OrText.TabIndex = 3;
-            this.OrText.Text = "or you can send other link";
-            // 
-            // PirateSiteLink
-            // 
-            this.PirateSiteLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PirateSiteLink.AnimateReadOnly = false;
-            this.PirateSiteLink.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.PirateSiteLink.Depth = 0;
-            this.PirateSiteLink.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.PirateSiteLink.LeadingIcon = null;
-            this.PirateSiteLink.Location = new System.Drawing.Point(370, 121);
-            this.PirateSiteLink.MaxLength = 50;
-            this.PirateSiteLink.MouseState = MaterialSkin.MouseState.OUT;
-            this.PirateSiteLink.Multiline = false;
-            this.PirateSiteLink.Name = "PirateSiteLink";
-            this.PirateSiteLink.Size = new System.Drawing.Size(424, 50);
-            this.PirateSiteLink.TabIndex = 4;
-            this.PirateSiteLink.Text = "";
-            this.PirateSiteLink.TrailingIcon = null;
             // 
             // GetMagnetLinks
             // 
@@ -153,6 +120,7 @@
             this.GetMagnetLinks.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.GetMagnetLinks.UseAccentColor = false;
             this.GetMagnetLinks.UseVisualStyleBackColor = true;
+            this.GetMagnetLinks.Click += new System.EventHandler(this.GetMagnetLinks_ClickAsync);
             // 
             // MagnerLinksBox
             // 
@@ -162,7 +130,7 @@
             this.MagnerLinksBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.MagnerLinksBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.MagnerLinksBox.Depth = 0;
-            this.MagnerLinksBox.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.MagnerLinksBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.MagnerLinksBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.MagnerLinksBox.Location = new System.Drawing.Point(9, 233);
             this.MagnerLinksBox.MouseState = MaterialSkin.MouseState.HOVER;
@@ -198,8 +166,6 @@
             this.Controls.Add(this.EnterRequest);
             this.Controls.Add(this.MagnerLinksBox);
             this.Controls.Add(this.GetMagnetLinks);
-            this.Controls.Add(this.PirateSiteLink);
-            this.Controls.Add(this.OrText);
             this.Controls.Add(this.PirateChoose);
             this.Controls.Add(this.ChooseText);
             this.Controls.Add(this.ChoosingBox);
@@ -216,8 +182,6 @@
         private MaterialSkin.Controls.MaterialComboBox ChoosingBox;
         private MaterialSkin.Controls.MaterialLabel ChooseText;
         private MaterialSkin.Controls.MaterialComboBox PirateChoose;
-        private MaterialSkin.Controls.MaterialLabel OrText;
-        private MaterialSkin.Controls.MaterialTextBox PirateSiteLink;
         private MaterialSkin.Controls.MaterialButton GetMagnetLinks;
         private MaterialSkin.Controls.MaterialMultiLineTextBox MagnerLinksBox;
         private MaterialSkin.Controls.MaterialTextBox EnterRequest;

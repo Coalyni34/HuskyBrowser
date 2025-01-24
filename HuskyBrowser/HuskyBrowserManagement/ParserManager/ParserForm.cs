@@ -1,13 +1,19 @@
 ﻿using MaterialSkin.Controls;
+using RuTracker.Client.Model.SearchTopics.Request;
+using RuTracker.Client;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
 {
@@ -23,7 +29,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
         private void ChoosingBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Control[,] controls = new Control[,] {
-                { PirateChoose, OrText, PirateSiteLink, EnterRequest, GetMagnetLinks, MagnerLinksBox }
+                { PirateChoose, EnterRequest, GetMagnetLinks, MagnerLinksBox }
             };
             if (ChoosingBox.SelectedIndex == 0) 
             {
@@ -40,5 +46,10 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                 }
             }
         }
+
+        private async void GetMagnetLinks_ClickAsync(object sender, EventArgs e)
+        {
+            
+        }                
     }
 }
