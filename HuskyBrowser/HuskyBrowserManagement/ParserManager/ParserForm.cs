@@ -1,19 +1,8 @@
 ﻿using MaterialSkin.Controls;
-using RuTracker.Client.Model.SearchTopics.Request;
-using RuTracker.Client;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
+using HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore;
 
 namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
 {
@@ -24,12 +13,22 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
         {
             InitializeComponent();
             BackColor = _BackColor;
+            TorrentsInfoData.BackgroundColor = _BackColor;
+            TorrentsInfoData.GridColor = _BackColor;
+
+            DataGridViewTextBoxColumn[] dataGridViewTextBoxColumns = new DataGridViewTextBoxColumn[] { NameOfTorrent, Category, Seeders, Leechers, Size, magnet};
+
+            foreach(var column in dataGridViewTextBoxColumns) 
+            {
+                column.DefaultCellStyle.BackColor = _BackColor;
+                column.DefaultCellStyle.ForeColor = Color.White;
+            }
         }
 
         private void ChoosingBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Control[,] controls = new Control[,] {
-                { PirateChoose, EnterRequest, GetMagnetLinks, MagnerLinksBox }
+                { PirateChoose, EnterRequest, GetTorrentsButton, ClearButton, TorrentsInfoData}
             };
             if (ChoosingBox.SelectedIndex == 0) 
             {
@@ -49,7 +48,44 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
 
         private async void GetMagnetLinks_ClickAsync(object sender, EventArgs e)
         {
-            
-        }                
+            if(EnterRequest.Text != string.Empty) 
+            {
+                switch (PirateChoose.SelectedItem) 
+                {
+                    case "RuTracker":
+                        RuTrackerParser ruTrackerParser = new RuTrackerParser();
+                        ruTrackerParser.Initialize(EnterRequest.Text);
+                        TorrentsInfoData.Rows.Clear();
+                        foreach (var torrent in ruTrackerParser.Torrents)
+                        {
+                            TorrentsInfoData.Rows.Add(torrent.name, torrent.category, torrent.seeders, torrent.leechers, $"{(torrent.size) / 1048576} MB ({(torrent.size) / 1073741824} GB)", torrent.magnetLink);
+                        }
+                        break;
+                    case "ThePirateBay":
+                        ThePirateBayParser thePirateBayParser = new ThePirateBayParser();
+                        await thePirateBayParser.FindTorrents(EnterRequest.Text);
+                        TorrentsInfoData.Rows.Clear();
+                        foreach (var torrent in thePirateBayParser.Torrents)
+                        {
+                            TorrentsInfoData.Rows.Add(torrent.name, torrent.category, torrent.seeders, torrent.leechers, $"{(torrent.size)/1048576} MB ({(torrent.size)/1073741824} GB)", torrent.magnetLink);
+                        }
+                        break;
+                }
+            }            
+        }     
+        private void ClearButon_Click(object sender, EventArgs e) 
+        {
+            if (EnterRequest.Text != string.Empty || TorrentsInfoData.Rows != null)  
+            {
+                EnterRequest.Clear();
+                TorrentsInfoData.Rows.Clear();
+            }
+        }
+
+        private void Torrents__CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var value = TorrentsInfoData.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            Clipboard.SetText(value);
+        }
     }
 }

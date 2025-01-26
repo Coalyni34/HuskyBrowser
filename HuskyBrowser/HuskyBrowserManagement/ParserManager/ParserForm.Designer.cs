@@ -28,13 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParserForm));
             this.ChoosingBox = new MaterialSkin.Controls.MaterialComboBox();
             this.ChooseText = new MaterialSkin.Controls.MaterialLabel();
             this.PirateChoose = new MaterialSkin.Controls.MaterialComboBox();
-            this.GetMagnetLinks = new MaterialSkin.Controls.MaterialButton();
-            this.MagnerLinksBox = new MaterialSkin.Controls.MaterialMultiLineTextBox();
+            this.ClearButton = new MaterialSkin.Controls.MaterialButton();
             this.EnterRequest = new MaterialSkin.Controls.MaterialTextBox();
+            this.PanelTorrents = new System.Windows.Forms.Panel();
+            this.TorrentsInfoData = new System.Windows.Forms.DataGridView();
+            this.NameOfTorrent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Seeders = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Leechers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.magnet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GetTorrentsButton = new MaterialSkin.Controls.MaterialButton();
+            this.PanelTorrents.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TorrentsInfoData)).BeginInit();
             this.SuspendLayout();
             // 
             // ChoosingBox
@@ -91,9 +102,9 @@
             this.PirateChoose.IntegralHeight = false;
             this.PirateChoose.ItemHeight = 43;
             this.PirateChoose.Items.AddRange(new object[] {
-            "Rutracker",
-            "The Pirate Bay"});
-            this.PirateChoose.Location = new System.Drawing.Point(9, 122);
+            "RuTracker",
+            "ThePirateBay"});
+            this.PirateChoose.Location = new System.Drawing.Point(304, 67);
             this.PirateChoose.MaxDropDownItems = 4;
             this.PirateChoose.MouseState = MaterialSkin.MouseState.OUT;
             this.PirateChoose.Name = "PirateChoose";
@@ -101,43 +112,28 @@
             this.PirateChoose.StartIndex = 0;
             this.PirateChoose.TabIndex = 2;
             // 
-            // GetMagnetLinks
+            // ClearButton
             // 
-            this.GetMagnetLinks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.GetMagnetLinks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.GetMagnetLinks.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.GetMagnetLinks.Depth = 0;
-            this.GetMagnetLinks.HighEmphasis = true;
-            this.GetMagnetLinks.Icon = null;
-            this.GetMagnetLinks.Location = new System.Drawing.Point(632, 180);
-            this.GetMagnetLinks.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.GetMagnetLinks.MouseState = MaterialSkin.MouseState.HOVER;
-            this.GetMagnetLinks.Name = "GetMagnetLinks";
-            this.GetMagnetLinks.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.GetMagnetLinks.Size = new System.Drawing.Size(161, 36);
-            this.GetMagnetLinks.TabIndex = 6;
-            this.GetMagnetLinks.Text = "Get Magnet links!";
-            this.GetMagnetLinks.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.GetMagnetLinks.UseAccentColor = false;
-            this.GetMagnetLinks.UseVisualStyleBackColor = true;
-            this.GetMagnetLinks.Click += new System.EventHandler(this.GetMagnetLinks_ClickAsync);
-            // 
-            // MagnerLinksBox
-            // 
-            this.MagnerLinksBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MagnerLinksBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.MagnerLinksBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.MagnerLinksBox.Depth = 0;
-            this.MagnerLinksBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.MagnerLinksBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.MagnerLinksBox.Location = new System.Drawing.Point(9, 233);
-            this.MagnerLinksBox.MouseState = MaterialSkin.MouseState.HOVER;
-            this.MagnerLinksBox.Name = "MagnerLinksBox";
-            this.MagnerLinksBox.Size = new System.Drawing.Size(785, 211);
-            this.MagnerLinksBox.TabIndex = 7;
-            this.MagnerLinksBox.Text = "";
+            this.ClearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ClearButton.AutoSize = false;
+            this.ClearButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClearButton.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Dense;
+            this.ClearButton.Depth = 0;
+            this.ClearButton.DrawShadows = false;
+            this.ClearButton.HighEmphasis = true;
+            this.ClearButton.Icon = null;
+            this.ClearButton.Location = new System.Drawing.Point(771, 179);
+            this.ClearButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.ClearButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.ClearButton.Size = new System.Drawing.Size(89, 49);
+            this.ClearButton.TabIndex = 6;
+            this.ClearButton.Text = "Clear";
+            this.ClearButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.ClearButton.UseAccentColor = false;
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButon_Click);
             // 
             // EnterRequest
             // 
@@ -148,30 +144,123 @@
             this.EnterRequest.Depth = 0;
             this.EnterRequest.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.EnterRequest.LeadingIcon = null;
-            this.EnterRequest.Location = new System.Drawing.Point(9, 177);
+            this.EnterRequest.Location = new System.Drawing.Point(9, 178);
             this.EnterRequest.MaxLength = 50;
             this.EnterRequest.MouseState = MaterialSkin.MouseState.OUT;
             this.EnterRequest.Multiline = false;
             this.EnterRequest.Name = "EnterRequest";
-            this.EnterRequest.Size = new System.Drawing.Size(616, 50);
+            this.EnterRequest.Size = new System.Drawing.Size(658, 50);
             this.EnterRequest.TabIndex = 8;
             this.EnterRequest.Text = "";
             this.EnterRequest.TrailingIcon = null;
+            // 
+            // PanelTorrents
+            // 
+            this.PanelTorrents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelTorrents.Controls.Add(this.TorrentsInfoData);
+            this.PanelTorrents.Location = new System.Drawing.Point(6, 233);
+            this.PanelTorrents.Name = "PanelTorrents";
+            this.PanelTorrents.Size = new System.Drawing.Size(1002, 472);
+            this.PanelTorrents.TabIndex = 9;
+            // 
+            // TorrentsInfoData
+            // 
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            this.TorrentsInfoData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.TorrentsInfoData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TorrentsInfoData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NameOfTorrent,
+            this.Category,
+            this.Seeders,
+            this.Leechers,
+            this.Size,
+            this.magnet});
+            this.TorrentsInfoData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TorrentsInfoData.Location = new System.Drawing.Point(0, 0);
+            this.TorrentsInfoData.Name = "TorrentsInfoData";
+            this.TorrentsInfoData.Size = new System.Drawing.Size(1002, 472);
+            this.TorrentsInfoData.TabIndex = 0;
+            this.TorrentsInfoData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Torrents__CellContentClick);
+            // 
+            // NameOfTorrent
+            // 
+            this.NameOfTorrent.HeaderText = "Name";
+            this.NameOfTorrent.Name = "NameOfTorrent";
+            this.NameOfTorrent.ReadOnly = true;
+            // 
+            // Category
+            // 
+            this.Category.HeaderText = "Category";
+            this.Category.Name = "Category";
+            this.Category.ReadOnly = true;
+            // 
+            // Seeders
+            // 
+            this.Seeders.HeaderText = "Seeders";
+            this.Seeders.Name = "Seeders";
+            this.Seeders.ReadOnly = true;
+            // 
+            // Leechers
+            // 
+            this.Leechers.HeaderText = "Leechers";
+            this.Leechers.Name = "Leechers";
+            this.Leechers.ReadOnly = true;
+            // 
+            // Size
+            // 
+            this.Size.HeaderText = "Size";
+            this.Size.Name = "Size";
+            this.Size.ReadOnly = true;
+            // 
+            // magnet
+            // 
+            this.magnet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.magnet.HeaderText = "magnet";
+            this.magnet.Name = "magnet";
+            this.magnet.ReadOnly = true;
+            // 
+            // GetTorrentsButton
+            // 
+            this.GetTorrentsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GetTorrentsButton.AutoSize = false;
+            this.GetTorrentsButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.GetTorrentsButton.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Dense;
+            this.GetTorrentsButton.Depth = 0;
+            this.GetTorrentsButton.DrawShadows = false;
+            this.GetTorrentsButton.HighEmphasis = true;
+            this.GetTorrentsButton.Icon = null;
+            this.GetTorrentsButton.Location = new System.Drawing.Point(674, 178);
+            this.GetTorrentsButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.GetTorrentsButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.GetTorrentsButton.Name = "GetTorrentsButton";
+            this.GetTorrentsButton.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.GetTorrentsButton.Size = new System.Drawing.Size(89, 49);
+            this.GetTorrentsButton.TabIndex = 10;
+            this.GetTorrentsButton.Text = "Search Torrents";
+            this.GetTorrentsButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.GetTorrentsButton.UseAccentColor = false;
+            this.GetTorrentsButton.UseVisualStyleBackColor = true;
+            this.GetTorrentsButton.Click += new System.EventHandler(this.GetMagnetLinks_ClickAsync);
             // 
             // ParserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1015, 711);
+            this.Controls.Add(this.GetTorrentsButton);
+            this.Controls.Add(this.PanelTorrents);
             this.Controls.Add(this.EnterRequest);
-            this.Controls.Add(this.MagnerLinksBox);
-            this.Controls.Add(this.GetMagnetLinks);
+            this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.PirateChoose);
             this.Controls.Add(this.ChooseText);
             this.Controls.Add(this.ChoosingBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ParserForm";
             this.Text = "Parser";
+            this.PanelTorrents.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TorrentsInfoData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,8 +271,16 @@
         private MaterialSkin.Controls.MaterialComboBox ChoosingBox;
         private MaterialSkin.Controls.MaterialLabel ChooseText;
         private MaterialSkin.Controls.MaterialComboBox PirateChoose;
-        private MaterialSkin.Controls.MaterialButton GetMagnetLinks;
-        private MaterialSkin.Controls.MaterialMultiLineTextBox MagnerLinksBox;
+        private MaterialSkin.Controls.MaterialButton ClearButton;
         private MaterialSkin.Controls.MaterialTextBox EnterRequest;
+        private System.Windows.Forms.Panel PanelTorrents;
+        private System.Windows.Forms.DataGridView TorrentsInfoData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameOfTorrent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Seeders;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Leechers;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Size;
+        private System.Windows.Forms.DataGridViewTextBoxColumn magnet;
+        private MaterialSkin.Controls.MaterialButton GetTorrentsButton;
     }
 }
