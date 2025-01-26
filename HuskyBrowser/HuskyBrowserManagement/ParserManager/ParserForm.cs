@@ -54,6 +54,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                 {
                     case "RuTracker":
                         RuTrackerParser ruTrackerParser = new RuTrackerParser();
+                        
                         break;
                     case "ThePirateBay":
                         ThePirateBayParser thePirateBayParser = new ThePirateBayParser();
