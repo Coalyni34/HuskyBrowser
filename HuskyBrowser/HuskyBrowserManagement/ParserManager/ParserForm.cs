@@ -54,12 +54,6 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                 {
                     case "RuTracker":
                         RuTrackerParser ruTrackerParser = new RuTrackerParser();
-                        ruTrackerParser.Initialize(EnterRequest.Text);
-                        TorrentsInfoData.Rows.Clear();
-                        foreach (var torrent in ruTrackerParser.Torrents)
-                        {
-                            TorrentsInfoData.Rows.Add(torrent.name, torrent.category, torrent.seeders, torrent.leechers, $"{(torrent.size) / 1048576} MB ({(torrent.size) / 1073741824} GB)", torrent.magnetLink);
-                        }
                         break;
                     case "ThePirateBay":
                         ThePirateBayParser thePirateBayParser = new ThePirateBayParser();
