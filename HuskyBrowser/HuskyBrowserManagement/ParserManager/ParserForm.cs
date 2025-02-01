@@ -3,6 +3,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore;
+using System.Collections.Generic;
+using CefSharp;
+using static HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore.RuTrackerParser;
 
 namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
 {
@@ -47,19 +50,20 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
         }
 
         private async void GetMagnetLinks_ClickAsync(object sender, EventArgs e)
-        {
-            if(EnterRequest.Text != string.Empty) 
+        {            
+            if (EnterRequest.Text != string.Empty) 
             {
                 switch (PirateChoose.SelectedItem) 
                 {
-                    case "RuTracker":
+                    case "Rutracker":
                         RuTrackerParser ruTrackerParser = new RuTrackerParser();
-                        
+                        TorrentsInfoData.Rows.Clear();
+                        await ruTrackerParser.ParseTorrents(EnterRequest.Text, TorrentsInfoData);
                         break;
                     case "ThePirateBay":
                         ThePirateBayParser thePirateBayParser = new ThePirateBayParser();
-                        await thePirateBayParser.FindTorrents(EnterRequest.Text);
                         TorrentsInfoData.Rows.Clear();
+                        await thePirateBayParser.FindTorrents(EnterRequest.Text);                       
                         foreach (var torrent in thePirateBayParser.Torrents)
                         {
                             TorrentsInfoData.Rows.Add(torrent.name, torrent.category, torrent.seeders, torrent.leechers, $"{(torrent.size)/1048576} MB ({(torrent.size)/1073741824} GB)", torrent.magnetLink);
@@ -74,13 +78,14 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             {
                 EnterRequest.Clear();
                 TorrentsInfoData.Rows.Clear();
+                Torrents.Clear();
             }
         }
 
-        private void Torrents__CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void Torrents__CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var value = TorrentsInfoData.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             Clipboard.SetText(value);
-        }
+        }       
     }
 }

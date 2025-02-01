@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Net.Http;
 using System;
 using System.Linq;
-using System.Deployment.Application;
-using System.Security.Policy;
+using HtmlAgilityPack;
+using System.IO;
 
 
 namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
@@ -24,7 +23,8 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
             public string infoHash { get; set; }
             public string magnetLink { get; set; }
             public string category { get; set; }
-            public Torrent(string name, int seeders, int leechers, long size, string username, string infoHash, string magnetLink, string category)
+            public string description { get; set; }
+            public Torrent(string name, int seeders, int leechers, long size, string username, string infoHash, string magnetLink, string category, string description)
             {
                 this.name = name;
                 this.seeders = seeders;
@@ -34,6 +34,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
                 this.infoHash = infoHash;
                 this.magnetLink = magnetLink;
                 this.category = category;
+                this.description = description;
             }
         }
 
@@ -61,11 +62,11 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
                 string username = item.username;
                 string infoHash = item.info_hash;
                 string category = item.category;
-                
+                                                
                 string magnetLink = GenerateMagnetLink(infoHash, name);
                 magnetLink = AddTrackersToMagnetLink(magnetLink);
 
-                var torrent = new Torrent(name, seeders, leechers, size, username, infoHash, magnetLink, category);
+                var torrent = new Torrent(name, seeders, leechers, size, username, infoHash, magnetLink, category, string.Empty);
                 Torrents.Add(torrent);
             }           
         }
