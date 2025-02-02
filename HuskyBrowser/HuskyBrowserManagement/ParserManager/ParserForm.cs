@@ -126,11 +126,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             if (value.StartsWith("https://rutracker.net/"))
             {                
                 HtmlBrowser.Load(value);                
-            }
-            if (value.StartsWith("magnet:")) 
-            {
-                HtmlBrowser.Load(thePirateBayParser.Torrents[e.RowIndex].url);
-            }
+            }            
             Clipboard.SetText(value);
         }
 
