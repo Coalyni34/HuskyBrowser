@@ -46,6 +46,8 @@
             this.GetTorrentsButton = new MaterialSkin.Controls.MaterialButton();
             this.ChromePanel = new System.Windows.Forms.Panel();
             this.HtmlBrowser = new CefSharp.WinForms.ChromiumWebBrowser();
+            this.Login = new MaterialSkin.Controls.MaterialLabel();
+            this.Password = new MaterialSkin.Controls.MaterialLabel();
             this.PanelTorrents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TorrentsInfoData)).BeginInit();
             this.ChromePanel.SuspendLayout();
@@ -66,7 +68,8 @@
             this.ChoosingBox.IntegralHeight = false;
             this.ChoosingBox.ItemHeight = 43;
             this.ChoosingBox.Items.AddRange(new object[] {
-            "Torrent sites"});
+            "Torrent sites",
+            "Marketplaces"});
             this.ChoosingBox.Location = new System.Drawing.Point(156, 67);
             this.ChoosingBox.MaxDropDownItems = 4;
             this.ChoosingBox.MouseState = MaterialSkin.MouseState.OUT;
@@ -265,11 +268,37 @@
             this.HtmlBrowser.Size = new System.Drawing.Size(633, 481);
             this.HtmlBrowser.TabIndex = 0;
             // 
+            // Login
+            // 
+            this.Login.AutoSize = true;
+            this.Login.Depth = 0;
+            this.Login.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.Login.Location = new System.Drawing.Point(6, 119);
+            this.Login.MouseState = MaterialSkin.MouseState.HOVER;
+            this.Login.Name = "Login";
+            this.Login.Size = new System.Drawing.Size(247, 19);
+            this.Login.TabIndex = 12;
+            this.Login.Text = "Rutracker login: huskybrowser_ggg";
+            // 
+            // Password
+            // 
+            this.Password.AutoSize = true;
+            this.Password.Depth = 0;
+            this.Password.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.Password.Location = new System.Drawing.Point(6, 146);
+            this.Password.MouseState = MaterialSkin.MouseState.HOVER;
+            this.Password.Name = "Password";
+            this.Password.Size = new System.Drawing.Size(281, 19);
+            this.Password.TabIndex = 13;
+            this.Password.Text = "Rutracker password: huskybrowser_ggg";
+            // 
             // ParserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1307, 721);
+            this.Controls.Add(this.Password);
+            this.Controls.Add(this.Login);
             this.Controls.Add(this.ChromePanel);
             this.Controls.Add(this.GetTorrentsButton);
             this.Controls.Add(this.PanelTorrents);
@@ -308,5 +337,7 @@
         private MaterialSkin.Controls.MaterialButton GetTorrentsButton;
         private System.Windows.Forms.Panel ChromePanel;
         private CefSharp.WinForms.ChromiumWebBrowser HtmlBrowser;
+        private MaterialSkin.Controls.MaterialLabel Login;
+        private MaterialSkin.Controls.MaterialLabel Password;
     }
 }

@@ -149,6 +149,8 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                     TorrentsInfoData.Columns[1].DefaultCellStyle.BackColor = _BackColor;
                     TorrentsInfoData.Columns[1].DefaultCellStyle.ForeColor = Color.White;
                     TorrentsInfoData.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    Login.Visible = true;
+                    Password.Visible = true;
                     break;
                 case "ThePirateBay":                  
                     TorrentsInfoData.Columns.Clear();
@@ -158,7 +160,9 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                     TorrentsInfoData.Columns.Add("SeedColumn", "Seeders");
                     TorrentsInfoData.Columns.Add("LeechColumn", "Leechers");
                     TorrentsInfoData.Columns.Add("SizeColumn", "Size");
-                    TorrentsInfoData.Columns.Add("MagnetColumn", "MagnetLink");                    
+                    TorrentsInfoData.Columns.Add("MagnetColumn", "MagnetLink");
+                    Login.Visible = false;
+                    Password.Visible = false;
                     for (int i = 0; i < TorrentsInfoData.Columns.Count; i++)
                     {
                         TorrentsInfoData.Columns[i].DefaultCellStyle.BackColor = _BackColor;
