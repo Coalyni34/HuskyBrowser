@@ -42,7 +42,7 @@
             this.Seeders = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Leechers = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.magnet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Magnet = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GetTorrentsButton = new MaterialSkin.Controls.MaterialButton();
             this.ChromePanel = new System.Windows.Forms.Panel();
             this.HtmlBrowser = new CefSharp.WinForms.ChromiumWebBrowser();
@@ -114,6 +114,7 @@
             this.PirateChoose.Size = new System.Drawing.Size(167, 49);
             this.PirateChoose.StartIndex = 0;
             this.PirateChoose.TabIndex = 2;
+            this.PirateChoose.SelectedValueChanged += new System.EventHandler(this.PirateChoose_SelectedValueChanged);
             // 
             // ClearButton
             // 
@@ -125,7 +126,7 @@
             this.ClearButton.DrawShadows = false;
             this.ClearButton.HighEmphasis = true;
             this.ClearButton.Icon = null;
-            this.ClearButton.Location = new System.Drawing.Point(1009, 179);
+            this.ClearButton.Location = new System.Drawing.Point(1063, 179);
             this.ClearButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.ClearButton.MouseState = MaterialSkin.MouseState.HOVER;
             this.ClearButton.Name = "ClearButton";
@@ -148,11 +149,11 @@
             this.EnterRequest.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.EnterRequest.LeadingIcon = null;
             this.EnterRequest.Location = new System.Drawing.Point(9, 178);
-            this.EnterRequest.MaxLength = 50;
+            this.EnterRequest.MaxLength = 9999;
             this.EnterRequest.MouseState = MaterialSkin.MouseState.OUT;
             this.EnterRequest.Multiline = false;
             this.EnterRequest.Name = "EnterRequest";
-            this.EnterRequest.Size = new System.Drawing.Size(896, 50);
+            this.EnterRequest.Size = new System.Drawing.Size(950, 50);
             this.EnterRequest.TabIndex = 8;
             this.EnterRequest.Text = "";
             this.EnterRequest.TrailingIcon = null;
@@ -165,7 +166,7 @@
             this.PanelTorrents.Controls.Add(this.TorrentsInfoData);
             this.PanelTorrents.Location = new System.Drawing.Point(6, 233);
             this.PanelTorrents.Name = "PanelTorrents";
-            this.PanelTorrents.Size = new System.Drawing.Size(630, 472);
+            this.PanelTorrents.Size = new System.Drawing.Size(642, 482);
             this.PanelTorrents.TabIndex = 9;
             // 
             // TorrentsInfoData
@@ -179,11 +180,11 @@
             this.Seeders,
             this.Leechers,
             this.Size,
-            this.magnet});
+            this.Magnet});
             this.TorrentsInfoData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TorrentsInfoData.Location = new System.Drawing.Point(0, 0);
             this.TorrentsInfoData.Name = "TorrentsInfoData";
-            this.TorrentsInfoData.Size = new System.Drawing.Size(630, 472);
+            this.TorrentsInfoData.Size = new System.Drawing.Size(642, 482);
             this.TorrentsInfoData.TabIndex = 0;
             this.TorrentsInfoData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Torrents__CellContentClick);
             // 
@@ -217,12 +218,12 @@
             this.Size.Name = "Size";
             this.Size.ReadOnly = true;
             // 
-            // magnet
+            // Magnet
             // 
-            this.magnet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.magnet.HeaderText = "magnet";
-            this.magnet.Name = "magnet";
-            this.magnet.ReadOnly = true;
+            this.Magnet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Magnet.HeaderText = "Magnet";
+            this.Magnet.Name = "Magnet";
+            this.Magnet.ReadOnly = true;
             // 
             // GetTorrentsButton
             // 
@@ -234,7 +235,7 @@
             this.GetTorrentsButton.DrawShadows = false;
             this.GetTorrentsButton.HighEmphasis = true;
             this.GetTorrentsButton.Icon = null;
-            this.GetTorrentsButton.Location = new System.Drawing.Point(912, 178);
+            this.GetTorrentsButton.Location = new System.Drawing.Point(966, 178);
             this.GetTorrentsButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.GetTorrentsButton.MouseState = MaterialSkin.MouseState.HOVER;
             this.GetTorrentsButton.Name = "GetTorrentsButton";
@@ -252,9 +253,9 @@
             this.ChromePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ChromePanel.Controls.Add(this.HtmlBrowser);
-            this.ChromePanel.Location = new System.Drawing.Point(642, 234);
+            this.ChromePanel.Location = new System.Drawing.Point(654, 234);
             this.ChromePanel.Name = "ChromePanel";
-            this.ChromePanel.Size = new System.Drawing.Size(591, 471);
+            this.ChromePanel.Size = new System.Drawing.Size(633, 481);
             this.ChromePanel.TabIndex = 11;
             // 
             // HtmlBrowser
@@ -263,14 +264,14 @@
             this.HtmlBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.HtmlBrowser.Location = new System.Drawing.Point(0, 0);
             this.HtmlBrowser.Name = "HtmlBrowser";
-            this.HtmlBrowser.Size = new System.Drawing.Size(591, 471);
+            this.HtmlBrowser.Size = new System.Drawing.Size(633, 481);
             this.HtmlBrowser.TabIndex = 0;
             // 
             // ParserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1253, 711);
+            this.ClientSize = new System.Drawing.Size(1307, 721);
             this.Controls.Add(this.ChromePanel);
             this.Controls.Add(this.GetTorrentsButton);
             this.Controls.Add(this.PanelTorrents);
@@ -282,6 +283,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ParserForm";
             this.Text = "Parser";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.PanelTorrents.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TorrentsInfoData)).EndInit();
             this.ChromePanel.ResumeLayout(false);
@@ -304,7 +306,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Seeders;
         private System.Windows.Forms.DataGridViewTextBoxColumn Leechers;
         private System.Windows.Forms.DataGridViewTextBoxColumn Size;
-        private System.Windows.Forms.DataGridViewTextBoxColumn magnet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Magnet;
         private MaterialSkin.Controls.MaterialButton GetTorrentsButton;
         private System.Windows.Forms.Panel ChromePanel;
         private CefSharp.WinForms.ChromiumWebBrowser HtmlBrowser;

@@ -23,8 +23,8 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
             public string infoHash { get; set; }
             public string magnetLink { get; set; }
             public string category { get; set; }
-            public string description { get; set; }
-            public Torrent(string name, int seeders, int leechers, long size, string username, string infoHash, string magnetLink, string category, string description)
+            public string url { get; set; }
+            public Torrent(string name, int seeders, int leechers, long size, string username, string infoHash, string magnetLink, string category, string url)
             {
                 this.name = name;
                 this.seeders = seeders;
@@ -34,7 +34,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
                 this.infoHash = infoHash;
                 this.magnetLink = magnetLink;
                 this.category = category;
-                this.description = description;
+                this.url = url;
             }
         }
 
@@ -45,6 +45,9 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
             HttpClient client = new HttpClient();
 
             string url = $"https://apibay.org/q.php?q={Uri.EscapeDataString(query)}&cat=";
+
+            string remade = Uri.EscapeDataString(query).Replace(" ", "+");
+            string bayurl = $"https://thepiratebay.org/search.php?q={remade}&all=on&search=Pirate+Search&page=0&orderby=";
 
             HttpResponseMessage response = await client.GetAsync(url);
 
@@ -66,7 +69,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore
                 string magnetLink = GenerateMagnetLink(infoHash, name);
                 magnetLink = AddTrackersToMagnetLink(magnetLink);
 
-                var torrent = new Torrent(name, seeders, leechers, size, username, infoHash, magnetLink, category, string.Empty);
+                var torrent = new Torrent(name, seeders, leechers, size, username, infoHash, magnetLink, category, url);
                 Torrents.Add(torrent);
             }           
         }

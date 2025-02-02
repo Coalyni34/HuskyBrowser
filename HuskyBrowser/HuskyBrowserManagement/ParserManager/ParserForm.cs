@@ -8,6 +8,10 @@ using CefSharp;
 using static HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore.RuTrackerParser;
 using System.Web.UI.WebControls;
 using System.Linq;
+using System.Net.Http;
+using CefSharp.DevTools.IO;
+using HuskyBrowser.HuskyBrowserManagement.DownloadingManager;
+using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuManager;
 
 namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
 {
@@ -21,19 +25,24 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             TorrentsInfoData.BackgroundColor = _BackColor;
             TorrentsInfoData.GridColor = _BackColor;
 
-            DataGridViewTextBoxColumn[] dataGridViewTextBoxColumns = new DataGridViewTextBoxColumn[] { NameOfTorrent, Category, Seeders, Leechers, Size, magnet};
+            DataGridViewTextBoxColumn[] dataGridViewTextBoxColumns = new DataGridViewTextBoxColumn[] { NameOfTorrent, Category, Seeders, Leechers, Size, Magnet};
 
             foreach(var column in dataGridViewTextBoxColumns) 
             {
                 column.DefaultCellStyle.BackColor = _BackColor;
                 column.DefaultCellStyle.ForeColor = Color.White;
             }
+
+            SearchContextMenuHandler menuHandler = new SearchContextMenuHandler();
+            DownloadManager downloadManager = new DownloadManager();
+            HtmlBrowser.DownloadHandler = downloadManager;
+            HtmlBrowser.MenuHandler = menuHandler;
         }
 
         private void ChoosingBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Control[,] controls = new Control[,] {
-                { PirateChoose, EnterRequest, GetTorrentsButton, ClearButton, TorrentsInfoData}
+                { PirateChoose, EnterRequest, GetTorrentsButton, ClearButton, TorrentsInfoData, HtmlBrowser}
             };
             if (ChoosingBox.SelectedIndex == 0) 
             {
@@ -51,14 +60,14 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             }
         }
 
+        ThePirateBayParser thePirateBayParser = new ThePirateBayParser();
         private async void GetMagnetLinks_ClickAsync(object sender, EventArgs e)
         {            
             if (EnterRequest.Text != string.Empty) 
             {
                 switch (PirateChoose.SelectedItem) 
                 {
-                    case "Rutracker":
-                        RuTrackerParser ruTrackerParser = new RuTrackerParser();
+                    case "Rutracker":                        
                         TorrentsInfoData.Columns.Clear();
                         TorrentsInfoData.Rows.Clear();
                         TorrentsInfoData.Columns.Add("NameColumn", "Name");
@@ -68,20 +77,33 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                         TorrentsInfoData.Columns[1].DefaultCellStyle.BackColor = _BackColor;
                         TorrentsInfoData.Columns[1].DefaultCellStyle.ForeColor = Color.White;
                         TorrentsInfoData.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        RuTrackerParser ruTrackerParser = new RuTrackerParser();
                         await ruTrackerParser.ParseTorrents(EnterRequest.Text, TorrentsInfoData);
                         var info = ruTrackerParser.GetLinksOfPages(ruTrackerParser.htmlPageTracker);
                         for (int i = 0; i < info.Count; i++)
                         {
                             TorrentsInfoData.Rows.Add(info.Keys.ToList()[i], info.Values.ToList()[i]);
-                        }                        
+                        }                     
                         break;
-                    case "ThePirateBay":
-                        ThePirateBayParser thePirateBayParser = new ThePirateBayParser();
+                    case "ThePirateBay":                        
+                        await thePirateBayParser.FindTorrents(EnterRequest.Text);
+                        TorrentsInfoData.Columns.Clear();
                         TorrentsInfoData.Rows.Clear();
-                        await thePirateBayParser.FindTorrents(EnterRequest.Text);                       
+                        TorrentsInfoData.Columns.Add("NameColumn", "Name");
+                        TorrentsInfoData.Columns.Add("CategoryColumn", "Category");
+                        TorrentsInfoData.Columns.Add("SeedColumn", "Seeders");
+                        TorrentsInfoData.Columns.Add("LeechColumn", "Leechers");
+                        TorrentsInfoData.Columns.Add("SizeColumn", "Size");
+                        TorrentsInfoData.Columns.Add("MagnetColumn", "MagnetLink");      
                         foreach (var torrent in thePirateBayParser.Torrents)
                         {
                             TorrentsInfoData.Rows.Add(torrent.name, torrent.category, torrent.seeders, torrent.leechers, $"{(torrent.size)/1048576} MB ({(torrent.size)/1073741824} GB)", torrent.magnetLink);
+                        }
+                        for (int i = 0; i < TorrentsInfoData.Columns.Count; i++)
+                        {
+                            TorrentsInfoData.Columns[i].DefaultCellStyle.BackColor = _BackColor;
+                            TorrentsInfoData.Columns[i].DefaultCellStyle.ForeColor = Color.White;
+                            TorrentsInfoData.Columns[TorrentsInfoData.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         }
                         break;
                 }
@@ -93,13 +115,58 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             {
                 EnterRequest.Clear();
                 TorrentsInfoData.Rows.Clear();
+                HtmlBrowser.Visible = false;
             }
         }
 
         private async void Torrents__CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var value = TorrentsInfoData.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            HtmlBrowser.Visible = true;
+            if (value.StartsWith("https://rutracker.net/"))
+            {                
+                HtmlBrowser.Load(value);                
+            }
+            if (value.StartsWith("magnet:")) 
+            {
+                HtmlBrowser.Load(thePirateBayParser.Torrents[e.RowIndex].url);
+            }
             Clipboard.SetText(value);
-        }       
+        }
+
+        private void PirateChoose_SelectedValueChanged(object sender, EventArgs e)
+        {
+            switch (PirateChoose.SelectedItem)
+            {
+                case "Rutracker":
+                    RuTrackerParser ruTrackerParser = new RuTrackerParser();
+                    TorrentsInfoData.Columns.Clear();
+                    TorrentsInfoData.Rows.Clear();
+                    TorrentsInfoData.Columns.Add("NameColumn", "Name");
+                    TorrentsInfoData.Columns.Add("LinkColumn", "Link");
+                    TorrentsInfoData.Columns[0].DefaultCellStyle.BackColor = _BackColor;
+                    TorrentsInfoData.Columns[0].DefaultCellStyle.ForeColor = Color.White;
+                    TorrentsInfoData.Columns[1].DefaultCellStyle.BackColor = _BackColor;
+                    TorrentsInfoData.Columns[1].DefaultCellStyle.ForeColor = Color.White;
+                    TorrentsInfoData.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    break;
+                case "ThePirateBay":                  
+                    TorrentsInfoData.Columns.Clear();
+                    TorrentsInfoData.Rows.Clear();
+                    TorrentsInfoData.Columns.Add("NameColumn", "Name");
+                    TorrentsInfoData.Columns.Add("CategoryColumn", "Category");
+                    TorrentsInfoData.Columns.Add("SeedColumn", "Seeders");
+                    TorrentsInfoData.Columns.Add("LeechColumn", "Leechers");
+                    TorrentsInfoData.Columns.Add("SizeColumn", "Size");
+                    TorrentsInfoData.Columns.Add("MagnetColumn", "MagnetLink");                    
+                    for (int i = 0; i < TorrentsInfoData.Columns.Count; i++)
+                    {
+                        TorrentsInfoData.Columns[i].DefaultCellStyle.BackColor = _BackColor;
+                        TorrentsInfoData.Columns[i].DefaultCellStyle.ForeColor = Color.White;
+                        TorrentsInfoData.Columns[TorrentsInfoData.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    }
+                    break;
+            }
+        }
     }
 }
