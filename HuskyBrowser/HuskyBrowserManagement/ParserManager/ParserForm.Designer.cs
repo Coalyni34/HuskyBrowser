@@ -66,9 +66,7 @@
             this.ChoosingBox.IntegralHeight = false;
             this.ChoosingBox.ItemHeight = 43;
             this.ChoosingBox.Items.AddRange(new object[] {
-            "Torrent sites",
-            "Marketplaces",
-            "Else"});
+            "Torrent sites"});
             this.ChoosingBox.Location = new System.Drawing.Point(156, 67);
             this.ChoosingBox.MaxDropDownItems = 4;
             this.ChoosingBox.MouseState = MaterialSkin.MouseState.OUT;
