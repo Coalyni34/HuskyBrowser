@@ -6,6 +6,8 @@ using HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore;
 using System.Collections.Generic;
 using CefSharp;
 using static HuskyBrowser.HuskyBrowserManagement.ParserManager.ParcerCore.RuTrackerParser;
+using System.Web.UI.WebControls;
+using System.Linq;
 
 namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
 {
@@ -57,8 +59,21 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                 {
                     case "Rutracker":
                         RuTrackerParser ruTrackerParser = new RuTrackerParser();
+                        TorrentsInfoData.Columns.Clear();
                         TorrentsInfoData.Rows.Clear();
+                        TorrentsInfoData.Columns.Add("NameColumn", "Name");
+                        TorrentsInfoData.Columns.Add("LinkColumn", "Link");
+                        TorrentsInfoData.Columns[0].DefaultCellStyle.BackColor = _BackColor;
+                        TorrentsInfoData.Columns[0].DefaultCellStyle.ForeColor = Color.White;
+                        TorrentsInfoData.Columns[1].DefaultCellStyle.BackColor = _BackColor;
+                        TorrentsInfoData.Columns[1].DefaultCellStyle.ForeColor = Color.White;
+                        TorrentsInfoData.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         await ruTrackerParser.ParseTorrents(EnterRequest.Text, TorrentsInfoData);
+                        var info = ruTrackerParser.GetLinksOfPages(ruTrackerParser.htmlPageTracker);
+                        for (int i = 0; i < info.Count; i++)
+                        {
+                            TorrentsInfoData.Rows.Add(info.Keys.ToList()[i], info.Values.ToList()[i]);
+                        }                        
                         break;
                     case "ThePirateBay":
                         ThePirateBayParser thePirateBayParser = new ThePirateBayParser();
@@ -78,7 +93,6 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             {
                 EnterRequest.Clear();
                 TorrentsInfoData.Rows.Clear();
-                Torrents.Clear();
             }
         }
 
