@@ -11,6 +11,9 @@ namespace HuskyBrowser.HuskyBrowserManagement.TorrentsManagement
 {
     public class TorrentManager
     {
+        public class Torrent
+        {
 
+        }
     }
 }

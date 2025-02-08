@@ -244,6 +244,9 @@
     <Compile Include="HuskyBrowserManagement\BrowserManagement\HistoryMagement\HistoryManager.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\PageManagement\PagePattern.cs" />
     <Compile Include="HuskyBrowserManagement\BrowserManagement\SettingsManagement\Settings.cs" />
+    <EmbeddedResource Include="HuskyBrowserManagement\TorrentsManagement\TorrentClientForm.resx">
+      <DependentUpon>TorrentClientForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

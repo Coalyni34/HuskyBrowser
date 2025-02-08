@@ -284,7 +284,7 @@
             // 
             this.Password.AutoSize = true;
             this.Password.Depth = 0;
-            this.Password.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.Password.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.Password.Location = new System.Drawing.Point(6, 146);
             this.Password.MouseState = MaterialSkin.MouseState.HOVER;
             this.Password.Name = "Password";
