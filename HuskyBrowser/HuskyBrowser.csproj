@@ -54,7 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Husky-browser_2.ico</ApplicationIcon>
+    <ApplicationIcon>husky_browser.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>52904CB0EC4D2F91FF65E45A9ECDC74D8FEF249D</ManifestCertificateThumbprint>
@@ -287,6 +287,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Husky-browser_2.ico" />
+    <Content Include="husky_browser.ico" />
     <Content Include="Icons\1.png" />
     <Content Include="LICENSE.txt" />
     <None Include="Icons\12.png" />

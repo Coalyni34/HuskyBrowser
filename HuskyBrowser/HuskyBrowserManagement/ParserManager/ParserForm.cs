@@ -85,7 +85,8 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                             TorrentsInfoData.Rows.Add(info.Keys.ToList()[i], info.Values.ToList()[i]);
                         }                     
                         break;
-                    case "ThePirateBay":                        
+                    case "ThePirateBay":
+                        thePirateBayParser.Torrents.Clear();
                         await thePirateBayParser.FindTorrents(EnterRequest.Text);
                         TorrentsInfoData.Columns.Clear();
                         TorrentsInfoData.Rows.Clear();
@@ -115,6 +116,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             {
                 EnterRequest.Clear();
                 TorrentsInfoData.Rows.Clear();
+                thePirateBayParser.Torrents.Clear();
                 HtmlBrowser.Enabled = false;
                 HtmlBrowser.Visible = false;
             }
