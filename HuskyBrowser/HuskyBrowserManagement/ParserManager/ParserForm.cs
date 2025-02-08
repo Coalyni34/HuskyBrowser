@@ -115,17 +115,19 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             {
                 EnterRequest.Clear();
                 TorrentsInfoData.Rows.Clear();
+                HtmlBrowser.Enabled = false;
                 HtmlBrowser.Visible = false;
             }
         }
 
         private async void Torrents__CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var value = TorrentsInfoData.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            HtmlBrowser.Visible = true;
+            var value = TorrentsInfoData.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();            
             if (value.StartsWith("https://rutracker.net/"))
-            {                
-                HtmlBrowser.Load(value);                
+            {
+                HtmlBrowser.Enabled = true;
+                HtmlBrowser.Visible = true;
+                HtmlBrowser.Load(value);
             }            
             Clipboard.SetText(value);
         }
@@ -147,6 +149,8 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                     TorrentsInfoData.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     Login.Visible = true;
                     Password.Visible = true;
+                    HtmlBrowser.Enabled = true;
+                    HtmlBrowser.Visible = true;
                     break;
                 case "ThePirateBay":                  
                     TorrentsInfoData.Columns.Clear();
@@ -165,6 +169,8 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
                         TorrentsInfoData.Columns[i].DefaultCellStyle.ForeColor = Color.White;
                         TorrentsInfoData.Columns[TorrentsInfoData.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     }
+                    HtmlBrowser.Enabled = false;
+                    HtmlBrowser.Visible = false;
                     break;
             }
         }
