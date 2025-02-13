@@ -26,7 +26,6 @@ namespace HuskyBrowser.HuskyBrowserManagement.TorrentsManagement
         {
             DownloadMagnetTorrent downloadMagnetTorrent = new DownloadMagnetTorrent();
             downloadMagnetTorrent.Show();
-            MagnetLink =  
         }
     }
 }
