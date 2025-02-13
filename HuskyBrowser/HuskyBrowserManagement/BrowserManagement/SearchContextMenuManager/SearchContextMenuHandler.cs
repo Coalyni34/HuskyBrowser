@@ -139,7 +139,7 @@ namespace HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMen
             }
             catch (Exception e)
             {
-                Error_Logger logger = new Error_Logger();
+                ErrorLogger logger = new ErrorLogger();
                 logger.Log_Errors(e.Message);
             }
         }

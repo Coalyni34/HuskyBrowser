@@ -100,7 +100,7 @@ namespace HuskyBrowser
             }
             catch (Exception ex)
             {
-                Error_Logger error_Logger = new Error_Logger();
+                ErrorLogger error_Logger = new ErrorLogger();
                 error_Logger.Log_Errors(ex.Message);
             }
         }        
@@ -169,7 +169,7 @@ namespace HuskyBrowser
             }
             catch (Exception ex)
             {
-                Error_Logger error_Logger = new Error_Logger();
+                ErrorLogger error_Logger = new ErrorLogger();
                 error_Logger.Log_Errors(ex.Message);
             }
         }
@@ -332,7 +332,7 @@ namespace HuskyBrowser
             }
             catch (Exception ex)
             {
-                Error_Logger error_Logger = new Error_Logger();
+                ErrorLogger error_Logger = new ErrorLogger();
                 error_Logger.Log_Errors(ex.Message);
             }
         }
@@ -377,7 +377,7 @@ namespace HuskyBrowser
             }
             catch (Exception ex)
             {
-                Error_Logger error_Logger = new Error_Logger();
+                ErrorLogger error_Logger = new ErrorLogger();
                 error_Logger.Log_Errors(ex.Message);
             }
         }
@@ -435,7 +435,7 @@ namespace HuskyBrowser
             }
             catch (Exception ex)
             {
-                Error_Logger error_Logger = new Error_Logger();
+                ErrorLogger error_Logger = new ErrorLogger();
                 error_Logger.Log_Errors(ex.Message);
             }
         }

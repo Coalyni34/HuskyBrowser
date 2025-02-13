@@ -122,16 +122,16 @@ namespace HuskyBrowser.HuskyBrowserManagement.ParserManager
             }
         }
 
-        private async void Torrents__CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void Torrents__CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var value = TorrentsInfoData.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();            
-            if (value.StartsWith("https://rutracker.net/"))
+            var value = TorrentsInfoData.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            Clipboard.SetText(value);
+            if ((string)ChoosingBox.SelectedValue == "ThePirateBay")
             {
                 HtmlBrowser.Enabled = true;
                 HtmlBrowser.Visible = true;
                 HtmlBrowser.Load(value);
-            }            
-            Clipboard.SetText(value);
+            }                        
         }
 
         private void PirateChoose_SelectedValueChanged(object sender, EventArgs e)

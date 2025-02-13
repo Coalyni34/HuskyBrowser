@@ -16,6 +16,7 @@ using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.SearchContextMenuMan
 using HuskyBrowser.HuskyBrowserManagement.BrowserManagement.ThemesManagement;
 using Panel = System.Windows.Forms.Panel;
 using HuskyBrowser.HuskyBrowserManagement.ParserManager;
+using HuskyBrowser.HuskyBrowserManagement.TorrentsManagement;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties
 {
@@ -208,7 +209,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Open history journal",
                 Size = new Size(130, 50),
                 Location = new Point(170, 10),
-                AutoSize = false
+                AutoSize = false,
+                DrawShadows = false,
             };
             public MaterialButton OpenBookMarks_Button = new MaterialButton
             {
@@ -216,7 +218,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Open bookmarks",
                 Size = new Size(130, 50),
                 Location = new Point(310, 10),
-                AutoSize = false
+                AutoSize = false,
+                DrawShadows = false,
             };
             public MaterialButton OpenColorCreator_Button = new MaterialButton
             {
@@ -224,14 +227,15 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Open Color Creator",
                 Size = new Size(130, 50),
                 Location = new Point(450, 10),
-                AutoSize = false
+                AutoSize = false,
+                DrawShadows = false,
             };
             public MaterialLabel SavePath_Label = new MaterialLabel
             {
                 Text = "Save folder path:",
                 Size = new Size(125, 30),
                 Location = new Point(20, 300),
-                AutoSize = false
+                AutoSize = false,
             };
             public MaterialMultiLineTextBox SavePath_TextBox = new MaterialMultiLineTextBox
             {
@@ -258,6 +262,7 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Size = new Size(40, 40),
                 Location = new Point(865, 290),
                 AutoSize = false,
+                DrawShadows = false,
                 Type = MaterialButton.MaterialButtonType.Text
             };
             public MaterialButton OpenParserWindowButton = new MaterialButton
@@ -266,6 +271,16 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 Text = "Open Parser",
                 Size = new Size(130, 50),
                 Location = new Point(590, 10),
+                DrawShadows = false,
+                AutoSize = false
+            };
+            public MaterialButton OpenTorrentClientButton = new MaterialButton 
+            {
+                TextAlign = ContentAlignment.TopCenter,
+                Text = "Open Torrent client",
+                Size = new Size(200, 50),
+                Location = new Point(730, 10),
+                DrawShadows = false,
                 AutoSize = false
             };
             private List<string> Engines_Keys = new List<string>() { "DuckDuckGo", "Google", "Bing", "Brave" };
@@ -295,7 +310,8 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                     SavePath_TextBox, SelectedPath_Button,
                     OpenColorCreator_Button, TypeOfPage_Box,
                     TypeOfPage_Label, OpenParserWindowButton,
-                    SaveHistory_Switch
+                    SaveHistory_Switch,
+                    OpenTorrentClientButton
                 };
 
                 foreach (Control control in controls)
@@ -356,9 +372,16 @@ namespace HuskyBrowser.WorkingWithBrowserProperties
                 SelectedPath_Button.Click += SelectedPath_Click;
                 OpenColorCreator_Button.Click += OpenColorCreator_Button_Click;
                 OpenParserWindowButton.Click += OpenParserWindowButton_Click;
+                OpenTorrentClientButton.Click += OpenTorrentClientButton_Click;
 
                 tabControl.TabPages.Add(new_TapPage);
                 tabControl.SelectTab(new_TapPage);
+            }
+
+            private void OpenTorrentClientButton_Click(object sender, EventArgs e)
+            {
+                TorrentClientForm torrentClientForm = new TorrentClientForm();
+                torrentClientForm.Show();
             }
 
             private void OpenParserWindowButton_Click(object sender, EventArgs e)
