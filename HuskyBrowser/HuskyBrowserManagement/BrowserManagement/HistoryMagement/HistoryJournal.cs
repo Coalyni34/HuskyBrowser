@@ -14,6 +14,7 @@ using System.Web.UI;
 using System.Windows.Forms;
 using static HuskyBrowser.WorkingWithBrowserProperties.HistoryManager;
 using HuskyBrowser.WorkingWithBrowserProperties.BookMarksManager;
+using static HuskyBrowser.WorkingWithBrowserProperties.FileManager;
 
 namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
 {
@@ -99,29 +100,32 @@ namespace HuskyBrowser.WorkingWithBrowserProperties.HistoryMagement
         {
             if (e.ColumnIndex == 2)
             {
-                var url = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-
-                var title = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value.ToString();
-
-                if (url.StartsWith("https://") || url.StartsWith("http://"))
+                try
                 {
-                    var _fM = new FileManager();
-                    string path = _fM._GetPathToFile("bookmarks.json", "bookmarks");
-                    string json = _fM._ReadFileText(path);
-                    Dictionary<string, BookMarksManager.BookMarksManager.BookMark> bookMarks_Dict = JsonSerializer.Deserialize<Dictionary<string, BookMarksManager.BookMarksManager.BookMark>>(json);
+                    var url = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
 
-                    List<Image> icons = new List<Image>();
-                    for (short i = 0; i < imageList1.Images.Count; i++)
+                    var title = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value.ToString();
+
+                    if (url.StartsWith("https://") || url.StartsWith("http://"))
                     {
-                        icons.Add(imageList1.Images[i]);
+                        List<Image> icons = new List<Image>();
+                        for (short i = 0; i < imageList1.Images.Count; i++)
+                        {
+                            icons.Add(imageList1.Images[i]);
+                        }
+                        List<Image> markbutton_icons = new List<Image>();
+                        for (short i = 0; i < imageList2.Images.Count; i++)
+                        {
+                            markbutton_icons.Add(imageList2.Images[i]);
+                        }
+                        PagePattern.SimplePagePattern simplePagePattern = new PagePattern.SimplePagePattern(icons, markbutton_icons, tabControl, url, title);
+                        MainForm.thisform.Text = title;
                     }
-                    List<Image> markbutton_icons = new List<Image>();
-                    for (short i = 0; i < imageList2.Images.Count; i++)
-                    {
-                        markbutton_icons.Add(imageList2.Images[i]);
-                    }
-                    PagePattern.SimplePagePattern simplePagePattern = new PagePattern.SimplePagePattern(icons, markbutton_icons, tabControl, url, title);
-                    MainForm.thisform.Text = title;
+                }
+                catch(Exception ex)
+                {
+                    ErrorLogger er = new ErrorLogger();
+                    er.Log_Errors(ex.Message);
                 }
             }
         }
